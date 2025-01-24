@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About CodeSphere</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2e59e5;
+            padding: 1rem;
+            color: white;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            font-weight: bold;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            color: #2e59e5;
+        }
+        .features, .advantages {
+            margin-bottom: 1.5rem;
+        }
+        .cta {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .cta button {
+            background-color: #2e59e5;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .cta button:hover {
+            background-color: #2e59e5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h1>CodeSphere</h1>
+        <div>
+            <a href="/index">Register</a>
+            <a href="/login">Login</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>About CodeSphere</h2>
+        <p>CodeSphere is a comprehensive learning platform designed to help you master data structures and algorithms (DSA) and improve your coding skills. With multiple language support, a user-friendly interface, and a dedicated space for problem-solving, CodeSphere is the ultimate destination for aspiring developers.</p>
+
+        <div class="features">
+            <h2>Features</h2>
+            <ul>
+                <li>Multiple programming language support.</li>
+                <li>Interactive problem-solving environment.</li>
+                <li>Detailed progress tracking and reports.</li>
+                <li>Step-by-step guidance for DSA preparation.</li>
+                <li>Built-in coding IDE for hands-on practice.</li>
+            </ul>
+        </div>
+
+        <div class="advantages">
+            <h2>Advantages</h2>
+            <ul>
+                <li>Enhance your coding proficiency with targeted exercises.</li>
+                <li>Stay ahead with up-to-date learning resources.</li>
+                <li>Prepare effectively for technical interviews and competitive exams.</li>
+                <li>Track your learning progress in real-time.</li>
+                <li>Join a community of like-minded learners.</li>
+            </ul>
+        </div>
+
+        <div class="cta">
+            <p>Register on CodeSphere today and unlock your potential as a developer. Start your journey towards mastering data structures and algorithms with our interactive platform.</p>
+            <button onclick="location.href='/index'">Join CodeSphere Now</button>
+        </div>
+    </div>
+
+</body>
+</html>
