@@ -8,7 +8,8 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
-mongoose.connect('mongodb+srv://AbhayCodeSphere:Abhay9305755915@cluster0.v65hw.mongodb.net/CodeSphere?retryWrites=true&w=majority&appName=Cluster0', {
+//mongodb+srv://<db_username>:<db_password>@cluster0.v65hw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+mongoose.connect('mongodb+srv://AbhayCodeSphere:Abhay9305755915@cluster0.v65hw.mongodb.net/CodeSphereDataBase?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err) => {
@@ -23,6 +24,8 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
 });
+
+
 
 app.use(session({
   secret: 'work hard',
