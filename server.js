@@ -20,6 +20,7 @@ mongoose.connect('mongodb+srv://AbhayCodeSphere:Abhay9305755915@cluster0.v65hw.m
   }
 });
 
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
