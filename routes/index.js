@@ -112,6 +112,20 @@ router.post('/login', function (req, res, next) {
 //agar login hai toh uska data profile page pe dikhayenge
 //agar login nahi hai toh use login page pe redirect karenge
 //
+router.get('/codesphere', function (req, res, next) {
+	console.log("codesphere");
+	User.findOne({unique_id:req.session.userId},function(err,data){
+		console.log("data");
+		console.log(data);
+		if(!data){
+			res.redirect('/');
+		}else{
+			//console.log("found");
+			return res.render('codespherepage.ejs');
+		}
+	});
+});
+
 router.get('/profile', function (req, res, next) {
 	console.log("profile");
 	User.findOne({unique_id:req.session.userId},function(err,data){
@@ -125,6 +139,21 @@ router.get('/profile', function (req, res, next) {
 		}
 	});
 });
+
+router.get("/ide", (req, res) => {
+    res.render("ide");
+});
+
+router.get("/dsa", (req, res) => {
+    res.render("dsa");
+});
+
+router.get("/questions", (req, res) => {
+    res.render("questions");
+});
+
+
+
 //logout page pe jana ho tho yeh route use karega
 
 router.get('/logout', function (req, res, next) {
