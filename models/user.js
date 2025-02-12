@@ -16,7 +16,8 @@ userSchema = new Schema( {
 	email: String,
 	username: String,
 	password: String,
-	passwordConf: String
+	passwordConf: String,
+	learningPath: { type: String, default: "" }
 }),
 //jasa yaha humna ek blueprint tyaar kiya hai isma id , email etc liya hai
 //orr sab string data type ka hai

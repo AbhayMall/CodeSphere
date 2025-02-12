@@ -112,6 +112,47 @@ router.post('/login', function (req, res, next) {
 //agar login hai toh uska data profile page pe dikhayenge
 //agar login nahi hai toh use login page pe redirect karenge
 //
+router.get('/maindashboard', function (req, res, next) {
+	console.log("maindashboard");
+	User.findOne({unique_id:req.session.userId},function(err,data){
+		console.log("data");
+		console.log(data);
+		if(!data){
+			res.redirect('/');
+		}else{
+			//console.log("found");
+			return res.render('dashboard', { // ✅ Correct view name
+                "name": data.username,
+                learningPath: data.learningPath });
+		}
+	});
+});
+router.post('/select-learning-path', function (req, res, next) {
+    if (!req.session.userId) {
+        return res.redirect('/login'); // Redirect if user not logged in
+    }
+
+    User.findOne({ unique_id: req.session.userId }, function (err, user) {
+        if (err) {
+            console.log(err);
+            return res.json({ "Error": "Database error" });
+        }
+        if (!user) {
+            return res.json({ "Error": "User not found" });
+        }
+
+        user.learningPath = req.body.learningPath; // ✅ Updating the field
+        user.save(function (err) {
+            if (err) {
+                console.log(err);
+                return res.json({ "Error": "Failed to save learning path" });
+            }
+            return res.redirect('/codesphere'); // ✅ Redirect to updated page
+        });
+    });
+});
+
+
 router.get('/codesphere', function (req, res, next) {
 	console.log("codesphere");
 	User.findOne({unique_id:req.session.userId},function(err,data){
@@ -121,7 +162,7 @@ router.get('/codesphere', function (req, res, next) {
 			res.redirect('/');
 		}else{
 			//console.log("found");
-			return res.render('codespherepage.ejs');
+			return res.render('codespherepage.ejs', {"name":data.username,"learning":data.learningPath});
 		}
 	});
 });
