@@ -6,7 +6,7 @@
     <title>About CodeSphere</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f9;
@@ -17,48 +17,70 @@
             justify-content: space-between;
             align-items: center;
             background-color: #2e59e5;
-            padding: 1rem;
+            padding: 1.2rem 5%;
             color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar h1 {
+            font-size: 1.8rem;
         }
         .navbar a {
             color: white;
             text-decoration: none;
-            margin: 0 0.5rem;
-            font-weight: bold;
+            margin: 0 1rem;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
         }
         .navbar a:hover {
-            text-decoration: underline;
+            opacity: 0.8;
         }
         .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 1rem;
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 2rem;
             background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            text-align: center;
         }
         h1, h2 {
             color: #2e59e5;
         }
         .features, .advantages {
-            margin-bottom: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            padding: 0.5rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        ul li::before {
+            content: '\2713';
+            color: #2e59e5;
+            font-weight: bold;
+            margin-right: 10px;
         }
         .cta {
-            text-align: center;
             margin-top: 2rem;
         }
         .cta button {
             background-color: #2e59e5;
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            border-radius: 5px;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
         .cta button:hover {
-            background-color: #2e59e5;
+            background-color: #1d3cbf;
         }
     </style>
 </head>
@@ -74,32 +96,32 @@
 
     <div class="container">
         <h2>About CodeSphere</h2>
-        <p>CodeSphere is a comprehensive learning platform designed to help you master data structures and algorithms (DSA) and improve your coding skills. With multiple language support, a user-friendly interface, and a dedicated space for problem-solving, CodeSphere is the ultimate destination for aspiring developers.</p>
+        <p>CodeSphere is an interactive learning platform designed to help you master data structures and algorithms (DSA) and enhance your coding skills. Our user-friendly interface, comprehensive exercises, and built-in coding IDE provide the perfect environment for learning.</p>
 
         <div class="features">
-            <h2>Features</h2>
+            <h2>Key Features</h2>
             <ul>
-                <li>Multiple programming language support.</li>
-                <li>Interactive problem-solving environment.</li>
-                <li>Detailed progress tracking and reports.</li>
-                <li>Step-by-step guidance for DSA preparation.</li>
-                <li>Built-in coding IDE for hands-on practice.</li>
+                <li>Supports multiple programming languages</li>
+                <li>Interactive problem-solving environment</li>
+                <li>Detailed progress tracking</li>
+                <li>Step-by-step DSA guidance</li>
+                <li>Built-in coding IDE for hands-on practice</li>
             </ul>
         </div>
 
         <div class="advantages">
-            <h2>Advantages</h2>
+            <h2>Why Choose CodeSphere?</h2>
             <ul>
-                <li>Enhance your coding proficiency with targeted exercises.</li>
-                <li>Stay ahead with up-to-date learning resources.</li>
-                <li>Prepare effectively for technical interviews and competitive exams.</li>
-                <li>Track your learning progress in real-time.</li>
-                <li>Join a community of like-minded learners.</li>
+                <li>Improve coding proficiency with targeted exercises</li>
+                <li>Access up-to-date learning resources</li>
+                <li>Prepare effectively for technical interviews</li>
+                <li>Track your learning progress in real-time</li>
+                <li>Join a community of passionate developers</li>
             </ul>
         </div>
 
         <div class="cta">
-            <p>Register on CodeSphere today and unlock your potential as a developer. Start your journey towards mastering data structures and algorithms with our interactive platform.</p>
+            <p>Start your journey with CodeSphere today and become a proficient developer.</p>
             <button onclick="location.href='/index'">Join CodeSphere Now</button>
         </div>
     </div>

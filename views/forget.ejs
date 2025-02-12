@@ -1,71 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Forget Password</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-	</script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="./css/main.css">
-
-	<script type="text/javascript">
-		$(document).ready(function(){
-
-			$( "#form2" ).submit(function(event) {
-
-				event.preventDefault();
-
-				$.ajax({
-					type: 'POST',
-					url: '/forgetpass',
-					data: $('#form2').serialize(),
-					dataType: "json",
-					success: function(response){
-						//alert("a");
-						//console.log(response.Success);
-						$('#form2')[0].reset();
-						//alert("abc");
-						document.getElementById("check").innerHTML=response.Success;
-
-						setTimeout(function(){
-							document.getElementById("check").innerHTML="";
-						},3000);
-						if (response.Success=="Password changed!") {
-							document.getElementById("aa").click();
-						};
-					},
-					error: function() {
-					}
-				})
-			});
-
-		});
-	</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forget Password</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/main.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .password-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .password-container h2 {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            margin-bottom: 15px;
+        }
+        .mssg {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .login-link {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $("#form2").submit(function(event) {
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/forgetpass',
+                    data: $('#form2').serialize(),
+                    dataType: "json",
+                    success: function(response) {
+                        $('#form2')[0].reset();
+                        $("#check").html(response.Success).fadeIn();
+                        setTimeout(function() {
+                            $("#check").fadeOut();
+                        }, 3000);
+                        if (response.Success === "Password changed!") {
+                            document.getElementById("aa").click();
+                        }
+                    },
+                    error: function() {
+                        $("#check").html("Error occurred!").fadeIn();
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
-
-		<div class="col-md-4 col-md-offset-4">
-			<div>
-				<p>Change Password</p>
-			</div>
-			<div class="form-group">
-				<form id="form2" method="post">
-					<input type="text" name="email" placeholder="E-mail" required="" class="form-control"><br/>
-					<input type="password" name="password" placeholder="Password" required="" class="form-control"><br/>
-					<input type="password" name="passwordConf" placeholder="Confirm Password" required="" class="form-control"><br/>
-					<input type="submit" value="Change" class="btn btn-success">
-				</form>
-			</div>
-			<div  class="mssg bg-danger">
-				<span id="check"></span>
-				</div>
-				<div id="LangTable"><a href="/profile" id="aa"></a>
-				</div>
-				<div><span>Login?</span><a href="/login">Click here</a></div>
-			</div>
-			<div id="LangTable"><a href="/login" id="aa"></a>
-			</div>
-		</div>
-
+    <div class="password-container col-md-4">
+        <h2>Change Password</h2>
+        <form id="form2" method="post">
+            <input type="text" name="email" placeholder="E-mail" required class="form-control">
+            <input type="password" name="password" placeholder="New Password" required class="form-control">
+            <input type="password" name="passwordConf" placeholder="Confirm Password" required class="form-control">
+            <button type="submit" class="btn btn-primary btn-block">Change Password</button>
+        </form>
+        <div class="mssg bg-danger" id="check"></div>
+        <a href="/login" class="login-link">Back to Login</a>
+        <div id="LangTable">
+            <a href="/profile" id="aa"></a>
+        </div>
+    </div>
 </body>
 </html>
