@@ -89,23 +89,23 @@ router.get('/data', function (req, res, next) {
 //agar password match karta hai toh user ko login kar denge
 
 router.post('/login', function (req, res, next) {
-	//console.log(req.body);
-	User.findOne({email:req.body.email},function(err,data){
-		if(data){
-			
-			if(data.password==req.body.password){
-				//console.log("Done Login");
-				req.session.userId = data.unique_id;
-				//console.log(req.session.userId);
-				res.send({"Success":"Success!"});
-				
-			}else{
-				res.send({"Success":"Wrong password!"});
-			}
-		}else{
-			res.send({"Success":"This Email Is not regestered!"});
-		}
-	});
+    User.findOne({email: req.body.email}, function(err, data) {
+        if (data) {
+            if (data.password == req.body.password) {
+                req.session.userId = data.unique_id;
+                // Check if learningPath exists and is not empty
+                const redirectUrl = data.learningPath ? '/codesphere' : '/maindashboard';
+                res.send({ 
+                    "Success": "Success!", 
+                    "redirectUrl": redirectUrl 
+                });
+            } else {
+                res.send({"Success": "Wrong password!"});
+            }
+        } else {
+            res.send({"Success": "This Email Is not registered!"});
+        }
+    });
 });
 //profile page pe jana ho tho yeh route use karega
 //isme apan check karenge ki user login hai ya nahi

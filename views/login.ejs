@@ -44,7 +44,7 @@
         $(document).ready(function() {
             $("#form").submit(function(event) {
                 event.preventDefault();
-
+    
                 $.ajax({
                     type: 'POST',
                     url: '/login',
@@ -57,7 +57,7 @@
                             $("#check").fadeOut();
                         }, 3000);
                         if (response.Success === "Success!") {
-                            document.getElementById("aa").click();
+                            window.location.href = response.redirectUrl; // Redirect dynamically
                         }
                     },
                     error: function() {
@@ -79,9 +79,7 @@
         <div class="mssg bg-danger" id="check"></div>
         <a href="/forgetpass" class="forgot-password">Forgot Password?</a>
         <a href="/" class="register">Create a new account</a>
-        <div id="LangTable">
-            <a href="/maindashboard" id="aa"></a>
-        </div>
+        
     </div>
 </body>
 </html>

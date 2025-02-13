@@ -31,7 +31,7 @@ db.once('open', function () {
 app.use(session({
   secret: 'work hard',
   resave: true,
-  saveUninitialized: false,
+  saveUninitialized: true,
   store: new MongoStore({
     mongooseConnection: db
   })
