@@ -3,65 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSA Journey</title>
+    <title>CodeSphere DSA</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            background: #0f172a;
+            color: white;
         }
+
+        /* Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #2e59e5;
-            padding: 1rem;
+            background: #1e3a8a;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #93c5fd;
+        }
+
+        .menu-icon {
+    right: 40px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: white;
+    position: relative;
+    padding: 10px;
+    background: #3b82f6;
+    border-radius: 31px;
+    transition: background 0.3s ease-in-out;
+    z-index: 1100;
+}
+
+
+        .menu-icon:hover {
+            background: #2563eb;
+        }
+
+        .dropdown {
+    display: none;
+    position: absolute;
+    top: 94px;
+    right: 73px;
+    background: #172554;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    width: 200px;
+    padding: 0;
+    z-index: 1000;
+}
+
+
+.dropdown a {
+    display: block;
+    padding: 12px 16px; /* Adjusted padding for better touch targets */
+    text-decoration: none;
+    color: #93c5fd;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s; /* Added transition for color */
+}
+
+        .dropdown a:hover {
+            background: #3b82f6;
             color: white;
         }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin: 0 0.5rem;
-            font-weight: bold;
+
+        .dropdown.active {
+            display: block;
         }
-        .navbar a:hover {
-            text-decoration: underline;
-        }
+
         .container {
             display: flex;
-            margin: 2rem;
+            margin-top: 80px;
         }
-        .topics {
-            width: 20%;
-            background-color: #f4f4f9;
-            border-right: 1px solid #ccc;
+
+        .sidebar {
+            width: 250px;
+            background: #172554;
             padding: 1rem;
-            position: fixed;
-            height: 100%;
+            height: 100vh;
             overflow-y: auto;
+            border-right: 2px solid #3b82f6;
+            position: fixed;
+            transition: 0.3s;
         }
-        .topics a {
-            display: block;
+
+        .sidebar h3 {
+            color: #93c5fd;
+            text-align: center;
             margin-bottom: 1rem;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            margin-bottom: 8px;
             text-decoration: none;
-            color: #2e59e5;
+            color: #93c5fd;
             font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+            text-align: center;
         }
-        .topics a:hover {
-            text-decoration: underline;
+
+        .sidebar a:hover {
+            background: #3b82f6;
+            color: white;
         }
+
         .content {
-            width: 75%;
-            margin-left: 22%;
-            padding: 1rem;
+            flex-grow: 1;
+            padding: 2rem;
+            margin-left: 260px;
+            transition: 0.3s;
         }
-        h1, h2 {
-            color: #2e59e5;
+
+        h2 {
+            color: #93c5fd;
+            text-align: center;
         }
+
         .topic-section {
             margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                text-align: center;
+                display: none;
+            }
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            .sidebar.active {
+                display: block;
+            }
         }
     </style>
 </head>
@@ -69,15 +170,18 @@
 
     <div class="navbar">
         <h1>CodeSphere DSA</h1>
-        <div>
-            <a href="/questions">Question Practice</a>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <div class="dropdown" id="dropdown-menu">
+            <a href="/codesphere">Home</a>
+            <a href="/profile">Profile</a>
             <a href="/ide">IDE</a>
-            <a href="/data">User Profile</a>
+            <a href="/ai">Progress</a>
         </div>
     </div>
 
     <div class="container">
-        <div class="topics">
+        <div class="sidebar" id="sidebar">
+            <h3>Topics</h3>
             <a href="#arrays">Arrays</a>
             <a href="#linkedlists">Linked Lists</a>
             <a href="#stacks">Stacks</a>
@@ -90,55 +194,33 @@
 
         <div class="content">
             <h2>Welcome to DSA Journey using C++</h2>
-            
             <div id="arrays" class="topic-section">
                 <h3>Arrays</h3>
-                <p>Arrays are a fundamental data structure in computer science, used to store multiple elements of the same type in a contiguous block of memory. They allow for fast access to elements using an index, making them ideal for scenarios where you need to frequently access or update data.</p>
-                <p><strong>Key Concepts:</strong></p>
-                <ul>
-                    <li>Fixed size and type of elements.</li>
-                    <li>Access elements via zero-based indexing.</li>
-                    <li>Basic operations: traversal, insertion, deletion, searching, and sorting.</li>
-                </ul>
-                <p><strong>Example Question:</strong> Write a C++ program to find the largest element in an array of integers.</p>
+                <p>Arrays store multiple elements of the same type in a contiguous memory block.</p>
             </div>
-
             <div id="linkedlists" class="topic-section">
                 <h3>Linked Lists</h3>
-                <p>abhi wait karo likhta hu.......</p>
+                <p>Linked Lists use pointers to connect nodes dynamically.</p>
             </div>
-
             <div id="stacks" class="topic-section">
                 <h3>Stacks</h3>
-                <p>abhi wait karo likhta hu</p>
+                <p>Stacks follow the Last In, First Out (LIFO) principle.</p>
             </div>
-
             <div id="queues" class="topic-section">
                 <h3>Queues</h3>
-                <p>abhi wait karo likhta hu</p>
-            </div>
-
-            <div id="trees" class="topic-section">
-                <h3>Trees</h3>
-                <p>abhi wait karo likhta hu</p>
-            </div>
-
-            <div id="graphs" class="topic-section">
-                <h3>Graphs</h3>
-                <p>abhi wait karo likhta hu</p>
-            </div>
-
-            <div id="sorting" class="topic-section">
-                <h3>Sorting Algorithms</h3>
-                <p>abhi wait karo likhta hu</p>
-            </div>
-
-            <div id="searching" class="topic-section">
-                <h3>Searching Algorithms</h3>
-                <p>abhi wait karo likhta hu</p>
+                <p>Queues follow the First In, First Out (FIFO) principle.</p>
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleMenu() {
+            const dropdownMenu = document.getElementById("dropdown-menu");
+            dropdownMenu.classList.toggle("active");
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+        }
+    </script>
 
 </body>
 </html>

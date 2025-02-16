@@ -88,45 +88,69 @@ router.get('/data', function (req, res, next) {
 //agar exist karta hai toh uska password check karenge
 //agar password match karta hai toh user ko login kar denge
 
-router.post('/login', function (req, res, next) {
-    User.findOne({email: req.body.email}, function(err, data) {
-        if (data) {
-            if (data.password == req.body.password) {
-                req.session.userId = data.unique_id;
-                // Check if learningPath exists and is not empty
-                const redirectUrl = data.learningPath ? '/codesphere' : '/maindashboard';
-                res.send({ 
-                    "Success": "Success!", 
-                    "redirectUrl": redirectUrl 
-                });
-            } else {
-                res.send({"Success": "Wrong password!"});
-            }
-        } else {
-            res.send({"Success": "This Email Is not registered!"});
+router.post('/login', async function (req, res, next) {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.send({ "Success": "This Email is not registered!" });
         }
-    });
+
+        if (user.password !== req.body.password) {
+            return res.send({ "Success": "Wrong password!" });
+        }
+
+        req.session.userId = user.unique_id;
+
+        // ✅ Load saved progress
+        req.session.progress = user.progress || { contentRead: 0, questionsSolved: 0 };
+
+        res.send({
+            "Success": "Success!",
+            "redirectUrl": user.learningPath ? '/codesphere' : '/maindashboard',
+            "progress": req.session.progress  // Send progress to frontend
+        });
+
+    } catch (error) {
+        console.error("Login error:", error);
+        res.status(500).send({ "Error": "Internal Server Error" });
+    }
 });
+
+
+
 //profile page pe jana ho tho yeh route use karega
 //isme apan check karenge ki user login hai ya nahi
 //agar login hai toh uska data profile page pe dikhayenge
 //agar login nahi hai toh use login page pe redirect karenge
 //
-router.get('/maindashboard', function (req, res, next) {
-	console.log("maindashboard");
-	User.findOne({unique_id:req.session.userId},function(err,data){
-		console.log("data");
-		console.log(data);
-		if(!data){
-			res.redirect('/');
-		}else{
-			//console.log("found");
-			return res.render('dashboard', { // ✅ Correct view name
-                "name": data.username,
-                learningPath: data.learningPath });
-		}
-	});
+router.get('/maindashboard', async function (req, res, next) {
+    if (!req.session.userId) {
+        return res.redirect('/');
+    }
+
+    try {
+        let user = await User.findOne({ unique_id: req.session.userId });
+
+        if (!user) {
+            return res.redirect('/');
+        }
+
+        console.log("Session Progress:", req.session.progress);
+        
+        return res.render('dashboard', { 
+            "name": user.username,
+            "learningPath": user.learningPath,
+            "progress": req.session.progress || { contentRead: 0, questionsSolved: 0 }
+        });
+
+    } catch (error) {
+        console.error("Error fetching dashboard:", error);
+        return res.redirect('/');
+    }
 });
+
+
 router.post('/select-learning-path', function (req, res, next) {
     if (!req.session.userId) {
         return res.redirect('/login'); // Redirect if user not logged in
@@ -188,9 +212,52 @@ router.get("/ide", (req, res) => {
 router.get("/dsa", (req, res) => {
     res.render("dsa");
 });
+router.get("/ai", async (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/login'); // Redirect if user not logged in
+    }
 
-router.get("/questions", (req, res) => {
-    res.render("questions");
+    try {
+        let user = await User.findOne({ unique_id: req.session.userId });
+
+        if (!user) {
+            return res.redirect('/login');
+        }
+
+        // ✅ Ensure progress exists in database, initialize if missing
+        if (!user.progress) {
+            user.progress = { contentRead: 0, questionsSolved: 0 };
+            await user.save(); // 🛠️ Save to MongoDB
+        }
+
+        console.log("User Progress Data:", user.progress); // Debugging output
+
+        res.render("ml.ejs", { progress: user.progress });
+    } catch (error) {
+        console.error("Error fetching AI progress:", error);
+        res.redirect('/login');
+    }
+});
+
+router.post('/updateProgress', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send({ "Error": "User not logged in!" });
+        }
+
+        const { contentRead, questionsSolved } = req.body;
+
+        // Update the user's progress in MongoDB
+        await User.findOneAndUpdate(
+            { unique_id: req.session.userId },
+            { $set: { "progress.contentRead": contentRead, "progress.questionsSolved": questionsSolved } }
+        );
+
+        res.send({ "Success": "Progress updated successfully!" });
+    } catch (error) {
+        console.error("Progress update error:", error);
+        res.status(500).send({ "Error": "Internal Server Error" });
+    }
 });
 
 
@@ -198,18 +265,18 @@ router.get("/questions", (req, res) => {
 //logout page pe jana ho tho yeh route use karega
 
 router.get('/logout', function (req, res, next) {
-	console.log("logout")
-	if (req.session) {
-    // delete session object
-    req.session.destroy(function (err) {
-    	if (err) {
-    		return next(err);
-    	} else {
-    		return res.redirect('/');
-    	}
-    });
-}
+    console.log("logout")
+    if (req.session) {
+        req.session.destroy(function (err) {
+            if (err) {
+                return next(err);
+            } else {
+                return res.redirect('/');
+            }
+        });
+    }
 });
+
 
 router.get('/forgetpass', function (req, res, next) {
 	res.render("forget.ejs");

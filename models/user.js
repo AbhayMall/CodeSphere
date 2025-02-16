@@ -9,16 +9,22 @@ var Schema = mongoose.Schema;
 //jaise ki collection name, field name, field type, field validation etc
 
 
-userSchema = new Schema( {
+var userSchema = new Schema
+({
+    unique_id: { type: Number, unique: true },  // Ensuring uniqueness
+    email: { type: String, required: true, unique: true },  // Required & unique
+    username: { type: String, required: true },  // Required field
+    password: { type: String, required: true },  // Required field
+    passwordConf: { type: String, required: true },  // Required field
+    
+    // Learning Path Progress Tracking
+    learningPath: { type: String, default: "" },
 
-	
-	unique_id: Number,
-	email: String,
-	username: String,
-	password: String,
-	passwordConf: String,
-	learningPath: { type: String, default: "" }
-}),
+    progress: {
+        contentRead: { type: Number, default: 0 },
+        questionsSolved: { type: Number, default: 0 }
+    }
+}, { timestamps: true }); 
 //jasa yaha humna ek blueprint tyaar kiya hai isma id , email etc liya hai
 //orr sab string data type ka hai
 //or passwordConf field ko bhi define kiya hai jo password field ki confirmation hai

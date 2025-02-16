@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI/ML Course Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        nav {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Content Section */
+        .content-section {
+            flex: 3;
+            min-width: 300px;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* Cards */
+        .cards {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #bfdbfe;
+        }
+
+        /* Boxes */
+        .box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .box h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .box p {
+            font-size: 16px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.2);
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        /* Progress Bars */
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            height: 12px;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+        }
+
+        /* Chart Styling */
+        #progressChart {
+            max-width: 100%;
+            margin: 20px auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .cards {
+                flex-direction: column;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .content-section, .progress-section {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>📚 AI/ML Course Tracker</nav>
+
+<div class="container">
+    <div class="content-section">
+        
+        <!-- Learning & Questions Cards -->
+        <div class="cards">
+            <div class="card" onclick="toggleSection('learningSection')">
+                <h2>📖 Learning</h2>
+                <p>Explore AI & ML concepts.</p>
+            </div>
+            <div class="card" onclick="toggleSection('questionSection')">
+                <h2>📝 Questions</h2>
+                <p>Practice AI/ML questions.</p>
+            </div>
+        </div>
+
+        <!-- Learning Section -->
+        <div id="learningSection" class="box">
+            <h2>📖 AI/ML Learning Topics</h2>
+            <p><input type="checkbox" onclick="updateProgress('content')"> Introduction to AI</p>
+            <p><input type="checkbox" onclick="updateProgress('content')"> Machine Learning Basics</p>
+            <p><input type="checkbox" onclick="updateProgress('content')"> Deep Learning</p>
+        </div>
+
+        <!-- Question Section -->
+        <div id="questionSection" class="box" style="display: none;">
+            <h2>📝 AI/ML Questions</h2>
+            <p><input type="checkbox" onclick="updateProgress('question')"> What is AI?</p>
+            <p><input type="checkbox" onclick="updateProgress('question')"> What is Machine Learning?</p>
+            <p><input type="checkbox" onclick="updateProgress('question')"> What is Deep Learning?</p>
+        </div>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="progress-section">
+        <h2>📊 Progress Overview</h2>
+        <canvas id="progressChart"></canvas>
+
+        <p>📖 Content Read: <span id="contentRead">0</span> / 3</p>
+        <div class="progress-bar-container">
+            <div id="contentProgressBar" class="progress-bar"></div>
+        </div>
+
+        <p>📝 Questions Solved: <span id="questionsSolved">0</span> / 3</p>
+        <div class="progress-bar-container">
+            <div id="questionProgressBar" class="progress-bar"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let contentRead = 0;
+    let questionsSolved = 0;
+
+    function updateProgress(type) {
+        if (type === 'content' && contentRead < 3) contentRead++;
+        if (type === 'question' && questionsSolved < 3) questionsSolved++;
+
+        document.getElementById("contentRead").innerText = contentRead;
+        document.getElementById("questionsSolved").innerText = questionsSolved;
+
+        document.getElementById("contentProgressBar").style.width = (contentRead / 3) * 100 + "%";
+        document.getElementById("questionProgressBar").style.width = (questionsSolved / 3) * 100 + "%";
+
+        updateChart(contentRead, questionsSolved);
+    }
+
+    function toggleSection(sectionId) {
+        document.getElementById("learningSection").style.display = "none";
+        document.getElementById("questionSection").style.display = "none";
+        document.getElementById(sectionId).style.display = "block";
+    }
+
+    var ctx = document.getElementById('progressChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Content Read', 'Questions Solved'],
+            datasets: [{
+                data: [0, 0],
+                backgroundColor: ['#27ae60', '#e74c3c'],
+                borderWidth: 0,
+                hoverOffset: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#fff',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    function updateChart(contentRead, questionsSolved) {
+        myChart.data.datasets[0].data = [contentRead, questionsSolved];
+        myChart.update();
+    }
+</script>
+
+</body>
+</html>

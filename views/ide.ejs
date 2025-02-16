@@ -3,179 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online IDE</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', Courier, monospace;
+    <title>CodeSphere - Online Compiler</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        let ws;
+
+        function connectWebSocket() {
+            ws = new WebSocket("ws://127.0.0.1:3000");
+
+            ws.onopen = function () {
+                console.log("Connected to WebSocket Server ✅");
+                document.getElementById("status").innerText = "🟢 Connected";
+            };
+
+            ws.onmessage = function (event) {
+                document.getElementById("output").innerText = event.data; // Display output
+            };
+
+            ws.onerror = function (error) {
+                console.error("WebSocket Error:", error);
+                document.getElementById("status").innerText = "🔴 Error";
+            };
+
+            ws.onclose = function () {
+                console.log("WebSocket Disconnected ❌");
+                document.getElementById("status").innerText = "🔴 Disconnected";
+            };
         }
 
-        body {
-            background-color: #1e1e1e;
-            color: #d4d4d4;
+        function runCode() {
+            const language = document.getElementById("language").value;
+            const code = document.getElementById("code").value.trim();
+            const userInput = document.getElementById("userInput").value.trim();
+
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert("WebSocket is not connected! Refresh the page.");
+                return;
+            }
+
+            if (!code) {
+                alert("Please enter your code before running!");
+                return;
+            }
+
+            ws.send(JSON.stringify({ language, code, userInput }));
+            document.getElementById("output").innerText = "⏳ Running...";
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            padding: 20px;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 20px;
-        }
-
-        .language-select {
-            padding: 8px 15px;
-            background-color: #2d2d2d;
-            color: white;
-            border: 1px solid #3e3e3e;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .run-button {
-            padding: 8px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .run-button:hover {
-            background-color: #45a049;
-        }
-
-        .editor-container {
-            display: flex;
-            flex: 1;
-            gap: 20px;
-        }
-
-        .code-editor, .output-container {
-            flex: 1;
-            background-color: #2d2d2d;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .editor-header {
-            padding: 10px;
-            background-color: #252526;
-            border-bottom: 1px solid #3e3e3e;
-        }
-
-        textarea {
-            width: 100%;
-            height: calc(100% - 41px);
-            padding: 15px;
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            border: none;
-            resize: none;
-            font-size: 14px;
-            tab-size: 4;
-        }
-
-        textarea:focus {
-            outline: none;
-        }
-
-        .output-container {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .output-header {
-            padding: 10px;
-            background-color: #252526;
-            border-bottom: 1px solid #3e3e3e;
-        }
-
-        #output {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-        }
-    </style>
+        window.onload = connectWebSocket;
+    </script>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <select class="language-select" id="language">
-                <option value="c">C</option>
-                <option value="cpp">C++</option>
-                <option value="python">Python</option>
-            </select>
-            <button class="run-button" onclick="runCode()">Run</button>
-        </div>
-        
-        <div class="editor-container">
-            <div class="code-editor">
-                <div class="editor-header">Code Editor</div>
-                <textarea id="code" placeholder="Enter your code here..."></textarea>
+<body class="bg-gray-900 text-white font-sans">
+    <div class="max-w-6xl mx-auto my-10 p-6 bg-gray-800 rounded-lg shadow-md">
+        <h1 class="text-3xl font-bold text-center text-blue-400">CodeSphere - Online Compiler</h1>
+        <p id="status" class="text-center text-sm text-gray-400 mt-2">🟠 Connecting...</p>
+
+        <!-- Split Screen Layout -->
+        <div class="grid grid-cols-2 gap-6 mt-6">
+            <!-- Code Editor Section -->
+            <div class="flex flex-col">
+                <label class="block text-lg">Select Language:</label>
+                <select id="language" class="w-full p-2 mt-2 bg-gray-700 text-white rounded-md">
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                    <option value="cpp">C++</option>
+                    <option value="java">Java</option>
+                </select>
+
+                <label class="block text-lg mt-4">Write Your Code:</label>
+                <textarea id="code" rows="15" class="w-full p-3 mt-2 bg-gray-700 text-white rounded-md font-mono" placeholder="Write your code here..."></textarea>
             </div>
-            
-            <div class="output-container">
-                <div class="output-header">Output</div>
-                <pre id="output"></pre>
+
+            <!-- Input & Output Section -->
+            <div class="flex flex-col">
+                <label class="block text-lg">Enter Input:</label>
+                <textarea id="userInput" rows="4" class="w-full p-3 mt-2 bg-gray-700 text-white rounded-md font-mono" placeholder="Optional: Enter input here..."></textarea>
+
+                <button onclick="runCode()" class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-lg font-semibold transition duration-200">
+                    🚀 Run Code
+                </button>
+
+                <h2 class="text-2xl font-semibold mt-6">Output:</h2>
+                <pre id="output" class="w-full p-4 bg-black text-green-400 rounded-lg mt-2 h-40 overflow-auto">Your output will appear here...</pre>
             </div>
         </div>
     </div>
-
-    <script>
-        // Handle Tab key in textarea
-        document.getElementById('code').addEventListener('keydown', function(e) {
-            if (e.key === 'Tab') {
-                e.preventDefault();
-                const start = this.selectionStart;
-                const end = this.selectionEnd;
-                
-                this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
-                this.selectionStart = this.selectionEnd = start + 4;
-            }
-        });
-
-        // Language-specific templates
-        const templates = {
-            c: `#include <stdio.h>\n\nint main() {\n    printf("Hello, World!\\n");\n    return 0;\n}`,
-            cpp: `#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!" << endl;\n    return 0;\n}`,
-            python: `print("Hello, World!")`
-        };
-
-        // Update code template when language changes
-        document.getElementById('language').addEventListener('change', function() {
-            const lang = this.value;
-            document.getElementById('code').value = templates[lang];
-        });
-
-        // Initial template
-        document.getElementById('code').value = templates.c;
-
-        // Run code simulation (requires backend integration for actual execution)
-        function runCode() {
-            const lang = document.getElementById('language').value;
-            const code = document.getElementById('code').value;
-            const output = document.getElementById('output');
-            
-            output.innerHTML = "Running...";
-            
-            // Simulated execution (replace with actual API call)
-            setTimeout(() => {
-                output.innerHTML = `Language: ${lang.toUpperCase()}\n\n`;
-                output.innerHTML += "Hello, World!\n";
-                output.innerHTML += "Program executed successfully.";
-            }, 1000);
-        }
-    </script>
 </body>
 </html>

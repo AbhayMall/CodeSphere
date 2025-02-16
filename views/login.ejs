@@ -7,44 +7,79 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="./css/main.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
+
         .login-container {
-            background: #ffffff;
+            background: #1e3a8a;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
+            width: 100%;
+            max-width: 400px;
         }
+
         .login-container h2 {
             margin-bottom: 20px;
+            color: #93c5fd;
         }
+
         .form-control {
             margin-bottom: 15px;
+            border-radius: 8px;
+            padding: 10px;
         }
+
+        .btn-primary {
+            background: #2563eb;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: #3b82f6;
+        }
+
         .mssg {
             margin-top: 10px;
             padding: 10px;
             border-radius: 5px;
             display: none;
+            background-color: #dc3545;
+            color: white;
         }
+
         .forgot-password, .register {
             display: block;
             margin-top: 10px;
+            color: #bfdbfe;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .forgot-password:hover, .register:hover {
+            color: #60a5fa;
         }
     </style>
     <script>
         $(document).ready(function() {
             $("#form").submit(function(event) {
                 event.preventDefault();
-    
                 $.ajax({
                     type: 'POST',
                     url: '/login',
@@ -57,7 +92,7 @@
                             $("#check").fadeOut();
                         }, 3000);
                         if (response.Success === "Success!") {
-                            window.location.href = response.redirectUrl; // Redirect dynamically
+                            window.location.href = response.redirectUrl;
                         }
                     },
                     error: function() {
@@ -69,17 +104,16 @@
     </script>
 </head>
 <body>
-    <div class="login-container col-md-4">
+    <div class="login-container">
         <h2>Login</h2>
         <form id="form" method="post">
             <input type="text" name="email" placeholder="E-mail" required class="form-control">
             <input type="password" name="password" placeholder="Password" required class="form-control">
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
-        <div class="mssg bg-danger" id="check"></div>
+        <div class="mssg" id="check"></div>
         <a href="/forgetpass" class="forgot-password">Forgot Password?</a>
         <a href="/" class="register">Create a new account</a>
-        
     </div>
 </body>
 </html>
