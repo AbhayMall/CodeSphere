@@ -165,7 +165,7 @@
 <body>
 
 <!-- Navbar -->
-<nav>📚 AI/ML Course Tracker</nav>
+<nav>📚 AI/ML Course Tracker | <a href="/codesphere">Home</a></nav>
 
 <div class="container">
     <div class="content-section">
@@ -173,7 +173,7 @@
         <!-- Learning & Questions Cards -->
         <div class="cards">
             <div class="card" onclick="toggleSection('learningSection')">
-                <h2>📖 Learning</h2>
+                <h2>📚 Learning</h2>
                 <p>Explore AI & ML concepts.</p>
             </div>
             <div class="card" onclick="toggleSection('questionSection')">
@@ -184,27 +184,27 @@
 
         <!-- Learning Section -->
         <div id="learningSection" class="box">
-            <h2>📖 AI/ML Learning Topics</h2>
-            <p><input type="checkbox" onclick="updateProgress('content')"> Introduction to AI</p>
-            <p><input type="checkbox" onclick="updateProgress('content')"> Machine Learning Basics</p>
-            <p><input type="checkbox" onclick="updateProgress('content')"> Deep Learning</p>
+            <h2>📚 AI/ML Learning Topics</h2>
+            <p><input type="checkbox" onclick="updateProgress('content', this)"> Introduction to AI</p>
+            <p><input type="checkbox" onclick="updateProgress('content', this)"> Machine Learning Basics</p>
+            <p><input type="checkbox" onclick="updateProgress('content', this)"> Deep Learning</p>
         </div>
 
         <!-- Question Section -->
         <div id="questionSection" class="box" style="display: none;">
             <h2>📝 AI/ML Questions</h2>
-            <p><input type="checkbox" onclick="updateProgress('question')"> What is AI?</p>
-            <p><input type="checkbox" onclick="updateProgress('question')"> What is Machine Learning?</p>
-            <p><input type="checkbox" onclick="updateProgress('question')"> What is Deep Learning?</p>
+            <p><input type="checkbox" onclick="updateProgress('question', this)"> What is AI?</p>
+            <p><input type="checkbox" onclick="updateProgress('question', this)"> What is Machine Learning?</p>
+            <p><input type="checkbox" onclick="updateProgress('question', this)"> What is Deep Learning?</p>
         </div>
     </div>
 
     <!-- Progress Tracker -->
     <div class="progress-section">
-        <h2>📊 Progress Overview</h2>
+        <h2>📌a Progress Overview</h2>
         <canvas id="progressChart"></canvas>
 
-        <p>📖 Content Read: <span id="contentRead">0</span> / 3</p>
+        <p>📚 Content Read: <span id="contentRead">0</span> / 3</p>
         <div class="progress-bar-container">
             <div id="contentProgressBar" class="progress-bar"></div>
         </div>
@@ -213,6 +213,8 @@
         <div class="progress-bar-container">
             <div id="questionProgressBar" class="progress-bar"></div>
         </div>
+
+        <button onclick="saveProgressToDatabase()">Save Progress</button>
     </div>
 </div>
 
@@ -220,15 +222,20 @@
     let contentRead = 0;
     let questionsSolved = 0;
 
-    function updateProgress(type) {
-        if (type === 'content' && contentRead < 3) contentRead++;
-        if (type === 'question' && questionsSolved < 3) questionsSolved++;
+    function updateProgress(type, checkbox) {
+        if (!checkbox.checked) {
+            checkbox.checked = true; // Prevent unchecking
+            return;
+        }
+
+        if (type === 'content' && contentRead < 10) contentRead++;
+        if (type === 'question' && questionsSolved < 10) questionsSolved++;
 
         document.getElementById("contentRead").innerText = contentRead;
         document.getElementById("questionsSolved").innerText = questionsSolved;
 
-        document.getElementById("contentProgressBar").style.width = (contentRead / 3) * 100 + "%";
-        document.getElementById("questionProgressBar").style.width = (questionsSolved / 3) * 100 + "%";
+        document.getElementById("contentProgressBar").style.width = (contentRead / 10) * 100 + "%";
+        document.getElementById("questionProgressBar").style.width = (questionsSolved / 10) * 100 + "%";
 
         updateChart(contentRead, questionsSolved);
     }
@@ -237,6 +244,22 @@
         document.getElementById("learningSection").style.display = "none";
         document.getElementById("questionSection").style.display = "none";
         document.getElementById(sectionId).style.display = "block";
+    }
+
+    function saveProgressToDatabase() {
+        fetch('/saveProgress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contentRead: contentRead,
+                questionsSolved: questionsSolved
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log('Progress saved:', data))
+        .catch(error => console.error('Error saving progress:', error));
     }
 
     var ctx = document.getElementById('progressChart').getContext('2d');
