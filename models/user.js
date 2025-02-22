@@ -23,7 +23,9 @@ var userSchema = new Schema
     progress: {
         contentRead: { type: Number, default: 0 },
         questionsSolved: { type: Number, default: 0 }
-    }
+    },
+    checkedContent: [String], // Store IDs of checked content
+    checkedQuestions: [String] // Store IDs of checked questions
 }, { timestamps: true }); 
 //jasa yaha humna ek blueprint tyaar kiya hai isma id , email etc liya hai
 //orr sab string data type ka hai

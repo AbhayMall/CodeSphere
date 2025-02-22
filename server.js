@@ -17,21 +17,22 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MongoDB Connection
-mongoose.connect('mongodb+srv://AbhayCodeSphere:Abhay9305755915@cluster0.v65hw.mongodb.net/CodeSphereDataBase?retryWrites=true&w=majority&appName=Cluster0', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 }, (err) => {
-  console.log(err ? 'Error in DB connection: ' + err : 'MongoDB Connection Succeeded.');
+    console.log(err ? 'Error in DB connection: ' + err : 'MongoDB Connection Succeeded.');
 });
 
+// Get the Mongoose connection
 const db = mongoose.connection;
 
 // Session Setup
 app.use(session({
-  secret: 'work hard',
-  resave: true,
-  saveUninitialized: true,
-  store: new MongoStore({ mongooseConnection: db })
+    secret: process.env.SESSION_SECRET, // Use environment variable
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: db }) // Use the Mongoose connection
 }));
 
 // Middleware
@@ -46,16 +47,16 @@ app.use('/', index);
 
 // Error Handling
 app.use((req, res, next) => {
-  next(new Error('File Not Found', { status: 404 }));
+    next(new Error('File Not Found', { status: 404 }));
 });
 
 app.use((err, req, res, next) => {
-  res.status(err.status || 500).send(err.message);
+    res.status(err.status || 500).send(err.message);
 });
 
 // Start Server
 const server = app.listen(PORT, () => {
-  console.log('Server is started on http://127.0.0.1:' + PORT);
+    console.log('Server is started on http://127.0.0.1:' + PORT);
 });
 
 // WebSocket Server
@@ -63,8 +64,19 @@ const wss = new WebSocket.Server({ server });
 
 wss.on("connection", (ws) => {
     ws.on("message", (message) => {
-        const { language, code, userInput } = JSON.parse(message); // Include userInput
-        runCode(ws, language, code, userInput);
+        try {
+            const { language, code, userInput } = JSON.parse(message);
+            if (!language || !code) {
+                throw new Error("Invalid message format: 'language' and 'code' are required.");
+            }
+            runCode(ws, language, code, userInput);
+        } catch (error) {
+            ws.send(`Error: ${error.message}`);
+        }
+    });
+
+    ws.on("error", (error) => {
+        console.error("WebSocket error:", error);
     });
 });
 
@@ -72,10 +84,9 @@ wss.on("connection", (ws) => {
 const getUniqueFilename = (ext) => path.join(os.tmpdir(), `temp-${crypto.randomUUID()}${ext}`);
 
 // Run Code Function
-
 const runCode = (ws, language, code, userInput = "") => {
     const fileExt = { "python": ".py", "javascript": ".js", "cpp": ".cpp", "java": ".java" };
-    
+
     if (!fileExt[language]) {
         ws.send("Unsupported language");
         return;
@@ -86,7 +97,7 @@ const runCode = (ws, language, code, userInput = "") => {
     const inputPath = getUniqueFilename(".txt");
 
     // Declare exePath before usage
-    let exePath = null;  
+    let exePath = null;
     let command;
     let className = "";
 

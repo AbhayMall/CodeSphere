@@ -102,13 +102,17 @@ router.post('/login', async function (req, res, next) {
 
         req.session.userId = user.unique_id;
 
-        // ✅ Load saved progress
-        req.session.progress = user.progress || { contentRead: 0, questionsSolved: 0 };
+        // Initialize progress if missing
+        if (!user.progress) {
+            user.progress = { contentRead: 0, questionsSolved: 0 };
+            await user.save();
+        }
 
+        // Send progress data to the frontend
         res.send({
             "Success": "Success!",
             "redirectUrl": user.learningPath ? '/codesphere' : '/maindashboard',
-            "progress": req.session.progress  // Send progress to frontend
+            "progress": user.progress  // Send progress to frontend
         });
 
     } catch (error) {
@@ -116,7 +120,27 @@ router.post('/login', async function (req, res, next) {
         res.status(500).send({ "Error": "Internal Server Error" });
     }
 });
+router.get('/getProgress', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send({ "Error": "User not logged in!" });
+        }
 
+        const user = await User.findOne({ unique_id: req.session.userId });
+        if (!user) {
+            return res.status(404).send({ "Error": "User not found!" });
+        }
+
+        res.send({ 
+            progress: user.progress || { contentRead: 0, questionsSolved: 0 },
+            checkedContent: user.checkedContent || [],
+            checkedQuestions: user.checkedQuestions || []
+        });
+    } catch (error) {
+        console.error("Error fetching progress:", error);
+        res.status(500).send({ "Error": "Internal Server Error" });
+    }
+});
 
 
 //profile page pe jana ho tho yeh route use karega
@@ -245,20 +269,33 @@ router.post('/updateProgress', async (req, res) => {
             return res.status(401).send({ "Error": "User not logged in!" });
         }
 
-        const { contentRead, questionsSolved } = req.body;
+        const { contentRead, questionsSolved, checkedContent, checkedQuestions } = req.body;
 
         // Update the user's progress in MongoDB
-        await User.findOneAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
             { unique_id: req.session.userId },
-            { $set: { "progress.contentRead": contentRead, "progress.questionsSolved": questionsSolved } }
+            { 
+                $set: { 
+                    "progress.contentRead": contentRead,
+                    "progress.questionsSolved": questionsSolved,
+                    "checkedContent": checkedContent,
+                    "checkedQuestions": checkedQuestions
+                }
+            },
+            { new: true } // Return the updated document
         );
 
-        res.send({ "Success": "Progress updated successfully!" });
+        if (!updatedUser) {
+            return res.status(404).send({ "Error": "User not found!" });
+        }
+
+        res.send({ "Success": "Progress updated successfully!", progress: updatedUser.progress });
     } catch (error) {
         console.error("Progress update error:", error);
         res.status(500).send({ "Error": "Internal Server Error" });
     }
 });
+
 
 
 
