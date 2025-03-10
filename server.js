@@ -11,6 +11,7 @@ const fs = require("fs");
 const os = require("os");
 const crypto = require("crypto");
 
+
 const app = express();
 
 // Define PORT before using it
@@ -44,6 +45,7 @@ app.use(express.static(__dirname + '/views'));
 
 var index = require('./routes/index');
 app.use('/', index);
+
 
 // Error Handling
 app.use((req, res, next) => {
@@ -153,5 +155,9 @@ process.on("exit", () => {
         });
     });
 });
+
+
+
+
 
 console.log("WebSocket Server is running!");

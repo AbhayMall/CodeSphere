@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI/ML Course Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* General Styles */
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        color: white;
+        min-height: 100vh;
+      }
+
+      /* Navbar */
+      nav {
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 15px 20px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+        backdrop-filter: blur(10px);
+      }
+
+      /* Container */
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Content Section */
+      .content-section {
+        flex: 3;
+        min-width: 300px;
+      }
+
+      /* Progress Section */
+      .progress-section {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      /* Cards */
+      .cards {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .card {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .card h2 {
+        font-size: 22px;
+        margin: 0;
+      }
+
+      .card p {
+        font-size: 14px;
+        color: #bfdbfe;
+      }
+
+      /* Boxes */
+      .box {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .box h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
+
+      .box p {
+        font-size: 16px;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.2);
+        margin-right: 10px;
+        cursor: pointer;
+      }
+
+      /* Progress Bars */
+      .progress-bar-container {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        height: 12px;
+        margin-top: 5px;
+      }
+
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        transition: width 0.5s ease-in-out;
+        background: linear-gradient(90deg, #27ae60, #2ecc71);
+      }
+
+      /* Chart Styling */
+      #progressChart {
+        max-width: 100%;
+        margin: 20px auto;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .cards {
+          flex-direction: column;
+        }
+
+        .container {
+          flex-direction: column;
+        }
+
+        .content-section,
+        .progress-section {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>📚 DevOps Course Tracker | <a href="/codesphere">Home</a></nav>
+
+    <div class="container">
+      <div class="content-section">
+        <!-- Learning & Questions Cards -->
+        <div class="cards">
+          <div class="card" onclick="toggleSection('learningSection')">
+            <h2>📚 Learning</h2>
+            <p>Explore DevOps concepts.</p>
+          </div>
+          <div class="card" onclick="toggleSection('questionSection')">
+            <h2>📝 Questions</h2>
+            <p>Practice DevOps questions.</p>
+          </div>
+        </div>
+
+        
+<div id="learningSection" class="box">
+    <h2>📚 DevOps Learning Topics</h2>
+  
+    <!-- Introduction to DevOps -->
+    <h3>Introduction to DevOps</h3>
+    <p>
+      <input type="checkbox" id="content-1" onclick="updateProgress('content', this, 'content-1')" />
+      What is DevOps?
+    </p>
+    <p>
+      <input type="checkbox" id="content-2" onclick="updateProgress('content', this, 'content-2')" />
+      History and Evolution of DevOps
+    </p>
+    <p>
+      <input type="checkbox" id="content-3" onclick="updateProgress('content', this, 'content-3')" />
+      Key Principles of DevOps: Collaboration, Automation, CI/CD
+    </p>
+    <p>
+      <input type="checkbox" id="content-4" onclick="updateProgress('content', this, 'content-4')" />
+      Benefits of DevOps in Software Development
+    </p>
+    <p>
+      <input type="checkbox" id="content-5" onclick="updateProgress('content', this, 'content-5')" />
+      DevOps vs Traditional IT Operations
+    </p>
+    <p>
+      <input type="checkbox" id="content-6" onclick="updateProgress('content', this, 'content-6')" />
+      DevOps Culture and Mindset
+    </p>
+    <p>
+      <input type="checkbox" id="content-7" onclick="updateProgress('content', this, 'content-7')" />
+      DevOps Tools and Technologies
+    </p>
+    <p>
+      <input type="checkbox" id="content-8" onclick="updateProgress('content', this, 'content-8')" />
+      DevOps Lifecycle: Plan, Code, Build, Test, Release, Deploy, Operate, Monitor
+    </p>
+    <p>
+      <input type="checkbox" id="content-9" onclick="updateProgress('content', this, 'content-9')" />
+      Role of Automation in DevOps
+    </p>
+    <p>
+      <input type="checkbox" id="content-10" onclick="updateProgress('content', this, 'content-10')" />
+      Continuous Integration (CI) and Continuous Delivery (CD)
+    </p>
+    <p>
+      <input type="checkbox" id="content-11" onclick="updateProgress('content', this, 'content-11')" />
+      Infrastructure as Code (IaC)
+    </p>
+    <p>
+      <input type="checkbox" id="content-12" onclick="updateProgress('content', this, 'content-12')" />
+      Containerization and Docker
+    </p>
+    <p>
+      <input type="checkbox" id="content-13" onclick="updateProgress('content', this, 'content-13')" />
+      Orchestration with Kubernetes
+    </p>
+    <p>
+      <input type="checkbox" id="content-14" onclick="updateProgress('content', this, 'content-14')" />
+      Monitoring and Logging in DevOps
+    </p>
+    <p>
+      <input type="checkbox" id="content-15" onclick="updateProgress('content', this, 'content-15')" />
+      Security in DevOps (DevSecOps)
+    </p>
+  
+    <!-- Advanced DevOps Topics -->
+    <h3>Advanced DevOps Topics</h3>
+    <p>
+      <input type="checkbox" id="content-16" onclick="updateProgress('content', this, 'content-16')" />
+      Microservices Architecture and DevOps
+    </p>
+    <p>
+      <input type="checkbox" id="content-17" onclick="updateProgress('content', this, 'content-17')" />
+      GitOps: Managing Infrastructure with Git
+    </p>
+    <p>
+      <input type="checkbox" id="content-18" onclick="updateProgress('content', this, 'content-18')" />
+      Serverless Computing and DevOps
+    </p>
+    <p>
+      <input type="checkbox" id="content-19" onclick="updateProgress('content', this, 'content-19')" />
+      Cloud-Native DevOps Practices
+    </p>
+    <p>
+      <input type="checkbox" id="content-20" onclick="updateProgress('content', this, 'content-20')" />
+      Blue-Green Deployment and Canary Releases
+    </p>
+    <p>
+      <input type="checkbox" id="content-21" onclick="updateProgress('content', this, 'content-21')" />
+      Configuration Management with Ansible, Puppet, and Chef
+    </p>
+    <p>
+      <input type="checkbox" id="content-22" onclick="updateProgress('content', this, 'content-22')" />
+      Continuous Testing in DevOps
+    </p>
+    <p>
+      <input type="checkbox" id="content-23" onclick="updateProgress('content', this, 'content-23')" />
+      Monitoring Tools: Prometheus, Grafana, and ELK Stack
+    </p>
+    <p>
+      <input type="checkbox" id="content-24" onclick="updateProgress('content', this, 'content-24')" />
+      DevOps for Machine Learning (MLOps)
+    </p>
+    <p>
+      <input type="checkbox" id="content-25" onclick="updateProgress('content', this, 'content-25')" />
+      DevOps Case Studies and Real-World Implementations
+    </p>
+    <p>
+      <input type="checkbox" id="content-26" onclick="updateProgress('content', this, 'content-26')" />
+      Future Trends in DevOps
+    </p>
+    <p>
+      <input type="checkbox" id="content-27" onclick="updateProgress('content', this, 'content-27')" />
+      Role of AI and Machine Learning in DevOps
+    </p>
+    <p>
+      <input type="checkbox" id="content-28" onclick="updateProgress('content', this, 'content-28')" />
+      DevOps in Multi-Cloud Environments
+    </p>
+    <p>
+      <input type="checkbox" id="content-29" onclick="updateProgress('content', this, 'content-29')" />
+      DevOps for Legacy Systems
+    </p>
+    <p>
+      <input type="checkbox" id="content-30" onclick="updateProgress('content', this, 'content-30')" />
+      DevOps Best Practices and Anti-Patterns
+    </p>
+  </div>
+  
+  <!-- Question Section -->
+  <div id="questionSection" class="box" style="display: none">
+    <h2>📝 DevOps Questions</h2>
+  
+    <!-- Introduction to DevOps (20 Questions) -->
+    <h3>Introduction to DevOps</h3>
+    <p><input type="checkbox" id="question-1" onclick="updateProgress('question', this, 'question-1')" /> What is DevOps?</p>
+    <p><input type="checkbox" id="question-2" onclick="updateProgress('question', this, 'question-2')" /> What are the key principles of DevOps?</p>
+    <p><input type="checkbox" id="question-3" onclick="updateProgress('question', this, 'question-3')" /> What are the benefits of DevOps in software development?</p>
+    <p><input type="checkbox" id="question-4" onclick="updateProgress('question', this, 'question-4')" /> What is the difference between DevOps and traditional IT operations?</p>
+    <p><input type="checkbox" id="question-5" onclick="updateProgress('question', this, 'question-5')" /> What is the DevOps lifecycle?</p>
+    <p><input type="checkbox" id="question-6" onclick="updateProgress('question', this, 'question-6')" /> What is Continuous Integration (CI)?</p>
+    <p><input type="checkbox" id="question-7" onclick="updateProgress('question', this, 'question-7')" /> What is Continuous Delivery (CD)?</p>
+    <p><input type="checkbox" id="question-8" onclick="updateProgress('question', this, 'question-8')" /> What is Infrastructure as Code (IaC)?</p>
+    <p><input type="checkbox" id="question-9" onclick="updateProgress('question', this, 'question-9')" /> What is the role of automation in DevOps?</p>
+    <p><input type="checkbox" id="question-10" onclick="updateProgress('question', this, 'question-10')" /> What are the key tools used in DevOps?</p>
+    <p><input type="checkbox" id="question-11" onclick="updateProgress('question', this, 'question-11')" /> What is containerization, and how does it relate to DevOps?</p>
+    <p><input type="checkbox" id="question-12" onclick="updateProgress('question', this, 'question-12')" /> What is Kubernetes, and how is it used in DevOps?</p>
+    <p><input type="checkbox" id="question-13" onclick="updateProgress('question', this, 'question-13')" /> What is the role of monitoring and logging in DevOps?</p>
+    <p><input type="checkbox" id="question-14" onclick="updateProgress('question', this, 'question-14')" /> What is DevSecOps?</p>
+    <p><input type="checkbox" id="question-15" onclick="updateProgress('question', this, 'question-15')" /> What are the challenges in implementing DevOps?</p>
+    <p><input type="checkbox" id="question-16" onclick="updateProgress('question', this, 'question-16')" /> What is the role of version control in DevOps?</p>
+    <p><input type="checkbox" id="question-17" onclick="updateProgress('question', this, 'question-17')" /> What is the importance of collaboration in DevOps?</p>
+    <p><input type="checkbox" id="question-18" onclick="updateProgress('question', this, 'question-18')" /> What is the difference between CI and CD?</p>
+    <p><input type="checkbox" id="question-19" onclick="updateProgress('question', this, 'question-19')" /> What is the role of cloud computing in DevOps?</p>
+    <p><input type="checkbox" id="question-20" onclick="updateProgress('question', this, 'question-20')" /> What are the best practices for DevOps implementation?</p>
+  
+    <!-- Advanced DevOps Topics (20 Questions) -->
+    <h3>Advanced DevOps Topics</h3>
+    <p><input type="checkbox" id="question-21" onclick="updateProgress('question', this, 'question-21')" /> What is GitOps?</p>
+    <p><input type="checkbox" id="question-22" onclick="updateProgress('question', this, 'question-22')" /> What is serverless computing, and how does it relate to DevOps?</p>
+    <p><input type="checkbox" id="question-23" onclick="updateProgress('question', this, 'question-23')" /> What are microservices, and how do they fit into DevOps?</p>
+    <p><input type="checkbox" id="question-24" onclick="updateProgress('question', this, 'question-24')" /> What is blue-green deployment?</p>
+    <p><input type="checkbox" id="question-25" onclick="updateProgress('question', this, 'question-25')" /> What is canary release?</p>
+    <p><input type="checkbox" id="question-26" onclick="updateProgress('question', this, 'question-26')" /> What is configuration management in DevOps?</p>
+    <p><input type="checkbox" id="question-27" onclick="updateProgress('question', this, 'question-27')" /> What is continuous testing in DevOps?</p>
+    <p><input type="checkbox" id="question-28" onclick="updateProgress('question', this, 'question-28')" /> What are the key monitoring tools used in DevOps?</p>
+    <p><input type="checkbox" id="question-29" onclick="updateProgress('question', this, 'question-29')" /> What is MLOps?</p>
+    <p><input type="checkbox" id="question-30" onclick="updateProgress('question', this, 'question-30')" /> What are the future trends in DevOps?</p>
+    <p><input type="checkbox" id="question-31" onclick="updateProgress('question', this, 'question-31')" /> What is the role of AI and Machine Learning in DevOps?</p>
+    <p><input type="checkbox" id="question-32" onclick="updateProgress('question', this, 'question-32')" /> What is DevOps in multi-cloud environments?</p>
+    <p><input type="checkbox" id="question-33" onclick="updateProgress('question', this, 'question-33')" /> What are the challenges of implementing DevOps for legacy systems?</p>
+    <p><input type="checkbox" id="question-34" onclick="updateProgress('question', this, 'question-34')" /> What are DevOps best practices?</p>
+    <p><input type="checkbox" id="question-35" onclick="updateProgress('question', this, 'question-35')" /> What are DevOps anti-patterns?</p>
+    <p><input type="checkbox" id="question-36" onclick="updateProgress('question', this, 'question-36')" /> What is the role of observability in DevOps?</p>
+    <p><input type="checkbox" id="question-37" onclick="updateProgress('question', this, 'question-37')" /> What is the importance of feedback loops in DevOps?</p>
+    <p><input type="checkbox" id="question-38" onclick="updateProgress('question', this, 'question-38')" /> What is the role of chaos engineering in DevOps?</p>
+    <p><input type="checkbox" id="question-39" onclick="updateProgress('question', this, 'question-39')" /> What is the role of SRE (Site Reliability Engineering) in DevOps?</p>
+    <p><input type="checkbox" id="question-40" onclick="updateProgress('question', this, 'question-40')" /> What are the key metrics to measure DevOps success?</p>
+  </div>
+</div>
+      <!-- Progress Tracker -->
+      <div class="progress-section">
+        <h2>📌 Progress Overview</h2>
+        <canvas id="progressChart"></canvas>
+
+        <p>📚 Content Read: <span id="contentRead">0</span> / 40</p>
+        <div class="progress-bar-container">
+          <div id="contentProgressBar" class="progress-bar"></div>
+        </div>
+
+        <p>📝 Questions Solved: <span id="questionsSolved">0</span> / 80</p>
+        <div class="progress-bar-container">
+          <div id="questionProgressBar" class="progress-bar"></div>
+        </div>
+
+        <button onclick="saveProgressToDatabase()">Save Progress</button>
+      </div>
+    </div>
+
+    <script>
+        let contentRead = 0;
+        let questionsSolved = 0;
+        let checkedContent = []; // Track checked content IDs
+        let checkedQuestions = []; // Track checked question IDs
+    
+        // Function to fetch progress data from the backend
+        const fetchProgress = async () => {
+            try {
+                const response = await fetch('/getProgress');
+                const data = await response.json();
+                if (data.progress) {
+                    contentRead = data.progress.contentRead || 0;
+                    questionsSolved = data.progress.questionsSolved || 0;
+                    checkedContent = data.checkedContent || [];
+                    checkedQuestions = data.checkedQuestions || [];
+    
+                    // Update the UI with fetched progress
+                    document.getElementById("contentRead").innerText = contentRead;
+                    document.getElementById("questionsSolved").innerText = questionsSolved;
+    
+                    document.getElementById("contentProgressBar").style.width = (contentRead / 40) * 100 + "%";
+                    document.getElementById("questionProgressBar").style.width = (questionsSolved / 80) * 100 + "%";
+    
+                    // Restore checkbox states
+                    checkedContent.forEach(id => {
+                        const checkbox = document.getElementById(id);
+                        if (checkbox) checkbox.checked = true;
+                    });
+    
+                    checkedQuestions.forEach(id => {
+                        const checkbox = document.getElementById(id);
+                        if (checkbox) checkbox.checked = true;
+                    });
+    
+                    updateChart(contentRead, questionsSolved);
+                }
+            } catch (error) {
+                console.error("Error fetching progress:", error);
+            }
+        };
+    
+        // Fetch progress data when the page loads
+        fetchProgress();
+    
+        // Function to update progress
+        function updateProgress(type, checkbox, id) {
+            if (checkbox.checked) {
+                // Check if the checkbox was already checked
+                if ((type === 'content' && checkedContent.includes(id)) || 
+                    (type === 'question' && checkedQuestions.includes(id))) {
+                    return; // Do nothing if already checked
+                }
+    
+                // Increment progress
+                if (type === 'content' && contentRead < 40) contentRead++;
+                if (type === 'question' && questionsSolved < 80) questionsSolved++;
+    
+                // Add to checked list
+                if (type === 'content') checkedContent.push(id);
+                if (type === 'question') checkedQuestions.push(id);
+            } else {
+                // Show confirmation popup for unchecking
+                if (!confirm("Are you sure you want to uncheck this item? This will decrease your progress.")) {
+                    checkbox.checked = true; // Re-check if user cancels
+                    return;
+                }
+    
+                // Decrement progress
+                if (type === 'content' && contentRead > 0) contentRead--;
+                if (type === 'question' && questionsSolved > 0) questionsSolved--;
+    
+                // Remove from checked list
+                if (type === 'content') checkedContent = checkedContent.filter(item => item !== id);
+                if (type === 'question') checkedQuestions = checkedQuestions.filter(item => item !== id);
+            }
+    
+            // Update the UI
+            document.getElementById("contentRead").innerText = contentRead;
+            document.getElementById("questionsSolved").innerText = questionsSolved;
+    
+            document.getElementById("contentProgressBar").style.width = (contentRead / 40) * 100 + "%";
+            document.getElementById("questionProgressBar").style.width = (questionsSolved / 80) * 100 + "%";
+    
+            updateChart(contentRead, questionsSolved);
+    
+            // Save progress to the database
+            saveProgressToDatabase();
+        }
+    
+        // Function to save progress to the database
+        function saveProgressToDatabase() {
+            fetch('/updateProgress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contentRead: contentRead,
+                    questionsSolved: questionsSolved,
+                    checkedContent: checkedContent,
+                    checkedQuestions: checkedQuestions
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Progress saved:', data);
+                if (data.Success) {
+                    alert('Progress saved successfully!');
+                } else {
+                    alert('Failed to save progress.');
+                }
+            })
+            .catch(error => {
+                console.error('Error saving progress:', error);
+                alert('Error saving progress. Please try again.');
+            });
+        }
+    
+        // Initialize the chart
+        var ctx = document.getElementById('progressChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Content Read', 'Questions Solved'],
+                datasets: [{
+                    data: [0, 0],
+                    backgroundColor: ['#27ae60', '#e74c3c'],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#fff',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    // Function to toggle sections
+function toggleSection(sectionId) {
+    // Hide all sections
+    document.getElementById("learningSection").style.display = "none";
+    document.getElementById("questionSection").style.display = "none";
+
+    // Show the selected section
+    document.getElementById(sectionId).style.display = "block";
+}
+        // Function to update the chart
+        function updateChart(contentRead, questionsSolved) {
+            myChart.data.datasets[0].data = [contentRead, questionsSolved];
+            myChart.update();
+        }
+    </script>
+  </body>
+</html>

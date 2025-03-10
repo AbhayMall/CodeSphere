@@ -9,8 +9,7 @@ var Schema = mongoose.Schema;
 //jaise ki collection name, field name, field type, field validation etc
 
 
-var userSchema = new Schema
-({
+var userSchema = new Schema({
     unique_id: { type: Number, unique: true },  // Ensuring uniqueness
     email: { type: String, required: true, unique: true },  // Required & unique
     username: { type: String, required: true },  // Required field
@@ -25,8 +24,17 @@ var userSchema = new Schema
         questionsSolved: { type: Number, default: 0 }
     },
     checkedContent: [String], // Store IDs of checked content
-    checkedQuestions: [String] // Store IDs of checked questions
-}, { timestamps: true }); 
+    checkedQuestions: [String], // Store IDs of checked questions
+
+    // Additional fields for profile page
+    mobile: { type: String, default: "" }, // User's mobile number
+    college: { type: String, default: "" }, // User's college name
+    currentCourse: { type: String, default: "" }, // User's current course
+    yearOfGraduation: { type: String, default: "" }, // Year of graduation
+    courseSelected: { type: String, default: "" }, // Course selected by the user
+    timePeriod: { type: String, default: "" }, // Time period for the course
+    photo: { type: String, default: "default-profile.png" } // Path to the user's profile photo
+}, { timestamps: true });
 //jasa yaha humna ek blueprint tyaar kiya hai isma id , email etc liya hai
 //orr sab string data type ka hai
 //or passwordConf field ko bhi define kiya hai jo password field ki confirmation hai
