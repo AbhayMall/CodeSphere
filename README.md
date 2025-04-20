@@ -33,25 +33,6 @@ From selecting learning paths to coding in an in-browser IDE, CodeSphere makes l
 **Database:**
 - MongoDB
 
-
-📁 Folder Structure
-
-
-CodeSphere/
-├── public/             # Static assets (CSS, JS, Images)
-├── views/              # EJS templates
-├── routes/             # App routes
-├── models/             # Mongoose models
-├── controllers/        # Business logic
-├── config/             # DB and app configuration
-├── utils/              # Helper functions
-├── app.js              # Entry point
-├── package.json
-└── README.md
-
-
-
-
  ⚙️ Installation
 
 1. **Clone the repository:**
