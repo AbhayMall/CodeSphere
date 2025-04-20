@@ -63,7 +63,7 @@ From selecting learning paths to coding in an in-browser IDE, CodeSphere makes l
    npm start
    ```
 
-5. Open your browser and visit: `http://localhost:3000`
+5. Open your browser and visit: `http://localhost:5000`
 
 
 🛣️ Roadmap
