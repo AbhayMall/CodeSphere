@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA YouTube Videos - CodeSphere</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .header h1 {
+            font-weight: 700;
+            margin: 0;
+            color: var(--text-dark);
+        }
+        
+        .header p {
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .search-input {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .video-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .thumbnail-container {
+            position: relative;
+            height: 160px;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 3rem;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        
+        .video-card:hover .play-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .card-body {
+            padding: 1rem;
+        }
+        
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .card-channel {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-duration {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+        
+        /* Modal Styles */
+        .modal-backdrop {
+            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            background-color: transparent;
+        }
+        
+        .modal-header {
+            border-bottom: none;
+            padding: 0;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1;
+        }
+        
+        .modal-body {
+            padding: 0;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .modal-body iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+        
+        .btn-close {
+            color: white;
+            background: none;
+            opacity: 0.8;
+        }
+        
+        .btn-close:hover {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fab fa-youtube"></i>
+            <h1>DSA YouTube Videos</h1>
+            <p>Learn Data Structures and Algorithms with these curated videos</p>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search videos...">
+        </div>
+        
+        <div class="videos-grid">
+            <!-- Video 1 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="RBSGKlAvoiM">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/RBSGKlAvoiM/maxresdefault.jpg" alt="Introduction to Algorithms" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">15:30</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Introduction to Data Structures and Algorithms</h5>
+                    <p class="card-channel">freeCodeCamp.org</p>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="8hly31xKli0">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/8hly31xKli0/maxresdefault.jpg" alt="Big O Notation" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">22:43</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Big O Notation - Full Course</h5>
+                    <p class="card-channel">freeCodeCamp.org</p>
+                </div>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="IJDJ0kBx2LM">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/IJDJ0kBx2LM/maxresdefault.jpg" alt="Recursion" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">18:35</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Recursion in Programming - Full Course</h5>
+                    <p class="card-channel">freeCodeCamp.org</p>
+                </div>
+            </div>
+
+            <!-- Video 4 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="PMsVM7rjupU">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/Hj_rA0dhr2I/maxresdefault.jpg"alt="Arrays" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">12:15</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Arrays - Data Structures & Algorithms</h5>
+                    <p class="card-channel">CS Dojo</p>
+                </div>
+            </div>
+
+            <!-- Video 5 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="Hj_rA0dhr2I">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/Hj_rA0dhr2I/maxresdefault.jpg" alt="Linked Lists" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">25:10</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Linked Lists for Technical Interviews</h5>
+                    <p class="card-channel">NeetCode</p>
+                </div>
+            </div>
+
+            <!-- Video 6 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="zg9ih6SVACc">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/zg9ih6SVACc/maxresdefault.jpg" alt="Stacks and Queues" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">14:22</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Stacks and Queues Explained</h5>
+                    <p class="card-channel">CS Dojo</p>
+                </div>
+            </div>
+
+            <!-- Video 7 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="BBpAmxU_NQo">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/BBpAmxU_NQo/maxresdefault.jpg" alt="Hash Tables" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">19:45</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Hash Tables and Hash Functions</h5>
+                    <p class="card-channel">CS50</p>
+                </div>
+            </div>
+
+            <!-- Video 8 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="B31LgI4Y4DQ">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/B31LgI4Y4DQ/maxresdefault.jpg" alt="Binary Trees" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">21:33</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Binary Trees - Implementation and Traversal</h5>
+                    <p class="card-channel">Tech With Tim</p>
+                </div>
+            </div>
+
+            <!-- Video 9 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="pYT9F8_LFTM">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/pYT9F8_LFTM/maxresdefault.jpg" alt="Graphs" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">26:18</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Graph Algorithms for Technical Interviews</h5>
+                    <p class="card-channel">NeetCode</p>
+                </div>
+            </div>
+
+            <!-- Video 10 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="9TlHvipP5yA">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/9TlHvipP5yA/maxresdefault.jpg" alt="Heaps" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">17:05</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Heaps Explained - Complete Tutorial</h5>
+                    <p class="card-channel">William Fiset</p>
+                </div>
+            </div>
+
+            <!-- Video 11 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="7h1s2SojIRw">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/7h1s2SojIRw/maxresdefault.jpg" alt="Sorting Algorithms" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">30:12</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Sorting Algorithms Visualized</h5>
+                    <p class="card-channel">Computerphile</p>
+                </div>
+            </div>
+
+            <!-- Video 12 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="P8Xa2BitN3I">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/P8Xa2BitN3I/maxresdefault.jpg" alt="Binary Search" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">13:40</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Binary Search Algorithm</h5>
+                    <p class="card-channel">Back To Back SWE</p>
+                </div>
+            </div>
+
+            <!-- Video 13 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="09_LlHjoEiY">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/09_LlHjoEiY/maxresdefault.jpg" alt="Breadth First Search" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">15:55</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Breadth First Search (BFS) Algorithm</h5>
+                    <p class="card-channel">William Fiset</p>
+                </div>
+            </div>
+
+            <!-- Video 14 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="9YddVVsdG5A">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/Qmt0QwzEmh0/maxresdefault.jpg" alt="Depth First Search" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">17:28</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Depth First Search (DFS) Algorithm</h5>
+                    <p class="card-channel">Abdul Bari</p>
+                </div>
+            </div>
+
+            <!-- Video 15 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="bBoMyuqF-Rc">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/FtN3BYH2Zes/maxresdefault.jpg" alt="Dynamic Programming" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">28:42</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Dynamic Programming - Learn to Solve Algorithmic Problems</h5>
+                    <p class="card-channel">freeCodeCamp.org</p>
+                </div>
+            </div>
+
+            <!-- Video 16 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="nqowUJzG7iM">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/Qmt0QwzEmh0/maxresdefault.jpg" alt="Greedy Algorithms" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">20:15</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Greedy Algorithms Tutorial</h5>
+                    <p class="card-channel">Abdul Bari</p>
+                </div>
+            </div>
+
+            <!-- Video 17 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="eREiwuvzaS0">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/FtN3BYH2Zes/maxresdefault.jpg" alt="Trie Data Structure" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">16:38</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Trie Data Structure - Autocomplete Implementation</h5>
+                    <p class="card-channel">Back To Back SWE</p>
+                </div>
+            </div>
+
+            <!-- Video 18 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="QM0klnvTQzk">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/Qmt0QwzEmh0/maxresdefault.jpg"  alt="Dijkstra's Algorithm" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">23:50</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Dijkstra's Algorithm - Shortest Path Algorithm</h5>
+                    <p class="card-channel">MIT OpenCourseWare</p>
+                </div>
+            </div>
+
+            <!-- Video 19 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="FtN3BYH2Zes">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/FtN3BYH2Zes/maxresdefault.jpg" alt="A* Algorithm" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">19:22</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">A* Pathfinding Algorithm Tutorial</h5>
+                    <p class="card-channel">The Coding Train</p>
+                </div>
+            </div>
+
+            <!-- Video 20 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="GTJr8OvyEVQ">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/GTJr8OvyEVQ/maxresdefault.jpg" alt="System Design" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">31:05</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">System Design for Beginners</h5>
+                    <p class="card-channel">Tech Dummies</p>
+                </div>
+            </div>
+
+            <!-- Video 21 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="t2CEgPsws3U">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/t2CEgPsws3U/maxresdefault.jpg" alt="Merge Sort" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">14:15</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Merge Sort Algorithm</h5>
+                    <p class="card-channel">MyCodeSchool</p>
+                </div>
+            </div>
+
+            <!-- Video 22 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="SLauY6PpjW4">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/SLauY6PpjW4/maxresdefault.jpg" alt="Quick Sort" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">18:30</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Quick Sort Algorithm</h5>
+                    <p class="card-channel">Abdul Bari</p>
+                </div>
+            </div>
+
+            <!-- Video 23 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="MK-NZ8IMuh8">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/Qmt0QwzEmh0/maxresdefault.jpg"  alt="AVL Trees" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">22:42</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">AVL Trees - Balanced Binary Search Trees</h5>
+                    <p class="card-channel">William Fiset</p>
+                </div>
+            </div>
+
+            <!-- Video 24 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="3RQtq7PDHog">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/3RQtq7PDHog/maxresdefault.jpg" alt="Red-Black Trees" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">24:18</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Red-Black Trees Explained</h5>
+                    <p class="card-channel">MIT OpenCourseWare</p>
+                </div>
+            </div>
+
+            <!-- Video 25 -->
+            <div class="video-card" data-bs-toggle="modal" data-bs-target="#videoModal1" data-video-id="Qmt0QwzEmh0">
+                <div class="thumbnail-container">
+                    <img src="https://i.ytimg.com/vi/Qmt0QwzEmh0/maxresdefault.jpg" alt="LeetCode Problems" class="video-thumbnail">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <span class="card-duration">45:20</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Top 10 LeetCode Problems for Beginners</h5>
+                    <p class="card-channel">NeetCode</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Single Video Modal -->
+    <div class="modal fade" id="videoModal1" tabindex="-1" aria-labelledby="videoModalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="videoFrame" src="" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Search functionality
+        document.querySelector('.search-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.video-card').forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const channel = card.querySelector('.card-channel').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || channel.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Fix for video autoplay issue
+        const videoModal = document.getElementById('videoModal1');
+        const videoFrame = document.getElementById('videoFrame');
+        
+        // When a video card is clicked, set the correct YouTube video URL
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const videoId = this.getAttribute('data-video-id');
+                // Note: removed autoplay=1 from the URL
+                videoFrame.src = `https://www.youtube.com/embed/${videoId}`;
+            });
+        });
+        
+        // When modal is hidden, clear the iframe src to stop video
+        videoModal.addEventListener('hidden.bs.modal', function () {
+            videoFrame.src = '';
+        });
+    </script>
+</body>
+</html>

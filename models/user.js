@@ -31,9 +31,7 @@ var userSchema = new Schema({
     college: { type: String, default: "" }, // User's college name
     currentCourse: { type: String, default: "" }, // User's current course
     yearOfGraduation: { type: String, default: "" }, // Year of graduation
-    courseSelected: { type: String, default: "" }, // Course selected by the user
     timePeriod: { type: String, default: "" }, // Time period for the course
-    photo: { type: String, default: "default-profile.png" } // Path to the user's profile photo
 }, { timestamps: true });
 //jasa yaha humna ek blueprint tyaar kiya hai isma id , email etc liya hai
 //orr sab string data type ka hai

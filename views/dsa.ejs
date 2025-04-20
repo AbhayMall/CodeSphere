@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeSphere DSA</title>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --light: #ffffff;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --sidebar-bg: #f8fafc;
+            --sidebar-active: #e0e7ff;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background: #0f172a;
-            color: white;
+            background: var(--light);
+            color: var(--dark);
+            transition: all 0.3s ease;
         }
 
         /* Navbar */
@@ -19,162 +32,353 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #1e3a8a;
+            background: var(--light);
             padding: 1rem 2rem;
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 1.8rem;
         }
 
         .navbar h1 {
             font-size: 1.5rem;
             margin: 0;
-            color: #93c5fd;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link i {
+            font-size: 1rem;
         }
 
         .menu-icon {
-            right: 40px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: white;
-            position: relative;
-            padding: 10px;
-            background: #3b82f6;
-            border-radius: 31px;
-            transition: background 0.3s ease-in-out;
-            z-index: 1100;
-        }
-
-        .menu-icon:hover {
-            background: #2563eb;
-        }
-
-        .dropdown {
             display: none;
-            position: absolute;
-            top: 94px;
-            right: 73px;
-            background: #172554;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            width: 200px;
-            padding: 0;
-            z-index: 1000;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
         }
 
-        .dropdown a {
-            display: block;
-            padding: 12px 16px;
-            text-decoration: none;
-            color: #93c5fd;
-            font-weight: bold;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        .dropdown a:hover {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .dropdown.active {
-            display: block;
-        }
-
+        /* Container */
         .container {
             display: flex;
             margin-top: 80px;
+            min-height: calc(100vh - 80px);
         }
 
+        /* Sidebar */
         .sidebar {
-            width: 250px;
-            background: #172554;
-            padding: 1rem;
-            height: 100vh;
+            width: 280px;
+            background: var(--sidebar-bg);
+            padding: 1.5rem 0;
+            height: calc(100vh - 80px);
             overflow-y: auto;
-            border-right: 2px solid #3b82f6;
+            border-right: 1px solid #e2e8f0;
             position: fixed;
-            transition: 0.3s;
+            transition: transform 0.3s ease;
         }
 
-        .sidebar h3 {
-            color: #93c5fd;
-            text-align: center;
+        .sidebar-header {
+            padding: 0 1.5rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
             margin-bottom: 1rem;
         }
 
-        .sidebar a {
-            display: block;
-            padding: 10px;
-            margin-bottom: 8px;
+        .sidebar h3 {
+            color: var(--primary);
+            margin: 0;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar h3 i {
+            font-size: 1.1rem;
+        }
+
+        .sidebar-topics {
+            padding: 0 0.5rem;
+        }
+
+        .topic-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 0;
             text-decoration: none;
-            color: #93c5fd;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: 0.3s;
+            color: var(--dark);
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            gap: 10px;
+        }
+
+        .topic-link:hover {
+            background: var(--sidebar-active);
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .topic-link.active {
+            background: var(--sidebar-active);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .topic-link i {
+            width: 20px;
             text-align: center;
+            font-size: 0.9rem;
+            color: var(--gray);
         }
 
-        .sidebar a:hover {
-            background: #3b82f6;
-            color: white;
+        .topic-link:hover i,
+        .topic-link.active i {
+            color: var(--primary);
         }
 
+        /* Content */
         .content {
             flex-grow: 1;
-            padding: 2rem;
-            margin-left: 260px;
-            transition: 0.3s;
+            padding: 2rem 3rem;
+            margin-left: 280px;
+            background: var(--light);
         }
 
-        h2 {
-            color: #93c5fd;
+        .content-header {
+            margin-bottom: 2rem;
             text-align: center;
         }
 
+        .content-header h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-header p {
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Topic Section */
         .topic-section {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .topic-section:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .topic-section h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topic-section h3 i {
+            font-size: 1.2rem;
+        }
+
+        .topic-content {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .topic-text {
+            flex: 1;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+
+        .topic-image {
+            width: 300px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .topic-image img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         /* Responsive Styles */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
+        @media (max-width: 1024px) {
             .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                border-right: none;
-                text-align: center;
-                display: none;
+                transform: translateX(-100%);
+                z-index: 900;
+                background: var(--light);
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
             .content {
                 margin-left: 0;
-                width: 100%;
+                padding: 2rem;
             }
-            .sidebar.active {
+
+            .nav-links {
+                display: none;
+            }
+
+            .menu-icon {
                 display: block;
             }
+
+            .topic-content {
+                flex-direction: column;
+            }
+
+            .topic-image {
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .content {
+                padding: 1.5rem;
+            }
+
+            .topic-section {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .topic-section {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
+
 <body>
 
     <!-- Navbar -->
     <div class="navbar">
-        <h1>CodeSphere DSA</h1>
-        <div class="menu-icon" onclick="toggleMenu()">☰</div>
-        <div class="dropdown" id="dropdown-menu">
-            <a href="/codesphere">Home</a>
-            <a href="/profile">Profile</a>
-            <a href="/ide">IDE</a>
-            <a href="/block2">Progress</a>
+        <div class="logo-container">
+            <i class="fas fa-code logo-icon"></i>
+            <h1>CodeSphere DSA</h1>
+        </div>
+
+        <div class="nav-links">
+            <a href="/codesphere" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="/profile" class="nav-link">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+            <a href="/ide" class="nav-link">
+                <i class="fas fa-laptop-code"></i>
+                <span>IDE</span>
+            </a>
+            <a href="/dsa2" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                <span>Progress</span>
+            </a>
+            <a href="/logout" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+            <a><span> </span></a>
+            <a><span> </span></a>
+            <a><span> </span></a>
+        </div>
+
+        <div class="menu-icon" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
         </div>
     </div>
 
@@ -182,129 +386,2702 @@
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
-            <h3>Topics</h3>
-            <a href="#ds-basics">Data Structures Basics</a>
-            <a href="#arrays">Arrays</a>
-            <a href="#linked-lists">Linked Lists</a>
-            <a href="#stacks">Stacks</a>
-            <a href="#queues">Queues</a>
-            <a href="#trees">Trees</a>
-            <a href="#graphs">Graphs</a>
-            <a href="#sorting-algorithms">Sorting Algorithms</a>
-            <a href="#searching-algorithms">Searching Algorithms</a>
-            <a href="#dynamic-programming">Dynamic Programming</a>
-            <a href="#greedy-algorithms">Greedy Algorithms</a>
-            <a href="#backtracking">Backtracking</a>
-            <a href="#divide-and-conquer">Divide and Conquer</a>
-            <a href="#hashing">Hashing</a>
-            <a href="#advanced-ds">Advanced Data Structures</a>
+            <div class="sidebar-header">
+                <h3>
+                    <i class="fas fa-book-open"></i>
+                    DSA Topics
+                </h3>
+            </div>
+
+            <div class="sidebar-topics">
+                <a href="#ds-basics" class="topic-link">
+                    <i class="fas fa-database"></i>
+                    <span>Data Structures Basics</span>
+                </a>
+                <a href="#arrays" class="topic-link">
+                    <i class="fas fa-braille"></i>
+                    <span>Arrays</span>
+                </a>
+                <a href="#linked-lists" class="topic-link">
+                    <i class="fas fa-link"></i>
+                    <span>Linked Lists</span>
+                </a>
+                <a href="#stacks" class="topic-link">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Stacks</span>
+                </a>
+                <a href="#queues" class="topic-link">
+                    <i class="fas fa-stream"></i>
+                    <span>Queues</span>
+                </a>
+                <a href="#trees" class="topic-link">
+                    <i class="fas fa-tree"></i>
+                    <span>Trees</span>
+                </a>
+                <a href="#graphs" class="topic-link">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Graphs</span>
+                </a>
+                <a href="#sorting-algorithms" class="topic-link">
+                    <i class="fas fa-sort-amount-up"></i>
+                    <span>Sorting Algorithms</span>
+                </a>
+                <a href="#searching-algorithms" class="topic-link">
+                    <i class="fas fa-search"></i>
+                    <span>Searching Algorithms</span>
+                </a>
+                <a href="#dynamic-programming" class="topic-link">
+                    <i class="fas fa-sitemap"></i>
+                    <span>Dynamic Programming</span>
+                </a>
+                <a href="#greedy-algorithms" class="topic-link">
+                    <i class="fas fa-coins"></i>
+                    <span>Greedy Algorithms</span>
+                </a>
+                <a href="#backtracking" class="topic-link">
+                    <i class="fas fa-undo"></i>
+                    <span>Backtracking</span>
+                </a>
+                <a href="#divide-and-conquer" class="topic-link">
+                    <i class="fas fa-code-branch"></i>
+                    <span>Divide and Conquer</span>
+                </a>
+                <a href="#hashing" class="topic-link">
+                    <i class="fas fa-fingerprint"></i>
+                    <span>Hashing</span>
+                </a>
+                <a href="#advanced-ds" class="topic-link">
+                    <i class="fas fa-cogs"></i>
+                    <span>Advanced Data Structures</span>
+                </a>
+            </div>
         </div>
 
         <!-- Content -->
         <div class="content">
-            <h2>Welcome to DSA Journey</h2>
+            <div class="content-header">
+                <h2>Master Data Structures & Algorithms</h2>
+                <p>Learn fundamental concepts and advanced techniques to ace your coding interviews and build efficient
+                    software</p>
+            </div>
 
             <!-- Data Structures Basics -->
             <div id="ds-basics" class="topic-section">
-                <h3>Data Structures Basics</h3>
-                <p>Data structures are ways to organize and store data efficiently for access and modification.</p>
+                <h3>
+                    <i class="fas fa-database"></i>
+                    Data Structures Fundamentals
+                </h3>
+                <div class="topic-content">
+                    <div class="topic-text">
+                        <p>Data structures are specialized, systematic ways to <strong>organize, store, process, and
+                                retrieve</strong> data in computer memory. They serve as the foundational building
+                            blocks for creating efficient algorithms and solving complex computational problems across
+                            all areas of computer science.</p>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-chevron-circle-right"></i> Importance in Computing</h4>
+                            <ul>
+                                <li><strong>Performance Optimization:</strong> Proper data structure selection can
+                                    reduce time complexity from O(n²) to O(log n) or better</li>
+                                <li><strong>Memory Efficiency:</strong> Different structures optimize for space
+                                    (compression) vs speed (caching)</li>
+                                <li><strong>Problem-Solving Frameworks:</strong> Each structure provides specific
+                                    patterns for common operations</li>
+                                <li><strong>System Design:</strong> Databases, OS kernels, and compilers rely heavily on
+                                    specialized structures</li>
+                            </ul>
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-chevron-circle-right"></i> Core Operations Analysis</h4>
+                            <table class="operations-table">
+                                <tr>
+                                    <th>Operation</th>
+                                    <th>Description</th>
+                                    <th>Time Complexity*</th>
+                                </tr>
+                                <tr>
+                                    <td>Access</td>
+                                    <td>Retrieve element at position</td>
+                                    <td>O(1) to O(n)</td>
+                                </tr>
+                                <tr>
+                                    <td>Search</td>
+                                    <td>Find element by value</td>
+                                    <td>O(1) to O(n)</td>
+                                </tr>
+                                <tr>
+                                    <td>Insertion</td>
+                                    <td>Add new element</td>
+                                    <td>O(1) to O(n)</td>
+                                </tr>
+                                <tr>
+                                    <td>Deletion</td>
+                                    <td>Remove existing element</td>
+                                    <td>O(1) to O(n)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"><small>*Varies by implementation (Array vs Hash Table vs
+                                            Tree)</small></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-chevron-circle-right"></i> Classification Hierarchy</h4>
+                            <div class="structure-types">
+                                <div class="type-group">
+                                    <h5>Primitive Structures</h5>
+                                    <ul>
+                                        <li>Integer, Float, Boolean</li>
+                                        <li>Character, Pointer</li>
+                                    </ul>
+                                </div>
+                                <div class="type-group">
+                                    <h5>Linear Structures</h5>
+                                    <ul>
+                                        <li>Arrays (Static/Dynamic)</li>
+                                        <li>Linked Lists (Singly/Doubly)</li>
+                                        <li>Stacks (LIFO)</li>
+                                        <li>Queues (FIFO/Priority)</li>
+                                    </ul>
+                                </div>
+                                <div class="type-group">
+                                    <h5>Non-Linear Structures</h5>
+                                    <ul>
+                                        <li>Trees (Binary, AVL, B-Tree)</li>
+                                        <li>Graphs (Directed/Weighted)</li>
+                                        <li>Hash Tables</li>
+                                        <li>Heaps (Min/Max)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-image">
+                        <img src="https://miro.medium.com/v2/resize:fit:1400/1*_0nY0E_0kQ8mhI5x1CQd3A.png"
+                            alt="Data Structures Taxonomy" class="main-image">
+                        <p class="image-caption">Comprehensive taxonomy of data structures showing relationships</p>
+
+                        <div class="additional-visuals">
+                            <img src="https://www.boardinfinity.com/blog/content/images/2023/01/Time-Complexity-Chart.png"
+                                alt="Time Complexity Chart" class="secondary-image">
+                            <p class="image-caption">Time complexity comparison across structures</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Arrays -->
+            <style>
+                .topic-section {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin: 20px 0;
+                    padding: 20px;
+                    background: #f9f9f9;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+
+                .operations-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 15px 0;
+                }
+
+                .operations-table th,
+                .operations-table td {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }
+
+                .operations-table th {
+                    background-color: #eaeaea;
+                }
+
+                .structure-types {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 15px;
+                }
+
+                .type-group {
+                    flex: 1;
+                    min-width: 200px;
+                    background: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                }
+
+                .additional-visuals {
+                    margin-top: 20px;
+                }
+
+                .image-caption {
+                    font-size: 0.8em;
+                    color: #666;
+                    text-align: center;
+                    margin-top: 5px;
+                }
+            </style>
+
             <div id="arrays" class="topic-section">
-                <h3>Arrays</h3>
-                <p>Arrays are a collection of elements stored in contiguous memory locations.</p>
+                <h3>
+                    <i class="fas fa-braille"></i>
+                    Arrays: The Fundamental Data Structure
+                </h3>
+                <div class="topic-content">
+                    <div class="topic-text">
+                        <p>Arrays are linear data structures consisting of <strong>contiguous memory locations</strong>
+                            that store elements of the same data type. They provide direct access to elements through
+                            index-based addressing, making them one of the most efficient and widely used data
+                            structures in computer science.</p>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-microchip"></i> Memory Organization</h4>
+                            <ul>
+                                <li><strong>Contiguous Allocation:</strong> Elements are stored in adjacent memory cells
+                                </li>
+                                <li><strong>Index Calculation:</strong> Memory address = base_address + (index ×
+                                    element_size)</li>
+                                <li><strong>Cache Friendly:</strong> Spatial locality enables efficient cache
+                                    utilization</li>
+                            </ul>
+                            <img src="https://i.imgur.com/JDhZQ5G.png" alt="Array memory representation"
+                                class="inline-image">
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-star-half-alt"></i> Key Characteristics</h4>
+                            <table class="properties-table">
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Description</th>
+                                    <th>Implications</th>
+                                </tr>
+                                <tr>
+                                    <td>Fixed Size</td>
+                                    <td>Predefined capacity</td>
+                                    <td>Memory efficient but inflexible</td>
+                                </tr>
+                                <tr>
+                                    <td>Random Access</td>
+                                    <td>O(1) access time</td>
+                                    <td>Excellent for lookup operations</td>
+                                </tr>
+                                <tr>
+                                    <td>Homogeneous</td>
+                                    <td>Same data type</td>
+                                    <td>Type safety but no mixed elements</td>
+                                </tr>
+                                <tr>
+                                    <td>Cache Locality</td>
+                                    <td>Adjacent elements</td>
+                                    <td>Excellent iteration performance</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-tasks"></i> Core Operations</h4>
+                            <div class="operation-grid">
+                                <div class="operation-card">
+                                    <h5>Access</h5>
+                                    <p>O(1) time complexity</p>
+                                    <pre>element = arr[index]</pre>
+                                </div>
+                                <div class="operation-card">
+                                    <h5>Search</h5>
+                                    <p>O(n) linear search<br>O(log n) if sorted</p>
+                                    <pre>for item in arr:
+    if item == target:
+        return index</pre>
+                                </div>
+                                <div class="operation-card">
+                                    <h5>Insertion</h5>
+                                    <p>O(n) worst case<br>Requires shifting elements</p>
+                                    <pre># Insert at index i
+arr[i+1:] = arr[i:]</pre>
+                                </div>
+                                <div class="operation-card">
+                                    <h5>Deletion</h5>
+                                    <p>O(n) worst case<br>Requires shifting elements</p>
+                                    <pre># Delete at index i
+arr[i:-1] = arr[i+1:]</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-code-branch"></i> Important Variants</h4>
+                            <ul class="variant-list">
+                                <li>
+                                    <strong>Dynamic Arrays</strong> (Vectors/ArrayLists):
+                                    <ul>
+                                        <li>Automatically resize when full</li>
+                                        <li>Amortized O(1) insertion at end</li>
+                                        <li>Common in Python lists, Java ArrayLists</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>Multidimensional Arrays</strong>:
+                                    <ul>
+                                        <li>Matrices (2D), Tensors (nD)</li>
+                                        <li>Row-major vs column-major ordering</li>
+                                        <li>Essential for scientific computing</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>Jagged Arrays</strong>:
+                                    <ul>
+                                        <li>Arrays of arrays with varying lengths</li>
+                                        <li>Common in C# and Java</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="topic-image">
+                        <img src="https://i.imgur.com/2X9ZOYp.png" alt="Array visualization" class="main-image">
+                        <p class="image-caption">Visual representation of array structure and operations</p>
+
+                        <div class="comparison-section">
+                            <img src="https://i.imgur.com/5GJQhWk.png" alt="Static vs Dynamic arrays">
+                            <p class="image-caption">Comparison of static and dynamic array memory allocation</p>
+                        </div>
+
+                        <div class="application-examples">
+                            <h4><i class="fas fa-laptop-code"></i> Real-World Applications</h4>
+                            <ul>
+                                <li>Image processing (pixel arrays)</li>
+                                <li>Database indexing</li>
+                                <li>CPU cache lines</li>
+                                <li>Lookup tables</li>
+                                <li>Matrix operations in ML</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Linked Lists -->
+            <style>
+                .topic-section {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin: 25px 0;
+                    padding: 25px;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+                }
+
+                .properties-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 15px 0;
+                }
+
+                .properties-table th,
+                .properties-table td {
+                    border: 1px solid #dee2e6;
+                    padding: 12px;
+                    text-align: left;
+                }
+
+                .properties-table th {
+                    background-color: #e9ecef;
+                }
+
+                .operation-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 15px;
+                    margin: 20px 0;
+                }
+
+                .operation-card {
+                    background: white;
+                    padding: 15px;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                }
+
+                .operation-card pre {
+                    background: #f8f9fa;
+                    padding: 8px;
+                    border-radius: 4px;
+                    overflow-x: auto;
+                }
+
+                .variant-list {
+                    list-style-type: none;
+                    padding-left: 0;
+                }
+
+                .variant-list>li {
+                    margin-bottom: 15px;
+                    padding: 10px;
+                    background: white;
+                    border-radius: 5px;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                }
+
+                .inline-image {
+                    max-width: 100%;
+                    height: auto;
+                    margin: 10px 0;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                }
+
+                .comparison-section {
+                    margin-top: 25px;
+                }
+
+                .application-examples {
+                    margin-top: 20px;
+                    padding: 15px;
+                    background: #e9ecef;
+                    border-radius: 8px;
+                }
+            </style>
             <div id="linked-lists" class="topic-section">
-                <h3>Linked Lists</h3>
-                <p>Linked lists are linear data structures where each element is a separate object called a node.</p>
+                <h3>
+                    <i class="fas fa-link"></i>
+                    Linked Lists: Dynamic Node Chains
+                </h3>
+                <div class="topic-content">
+                    <div class="topic-text">
+                        <p>Linked lists are dynamic data structures consisting of <strong>nodes</strong> that contain
+                            both data and references to other nodes. Unlike arrays, they don't require contiguous memory
+                            allocation, providing flexible memory usage at the cost of random access capabilities.</p>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-project-diagram"></i> Fundamental Structure</h4>
+                            <div class="structure-diagram">
+                                <img src="https://i.imgur.com/V4jJt8P.png" alt="Linked list node structure"
+                                    class="inline-image">
+                                <ul>
+                                    <li><strong>Node Components:</strong>
+                                        <ul>
+                                            <li>Data field (stores the element)</li>
+                                            <li>Next pointer (reference to next node)</li>
+                                            <li>Prev pointer (in doubly linked lists)</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Head Pointer:</strong> References first node</li>
+                                    <li><strong>Tail Pointer:</strong> References last node (optional)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-code-branch"></i> Types of Linked Lists</h4>
+                            <div class="type-comparison">
+                                <div class="type-card">
+                                    <h5>Singly Linked</h5>
+                                    <img src="https://i.imgur.com/3QZgN0H.png" alt="Singly linked list">
+                                    <ul>
+                                        <li>Nodes have only next pointers</li>
+                                        <li>Unidirectional traversal</li>
+                                        <li>Memory efficient</li>
+                                    </ul>
+                                </div>
+                                <div class="type-card">
+                                    <h5>Doubly Linked</h5>
+                                    <img src="https://i.imgur.com/5jN3mWx.png" alt="Doubly linked list">
+                                    <ul>
+                                        <li>Nodes have next and prev pointers</li>
+                                        <li>Bidirectional traversal</li>
+                                        <li>Easier deletions but more memory</li>
+                                    </ul>
+                                </div>
+                                <div class="type-card">
+                                    <h5>Circular Linked</h5>
+                                    <img src="https://i.imgur.com/4QvJ9Wn.png" alt="Circular linked list">
+                                    <ul>
+                                        <li>Tail points to head</li>
+                                        <li>Continuous loop</li>
+                                        <li>Round-robin scheduling</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-tachometer-alt"></i> Performance Characteristics</h4>
+                            <table class="performance-table">
+                                <tr>
+                                    <th>Operation</th>
+                                    <th>Singly Linked</th>
+                                    <th>Doubly Linked</th>
+                                    <th>Array Comparison</th>
+                                </tr>
+                                <tr>
+                                    <td>Access</td>
+                                    <td>O(n)</td>
+                                    <td>O(n)</td>
+                                    <td>O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td>Insertion (head)</td>
+                                    <td>O(1)</td>
+                                    <td>O(1)</td>
+                                    <td>O(n)</td>
+                                </tr>
+                                <tr>
+                                    <td>Insertion (tail)</td>
+                                    <td>O(n)*</td>
+                                    <td>O(1)</td>
+                                    <td>O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td>Deletion (middle)</td>
+                                    <td>O(n)</td>
+                                    <td>O(1)</td>
+                                    <td>O(n)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><small>*O(1) if maintaining tail pointer</small></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-laptop-code"></i> Implementation Patterns</h4>
+                            <div class="code-examples">
+                                <div class="code-block">
+                                    <h5>Node Class (Python)</h5>
+                                    <pre>
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        # For doubly linked:
+        # self.prev = None</pre>
+                                </div>
+                                <div class="code-block">
+                                    <h5>Insert at Head (Java)</h5>
+                                    <pre>
+public void insertHead(int data) {
+    Node newNode = new Node(data);
+    newNode.next = head;
+    head = newNode;
+    if (tail == null) tail = head;
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-image">
+                        <img src="https://i.imgur.com/3QZgN0H.png" alt="Linked list visualization" class="main-image">
+                        <p class="image-caption">Detailed visualization of linked list operations</p>
+
+                        <div class="application-section">
+                            <h4><i class="fas fa-rocket"></i> Real-World Applications</h4>
+                            <ul>
+                                <li><strong>Music Players:</strong> Playlist navigation (next/prev)</li>
+                                <li><strong>Undo Functionality:</strong> Maintaining state history</li>
+                                <li><strong>Memory Management:</strong> Free block allocation</li>
+                                <li><strong>Hash Collisions:</strong> Chaining implementation</li>
+                                <li><strong>OS Kernels:</strong> Process scheduling</li>
+                            </ul>
+                        </div>
+
+                        <div class="advanced-topics">
+                            <h4><i class="fas fa-brain"></i> Advanced Variations</h4>
+                            <ul>
+                                <li><strong>Skip Lists:</strong> Multi-level linked lists for O(log n) search</li>
+                                <li><strong>XOR Linked Lists:</strong> Memory-efficient doubly linked list using bitwise
+                                    XOR</li>
+                                <li><strong>Unrolled Linked Lists:</strong> Each node contains small arrays</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Stacks -->
+            <style>
+                .topic-section {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin: 25px 0;
+                    padding: 25px;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+                }
+
+                .type-comparison {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin: 20px 0;
+                }
+
+                .type-card {
+                    background: white;
+                    padding: 15px;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                }
+
+                .type-card img {
+                    width: 100%;
+                    height: auto;
+                    margin: 10px 0;
+                }
+
+                .performance-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 15px 0;
+                }
+
+                .performance-table th,
+                .performance-table td {
+                    border: 1px solid #dee2e6;
+                    padding: 12px;
+                    text-align: center;
+                }
+
+                .performance-table th {
+                    background-color: #e9ecef;
+                }
+
+                .code-examples {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 15px;
+                }
+
+                .code-block {
+                    background: #282c34;
+                    color: #abb2bf;
+                    padding: 15px;
+                    border-radius: 8px;
+                    overflow-x: auto;
+                }
+
+                .code-block pre {
+                    margin: 0;
+                    font-family: 'Consolas', monospace;
+                    font-size: 0.9em;
+                }
+
+                .application-section,
+                .advanced-topics {
+                    margin-top: 25px;
+                    padding: 15px;
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                }
+
+                .inline-image {
+                    max-width: 300px;
+                    float: right;
+                    margin-left: 20px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                }
+
+                @media (max-width: 768px) {
+                    .code-examples {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .inline-image {
+                        float: none;
+                        margin: 10px auto;
+                        display: block;
+                    }
+                }
+            </style>
             <div id="stacks" class="topic-section">
-                <h3>Stacks</h3>
-                <p>Stacks are linear data structures that follow the Last In First Out (LIFO) principle.</p>
+                <h3>
+                    <i class="fas fa-layer-group"></i>
+                    Stacks: LIFO Principle
+                </h3>
+                <div class="topic-content">
+                    <div class="topic-text">
+                        <p>A stack is a linear data structure that follows the <strong>Last-In-First-Out (LIFO)</strong>
+                            principle, where the last element added is the first one to be removed. This structure is
+                            fundamental in programming for managing function calls, expressions, and algorithms.</p>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-cogs"></i> Core Operations</h4>
+                            <div class="operation-grid">
+                                <div class="operation-card">
+                                    <h5>Push</h5>
+                                    <p>O(1) time complexity</p>
+                                    <pre>stack.push(item)</pre>
+                                    <p>Adds element to top</p>
+                                </div>
+                                <div class="operation-card">
+                                    <h5>Pop</h5>
+                                    <p>O(1) time complexity</p>
+                                    <pre>stack.pop()</pre>
+                                    <p>Removes top element</p>
+                                </div>
+                                <div class="operation-card">
+                                    <h5>Peek/Top</h5>
+                                    <p>O(1) time complexity</p>
+                                    <pre>stack.peek()</pre>
+                                    <p>Views top element</p>
+                                </div>
+                                <div class="operation-card">
+                                    <h5>isEmpty</h5>
+                                    <p>O(1) time complexity</p>
+                                    <pre>stack.isEmpty()</pre>
+                                    <p>Checks if empty</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-sitemap"></i> Implementation Methods</h4>
+                            <table class="impl-table">
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Advantages</th>
+                                    <th>Disadvantages</th>
+                                </tr>
+                                <tr>
+                                    <td>Array-Based</td>
+                                    <td>Cache friendly, Simple</td>
+                                    <td>Fixed size (unless dynamic)</td>
+                                </tr>
+                                <tr>
+                                    <td>Linked List</td>
+                                    <td>Dynamic size</td>
+                                    <td>Extra memory for pointers</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="topic-image">
+                        <img src="https://i.imgur.com/5GJQhWk.png" alt="Stack operations" class="main-image">
+                        <div class="application-section">
+                            <h4><i class="fas fa-lightbulb"></i> Key Applications</h4>
+                            <ul>
+                                <li>Function call management (call stack)</li>
+                                <li>Expression evaluation (infix/postfix)</li>
+                                <li>Undo mechanisms in editors</li>
+                                <li>Backtracking algorithms</li>
+                                <li>Browser history navigation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Queues -->
             <div id="queues" class="topic-section">
-                <h3>Queues</h3>
-                <p>Queues are linear data structures that follow the First In First Out (FIFO) principle.</p>
+                <h3>
+                    <i class="fas fa-people-arrows"></i>
+                    Queues: FIFO Principle
+                </h3>
+                <div class="topic-content">
+                    <div class="topic-text">
+                        <p>A queue is a linear data structure that follows the <strong>First-In-First-Out
+                                (FIFO)</strong> principle, where the first element added is the first one to be removed.
+                            Essential for scheduling, buffering, and breadth-first algorithms.</p>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-random"></i> Queue Variations</h4>
+                            <div class="variation-grid">
+                                <div class="variation-card">
+                                    <h5>Circular Queue</h5>
+                                    <img src="https://i.imgur.com/4QvJ9Wn.png" alt="Circular queue">
+                                    <p>Reuses empty spaces</p>
+                                </div>
+                                <div class="variation-card">
+                                    <h5>Priority Queue</h5>
+                                    <img src="https://i.imgur.com/5jN3mWx.png" alt="Priority queue">
+                                    <p>Elements with priority</p>
+                                </div>
+                                <div class="variation-card">
+                                    <h5>Double-Ended (Deque)</h5>
+                                    <img src="https://i.imgur.com/V4jJt8P.png" alt="Deque">
+                                    <p>Insert/remove both ends</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-tachometer-alt"></i> Performance Analysis</h4>
+                            <table class="perf-table">
+                                <tr>
+                                    <th>Operation</th>
+                                    <th>Array Implementation</th>
+                                    <th>Linked List Implementation</th>
+                                </tr>
+                                <tr>
+                                    <td>Enqueue</td>
+                                    <td>O(1)*</td>
+                                    <td>O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td>Dequeue</td>
+                                    <td>O(1)*</td>
+                                    <td>O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td>Peek</td>
+                                    <td>O(1)</td>
+                                    <td>O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"><small>*Amortized for dynamic arrays</small></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="topic-image">
+                        <img src="https://i.imgur.com/3QZgN0H.png" alt="Queue operations" class="main-image">
+                        <div class="application-section">
+                            <h4><i class="fas fa-satellite-dish"></i> Real-World Uses</h4>
+                            <ul>
+                                <li>CPU task scheduling</li>
+                                <li>Print job management</li>
+                                <li>Breadth-First Search (BFS)</li>
+                                <li>Message queue systems</li>
+                                <li>Network packet buffering</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Trees -->
+            <style>
+                .topic-section {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin: 25px 0;
+                    padding: 25px;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+                }
+
+                .operation-grid,
+                .variation-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 15px;
+                    margin: 20px 0;
+                }
+
+                .operation-card,
+                .variation-card {
+                    background: white;
+                    padding: 15px;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                }
+
+                .impl-table,
+                .perf-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 15px 0;
+                }
+
+                .impl-table th,
+                .impl-table td,
+                .perf-table th,
+                .perf-table td {
+                    border: 1px solid #dee2e6;
+                    padding: 12px;
+                    text-align: left;
+                }
+
+                .impl-table th,
+                .perf-table th {
+                    background-color: #e9ecef;
+                }
+
+                .application-section {
+                    margin-top: 25px;
+                    padding: 15px;
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                }
+
+                .variation-card img {
+                    width: 100%;
+                    height: auto;
+                    margin: 10px 0;
+                }
+
+                @media (max-width: 768px) {
+
+                    .operation-grid,
+                    .variation-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            </style>
+
             <div id="trees" class="topic-section">
-                <h3>Trees</h3>
-                <p>Trees are hierarchical data structures consisting of nodes connected by edges.</p>
+                <h3>
+                    <i class="fas fa-tree"></i>
+                    Tree Structures: Hierarchical Data
+                </h3>
+                <div class="topic-content">
+                    <div class="topic-text">
+                        <p>Trees are non-linear, hierarchical data structures consisting of nodes connected by edges.
+                            Each tree has a root node and zero or more subtrees, with no cycles. Widely used in file
+                            systems, databases, and AI algorithms.</p>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-sitemap"></i> Fundamental Components</h4>
+                            <div class="component-grid">
+                                <div class="component-card">
+                                    <img src="https://i.imgur.com/JDhZQ5G.png" alt="Tree anatomy">
+                                    <ul>
+                                        <li><strong>Root:</strong> Topmost node</li>
+                                        <li><strong>Edge:</strong> Connection between nodes</li>
+                                        <li><strong>Leaf:</strong> Node without children</li>
+                                        <li><strong>Depth:</strong> Path length from root</li>
+                                        <li><strong>Height:</strong> Longest path to leaf</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-code-branch"></i> Binary Tree Types</h4>
+                            <div class="type-comparison">
+                                <div class="type-card">
+                                    <h5>Complete Binary Tree</h5>
+                                    <ul>
+                                        <li>All levels filled except last</li>
+                                        <li>Last level left-aligned</li>
+                                        <li>Optimal for array storage</li>
+                                    </ul>
+                                </div>
+                                <div class="type-card">
+                                    <h5>Full Binary Tree</h5>
+                                    <ul>
+                                        <li>Every node has 0 or 2 children</li>
+                                        <li>No node with only 1 child</li>
+                                    </ul>
+                                </div>
+                                <div class="type-card">
+                                    <h5>Perfect Binary Tree</h5>
+                                    <ul>
+                                        <li>All interior nodes have 2 children</li>
+                                        <li>All leaves at same level</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h4><i class="fas fa-project-diagram"></i> Specialized Trees</h4>
+                            <table class="specialized-trees">
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Characteristics</th>
+                                    <th>Applications</th>
+                                </tr>
+                                <tr>
+                                    <td>Binary Search Tree</td>
+                                    <td>Left ≤ Parent ≤ Right</td>
+                                    <td>Search operations</td>
+                                </tr>
+                                <tr>
+                                    <td>AVL Tree</td>
+                                    <td>Height-balanced (Δh ≤ 1)</td>
+                                    <td>Fast lookups</td>
+                                </tr>
+                                <tr>
+                                    <td>Red-Black Tree</td>
+                                    <td>Balanced coloring rules</td>
+                                    <td>Language libraries</td>
+                                </tr>
+                                <tr>
+                                    <td>B-Tree</td>
+                                    <td>Multi-way, balanced</td>
+                                    <td>Database indexing</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Graphs -->
-            <div id="graphs" class="topic-section">
-                <h3>Graphs</h3>
-                <p>Graphs are non-linear data structures consisting of nodes (vertices) and edges.</p>
-            </div>
+                  
 
-            <!-- Sorting Algorithms -->
-            <div id="sorting-algorithms" class="topic-section">
-                <h3>Sorting Algorithms</h3>
-                <p>Sorting algorithms arrange elements in a specific order, such as ascending or descending.</p>
-            </div>
+ 
+                <div id="graphs" class="topic-section">
+                    <h3>
+                        <i class="fas fa-network-wired"></i>
+                        Graph Structures: Network Data Representation
+                    </h3>
+                    <div class="topic-content">
+                        <div class="topic-text">
+                            <p class="intro">Graphs are fundamental data structures consisting of vertices (nodes) connected by edges, modeling relationships between objects. They power applications ranging from social networks to navigation systems and recommendation engines.</p>
+                            
+                            <div class="sub-section">
+                                <h4><i class="fas fa-project-diagram"></i> Graph Taxonomy</h4>
+                                <div class="graph-classification">
+                                    <div class="graph-type-card">
+                                        <div class="graph-type-header">
+                                            <i class="fas fa-arrow-right"></i>
+                                            <h5>Directed Graphs</h5>
+                                        </div>
+                                        <img src="https://i.imgur.com/JDhZQ5G.png" alt="Directed graph" loading="lazy">
+                                        <ul>
+                                            <li>Asymmetric relationships</li>
+                                            <li>Example: Web page links</li>
+                                            <li>Represented with arrows</li>
+                                        </ul>
+                                    </div>
+                                    <div class="graph-type-card">
+                                        <div class="graph-type-header">
+                                            <i class="fas fa-exchange-alt"></i>
+                                            <h5>Undirected Graphs</h5>
+                                        </div>
+                                        <img src="https://i.imgur.com/V4jJt8P.png" alt="Undirected graph" loading="lazy">
+                                        <ul>
+                                            <li>Symmetric relationships</li>
+                                            <li>Example: Facebook friends</li>
+                                            <li>No directionality</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="sub-section">
+                                <h4><i class="fas fa-chart-bar"></i> Graph Representations</h4>
+                                <div class="representation-comparison">
+                                    <div class="rep-method">
+                                        <h5>Adjacency Matrix</h5>
+                                        <div class="complexity-badge">Space: O(V²)</div>
+                                        <div class="pros-cons">
+                                            <div class="pros">
+                                                <h6>Advantages</h6>
+                                                <ul>
+                                                    <li>O(1) edge lookup</li>
+                                                    <li>Simple to implement</li>
+                                                    <li>Easy to reverse</li>
+                                                </ul>
+                                            </div>
+                                            <div class="cons">
+                                                <h6>Disadvantages</h6>
+                                                <ul>
+                                                    <li>Memory intensive</li>
+                                                    <li>Inefficient for sparse graphs</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="rep-method">
+                                        <h5>Adjacency List</h5>
+                                        <div class="complexity-badge">Space: O(V+E)</div>
+                                        <div class="pros-cons">
+                                            <div class="pros">
+                                                <h6>Advantages</h6>
+                                                <ul>
+                                                    <li>Space efficient</li>
+                                                    <li>Faster iteration</li>
+                                                    <li>Scalable</li>
+                                                </ul>
+                                            </div>
+                                            <div class="cons">
+                                                <h6>Disadvantages</h6>
+                                                <ul>
+                                                    <li>Slower edge lookup</li>
+                                                    <li>Harder to reverse</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="topic-image">
+                            <div class="graph-visualization">
+                                <img src="https://i.imgur.com/5GJQhWk.png" alt="Graph representation comparison" loading="lazy">
+                                <div class="visual-caption">Comparison of adjacency matrix vs list representations</div>
+                            </div>
+                            
+                            <div class="algorithm-showcase">
+                                <h4><i class="fas fa-robot"></i> Essential Graph Algorithms</h4>
+                                <div class="algorithm-grid">
+                                    <div class="algo-card">
+                                        <div class="algo-header">
+                                            <i class="fas fa-route"></i>
+                                            <h5>Breadth-First Search</h5>
+                                        </div>
+                                        <div class="algo-details">
+                                            <span class="time-complexity">O(V+E)</span>
+                                            <ul>
+                                                <li>Level-order traversal</li>
+                                                <li>Shortest path (unweighted)</li>
+                                                <li>Uses queue</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="algo-card">
+                                        <div class="algo-header">
+                                            <i class="fas fa-mountain"></i>
+                                            <h5>Depth-First Search</h5>
+                                        </div>
+                                        <div class="algo-details">
+                                            <span class="time-complexity">O(V+E)</span>
+                                            <ul>
+                                                <li>Explores deep paths</li>
+                                                <li>Cycle detection</li>
+                                                <li>Uses stack</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    .topic-section {
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        background: #ffffff;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                        margin: 30px 0;
+                        padding: 30px;
+                        overflow: hidden;
+                    }
+                    
+                    .intro {
+                        font-size: 1.1em;
+                        line-height: 1.6;
+                        color: #333;
+                        margin-bottom: 25px;
+                    }
+                    
+                    .graph-classification {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                        gap: 25px;
+                        margin: 20px 0 30px;
+                    }
+                    
+                    .graph-type-card {
+                        background: #f9f9f9;
+                        border-radius: 10px;
+                        padding: 20px;
+                        transition: transform 0.3s ease;
+                    }
+                    
+                    .graph-type-card:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+                    }
+                    
+                    .graph-type-header {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        margin-bottom: 15px;
+                    }
+                    
+                    .graph-type-header i {
+                        font-size: 1.5em;
+                        color: #4a6baf;
+                    }
+                    
+                    .representation-comparison {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                        gap: 25px;
+                        margin: 25px 0;
+                    }
+                    
+                    .rep-method {
+                        background: #f5f7fa;
+                        border-radius: 8px;
+                        padding: 20px;
+                        border-left: 4px solid #4a6baf;
+                    }
+                    
+                    .complexity-badge {
+                        display: inline-block;
+                        background: #4a6baf;
+                        color: white;
+                        padding: 4px 10px;
+                        border-radius: 20px;
+                        font-size: 0.85em;
+                        margin: 10px 0;
+                    }
+                    
+                    .pros-cons {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 15px;
+                        margin-top: 15px;
+                    }
+                    
+                    .pros, .cons {
+                        background: white;
+                        padding: 12px;
+                        border-radius: 6px;
+                    }
+                    
+                    .pros h6, .cons h6 {
+                        margin-top: 0;
+                        color: #4a6baf;
+                        font-size: 0.9em;
+                    }
+                    
+                    .pros ul, .cons ul {
+                        padding-left: 20px;
+                        margin: 10px 0 0;
+                    }
+                    
+                    .graph-visualization {
+                        margin-bottom: 30px;
+                    }
+                    
+                    .visual-caption {
+                        font-size: 0.85em;
+                        color: #666;
+                        text-align: center;
+                        margin-top: 8px;
+                    }
+                    
+                    .algorithm-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                        gap: 20px;
+                    }
+                    
+                    .algo-card {
+                        background: #f5f7fa;
+                        border-radius: 8px;
+                        padding: 20px;
+                        transition: all 0.3s ease;
+                    }
+                    
+                    .algo-card:hover {
+                        transform: translateY(-3px);
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                    }
+                    
+                    .algo-header {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        margin-bottom: 15px;
+                    }
+                    
+                    .algo-header i {
+                        font-size: 1.3em;
+                        color: #4a6baf;
+                    }
+                    
+                    .time-complexity {
+                        display: inline-block;
+                        background: #4a6baf;
+                        color: white;
+                        padding: 3px 8px;
+                        border-radius: 4px;
+                        font-size: 0.8em;
+                        margin-bottom: 10px;
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .pros-cons {
+                            grid-template-columns: 1fr;
+                        }
+                        
+                        .graph-classification, .representation-comparison {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                </style>
+                <div class="algorithms-container">
+    
+    <!-- Sorting Algorithms Section - Enhanced -->
+    <div id="sorting-algorithms" class="topic-section">
+        <h3><i class="fas fa-sort-amount-down"></i> Sorting Algorithms: Comprehensive Analysis</h3>
+        <div class="algo-types">
+            
+            <!-- Comparison Sorts - Detailed -->
+            <div class="algo-category">
+                <h4><i class="fas fa-balance-scale"></i> Comparison Sorts: Theoretical Foundations</h4>
+                <div class="algorithm-grid">
+                    
+                    <div class="algo-card detailed">
+                        <h5>Merge Sort <span class="algo-type">(Divide & Conquer)</span></h5>
+                        <div class="complexity">
+                            <span class="badge time">Θ(n log n)</span>
+                            <span class="badge space">O(n)</span>
+                            <span class="badge stable">Stable</span>
+                        </div>
+                        <div class="algo-details">
+                            <h6>Key Characteristics:</h6>
+                            <ul>
+                                <li><strong>Divide Phase</strong>: Recursively splits array into halves until single elements</li>
+                                <li><strong>Conquer Phase</strong>: Merges sorted subarrays with O(n) temporary space</li>
+                                <li><strong>Optimal for</strong>: Linked lists (O(1) space), external sorting</li>
+                            </ul>
+                            <h6>Mathematical Analysis:</h6>
+                            <p>Recurrence relation: T(n) = 2T(n/2) + O(n)<br>
+                            Solves to Θ(n log n) via Master Theorem</p>
+                            <h6>Implementation:</h6>
+                            <pre>def merge_sort(arr):
+    if len(arr) > 1:
+        mid = len(arr)//2
+        L = arr[:mid]
+        R = arr[mid:]
+        merge_sort(L)
+        merge_sort(R)
+        
+        i = j = k = 0
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+            
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+            
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="algo-card detailed">
+                        <h5>Quick Sort <span class="algo-type">(Partition Exchange)</span></h5>
+                        <div class="complexity">
+                            <span class="badge time">O(n²) worst</span>
+                            <span class="badge time-avg">O(n log n) avg</span>
+                            <span class="badge space">O(log n)</span>
+                        </div>
+                        <div class="algo-details">
+                            <h6>Key Characteristics:</h6>
+                            <ul>
+                                <li><strong>Pivot Selection</strong>: Critical for performance (median-of-three recommended)</li>
+                                <li><strong>Partitioning</strong>: Hoare's (more efficient) vs Lomuto scheme</li>
+                                <li><strong>Optimizations</strong>: Insertion sort for small subarrays, tail recursion</li>
+                            </ul>
+                            <h6>Performance Factors:</h6>
+                            <ul>
+                                <li>Best case: When partitions are balanced</li>
+                                <li>Worst case: Already sorted input with bad pivot</li>
+                                <li>Cache-efficient: Excellent locality of reference</li>
+                            </ul>
+                            <h6>Implementation:</h6>
+                            <pre>def quick_sort(arr, low, high):
+    if low < high:
+        pi = partition(arr, low, high)
+        quick_sort(arr, low, pi-1)
+        quick_sort(arr, pi+1, high)
 
-            <!-- Searching Algorithms -->
-            <div id="searching-algorithms" class="topic-section">
-                <h3>Searching Algorithms</h3>
-                <p>Searching algorithms are used to find an element within a data structure.</p>
-            </div>
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low-1
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i+1], arr[high] = arr[high], arr[i+1]
+    return i+1</pre>
+                        </div>
+                    </div>
+                    
+               
+            
+            <!-- Non-Comparison Sorts - Detailed -->
+            <div class="algo-category">
+                <h4><i class="fas fa-hashtag"></i> Non-Comparison Sorts: Specialized Cases</h4>
+                <div class="algorithm-grid">
+                    
+                    <div class="algo-card detailed">
+                        <h5>Radix Sort <span class="algo-type">(Digit Analysis)</span></h5>
+                        <div class="complexity">
+                            <span class="badge time">O(d(n+k))</span>
+                            <span class="badge space">O(n+k)</span>
+                            <span class="badge stable">Stable</span>
+                        </div>
+                        <div class="algo-details">
+                            <h6>Key Characteristics:</h6>
+                            <ul>
+                                <li><strong>Digit Analysis</strong>: Processes digits from LSD to MSD</li>
+                                <li><strong>Base Selection</strong>: Optimal base b ≈ logₙk</li>
+                                <li><strong>Variants</strong>: MSD for lexicographical sorting</li>
+                            </ul>
+                            <h6>Mathematical Analysis:</h6>
+                            <p>Where d is digit count, k is radix (base)<br>
+                            Space depends on counting sort auxiliary array</p>
+                            <h6>Implementation:</h6>
+                            <pre>def radix_sort(arr):
+    max_num = max(arr)
+    exp = 1
+    while max_num // exp > 0:
+        counting_sort(arr, exp)
+        exp *= 10
 
-            <!-- Dynamic Programming -->
-            <div id="dynamic-programming" class="topic-section">
-                <h3>Dynamic Programming</h3>
-                <p>Dynamic programming is a method for solving complex problems by breaking them down into simpler subproblems.</p>
+def counting_sort(arr, exp):
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10
+    
+    for i in range(n):
+        index = arr[i] // exp
+        count[index % 10] += 1
+        
+    for i in range(1, 10):
+        count[i] += count[i-1]
+        
+    i = n-1
+    while i >= 0:
+        index = arr[i] // exp
+        output[count[index % 10]-1] = arr[i]
+        count[index % 10] -= 1
+        i -= 1
+        
+    for i in range(n):
+        arr[i] = output[i]</pre>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
-
-            <!-- Greedy Algorithms -->
-            <div id="greedy-algorithms" class="topic-section">
-                <h3>Greedy Algorithms</h3>
-                <p>Greedy algorithms make locally optimal choices at each step to find a global optimum.</p>
-            </div>
-
-            <!-- Backtracking -->
-            <div id="backtracking" class="topic-section">
-                <h3>Backtracking</h3>
-                <p>Backtracking is an algorithmic technique for solving problems recursively by trying to build a solution incrementally.</p>
-            </div>
-
-            <!-- Divide and Conquer -->
-            <div id="divide-and-conquer" class="topic-section">
-                <h3>Divide and Conquer</h3>
-                <p>Divide and conquer is an algorithmic paradigm that breaks a problem into smaller subproblems, solves them recursively, and combines the results.</p>
-            </div>
-
-            <!-- Hashing -->
-            <div id="hashing" class="topic-section">
-                <h3>Hashing</h3>
-                <p>Hashing is a technique used to map data to a fixed-size array for fast access and retrieval.</p>
-            </div>
-
-            <!-- Advanced Data Structures -->
-            <div id="advanced-ds" class="topic-section">
-                <h3>Advanced Data Structures</h3>
-                <p>Advanced data structures include AVL trees, B-trees, Red-Black trees, and more.</p>
-            </div>
+            
         </div>
     </div>
+    
+    <!-- Dynamic Programming Section - Enhanced -->
+    <div id="dynamic-programming" class="topic-section">
+        <h3><i class="fas fa-project-diagram"></i> Dynamic Programming: Advanced Concepts</h3>
+        <div class="dp-types">
+            
+            <div class="type-card detailed">
+                <h4>Memoization (Top-Down Approach)</h4>
+                <div class="dp-details">
+                    <h6>Core Principles:</h6>
+                    <ul>
+                        <li><strong>Recursion with Memory</strong>: Stores previously computed results</li>
+                        <li><strong>Lazy Evaluation</strong>: Only computes needed subproblems</li>
+                        <li><strong>Overhead</strong>: Recursion stack and hash lookups</li>
+                    </ul>
+                    <h6>Optimal Use Cases:</h6>
+                    <ul>
+                        <li>Problems with sparse subproblem space</li>
+                        <li>When only some subproblems need solving</li>
+                        <li>More intuitive recursive formulations</li>
+                    </ul>
+                    <h6>Fibonacci Implementation:</h6>
+                    <pre>def fib(n, memo={0:0, 1:1}):
+    if n not in memo:
+        memo[n] = fib(n-1) + fib(n-2)
+    return memo[n]</pre>
+                </div>
+            </div>
+            
+            <div class="type-card detailed">
+                <h4>Tabulation (Bottom-Up Approach)</h4>
+                <div class="dp-details">
+                    <h6>Core Principles:</h6>
+                    <ul>
+                        <li><strong>Iterative Construction</strong>: Fills table in systematic order</li>
+                        <li><strong>Complete Evaluation</strong>: Solves all subproblems</li>
+                        <li><strong>Space Optimization</strong>: Often reducible to O(1) or O(n)</li>
+                    </ul>
+                    <h6>Optimal Use Cases:</h6>
+                    <ul>
+                        <li>Problems requiring all subproblems</li>
+                        <li>When stack overflow is a concern</li>
+                        <li>Better constant factors than memoization</li>
+                    </ul>
+                    <h6>Knapsack Implementation:</h6>
+                    <pre>def knapsack(W, wt, val, n):
+    dp = [[0]*(W+1) for _ in range(n+1)]
+    
+    for i in range(1, n+1):
+        for w in range(1, W+1):
+            if wt[i-1] <= w:
+                dp[i][w] = max(val[i-1] + dp[i-1][w-wt[i-1]], dp[i-1][w])
+            else:
+                dp[i][w] = dp[i-1][w]
+    
+    return dp[n][W]</pre>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
 
-    <!-- Script for Toggle Menu -->
+<style>
+    .algorithms-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 1800px;
+        margin: 0 auto;
+        padding: 20px;
+        color: #333;
+    }
+    
+    .topic-section {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+        padding: 30px;
+    }
+    
+    .algo-category {
+        margin-bottom: 40px;
+    }
+    
+    .algorithm-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+        gap: 25px;
+        margin: 25px 0;
+    }
+    
+    .algo-card.detailed {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 25px;
+        border-left: 5px solid #4a6baf;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    
+    .algo-type {
+        font-size: 0.8em;
+        color: #666;
+        font-weight: normal;
+    }
+    
+    .complexity {
+        margin: 15px 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 0.8em;
+        font-weight: 600;
+    }
+    
+    .time { background: #4a6baf; color: white; }
+    .time-avg { background: #6a8bcf; color: white; }
+    .space { background: #e9ecef; color: #333; }
+    .stable { background: #5ab577; color: white; }
+    
+    .algo-details {
+        margin-top: 20px;
+    }
+    
+    .algo-details h6 {
+        margin: 15px 0 8px;
+        color: #4a6baf;
+        font-size: 1em;
+    }
+    
+    pre {
+        background: #282c34;
+        color: #abb2bf;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: 'Consolas', monospace;
+        font-size: 0.9em;
+        line-height: 1.5;
+        margin: 15px 0;
+        tab-size: 4;
+    }
+    
+    .dp-types {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 25px;
+    }
+    
+    .type-card.detailed {
+        background: #f5f7fa;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    
+    .dp-details h6 {
+        margin: 18px 0 10px;
+        color: #4a6baf;
+    }
+    
+    @media (max-width: 768px) {
+        .algorithm-grid, .dp-types {
+            grid-template-columns: 1fr;
+        }
+        
+        .algo-card.detailed, .type-card.detailed {
+            padding: 20px;
+        }
+    }
+</style>
+
+
+        </div>
+        <div class="searching-container">
+    
+            <!-- Searching Algorithms Section -->
+            <div id="searching-algorithms" class="topic-section">
+                <h3><i class="fas fa-search"></i> Searching Algorithms: Complete Guide</h3>
+                
+                <!-- Basic Search Algorithms -->
+                <div class="search-category">
+                    <h4><i class="fas fa-list-ol"></i> Fundamental Search Techniques</h4>
+                    <div class="algorithm-grid">
+                        
+                        <!-- Linear Search -->
+                        <div class="search-card detailed">
+                            <h5>Linear Search <span class="search-type">(Sequential)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(n)</span>
+                                <span class="badge space">O(1)</span>
+                                <span class="badge condition">No prerequisites</span>
+                            </div>
+                            <div class="search-details">
+                                <h6>Core Principle:</h6>
+                                <p>Iterates through each element sequentially until target is found</p>
+                                
+                                <h6>Key Characteristics:</h6>
+                                <ul>
+                                    <li>Works on both sorted and unsorted data</li>
+                                    <li>Simple implementation</li>
+                                    <li>Inefficient for large datasets</li>
+                                </ul>
+                                
+                                <h6>Optimizations:</h6>
+                                <ul>
+                                    <li><strong>Sentinel Search</strong>: Eliminates bounds checking</li>
+                                    <li><strong>Transposition</strong>: Moves found items closer to front</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>def linear_search(arr, target):
+            for i in range(len(arr)):
+                if arr[i] == target:
+                    return i  # Return index if found
+            return -1  # Return -1 if not found</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Binary Search -->
+                        <div class="search-card detailed">
+                            <h5>Binary Search <span class="search-type">(Divide & Conquer)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(log n)</span>
+                                <span class="badge space">O(1)</span>
+                                <span class="badge condition">Requires sorted data</span>
+                            </div>
+                            <div class="search-details">
+                                <h6>Core Principle:</h6>
+                                <p>Repeatedly divides the search interval in half</p>
+                                
+                                <h6>Key Characteristics:</h6>
+                                <ul>
+                                    <li>Exponentially faster than linear search</li>
+                                    <li>Only works on sorted arrays</li>
+                                    <li>Several implementation variants</li>
+                                </ul>
+                                
+                                <h6>Variants:</h6>
+                                <ul>
+                                    <li><strong>Standard Binary Search</strong>: Exact matches</li>
+                                    <li><strong>Lower/Upper Bound</strong>: Range queries</li>
+                                    <li><strong>Exponential Search</strong>: For unbounded lists</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>def binary_search(arr, target):
+            low, high = 0, len(arr)-1
+            
+            while low <= high:
+                mid = (low + high) // 2
+                if arr[mid] == target:
+                    return mid
+                elif arr[mid] < target:
+                    low = mid + 1
+                else:
+                    high = mid - 1
+            
+            return -1  # Target not found</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Advanced Search Algorithms -->
+                <div class="search-category">
+                    <h4><i class="fas fa-brain"></i> Advanced Search Techniques</h4>
+                    <div class="algorithm-grid">
+                        
+                        <!-- Interpolation Search -->
+                        <div class="search-card detailed">
+                            <h5>Interpolation Search <span class="search-type">(Estimation)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(log log n) avg</span>
+                                <span class="badge time-worst">O(n) worst</span>
+                                <span class="badge space">O(1)</span>
+                            </div>
+                            <div class="search-details">
+                                <h6>Core Principle:</h6>
+                                <p>Estimates target position using linear interpolation</p>
+                                
+                                <h6>Key Characteristics:</h6>
+                                <ul>
+                                    <li>Faster than binary search for uniform distributions</li>
+                                    <li>Requires sorted data with numerical values</li>
+                                    <li>Performance degrades with non-uniform distributions</li>
+                                </ul>
+                                
+                                <h6>Mathematical Basis:</h6>
+                                <p>Position formula: <code>pos = low + ((target - arr[low]) * (high - low)) // (arr[high] - arr[low])</code></p>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>def interpolation_search(arr, target):
+            low, high = 0, len(arr)-1
+            
+            while low <= high and arr[low] <= target <= arr[high]:
+                pos = low + ((target - arr[low]) * (high - low)) // (arr[high] - arr[low])
+                
+                if arr[pos] == target:
+                    return pos
+                elif arr[pos] < target:
+                    low = pos + 1
+                else:
+                    high = pos - 1
+            
+            return -1  # Target not found</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Hash-based Search -->
+                        <div class="search-card detailed">
+                            <h5>Hash-based Search <span class="search-type">(Constant Time)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(1) avg</span>
+                                <span class="badge time-worst">O(n) worst</span>
+                                <span class="badge space">O(n)</span>
+                            </div>
+                            <div class="search-details">
+                                <h6>Core Principle:</h6>
+                                <p>Uses hash tables for direct access to elements</p>
+                                
+                                <h6>Key Characteristics:</h6>
+                                <ul>
+                                    <li>Average case constant time lookup</li>
+                                    <li>Requires preprocessing to build hash table</li>
+                                    <li>Collision resolution methods:
+                                        <ul>
+                                            <li>Chaining (linked lists)</li>
+                                            <li>Open addressing (linear/quadratic probing)</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                
+                                <h6>Implementation (Python dict):</h6>
+                                <pre># Building the hash table
+        hash_table = {value: index for index, value in enumerate(data)}
+        
+        # Searching
+        def hash_search(hash_table, target):
+            return hash_table.get(target, -1)</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tree-based Search -->
+
+
+                <div class="search-category">
+
+                    <h4><i class="fas fa-tree"></i> Tree-based Search Techniques</h4>
+                    <div class="algorithm-grid">
+                        
+                        <!-- Binary Search Tree -->
+                        <div class="search-card detailed">
+                            <h5>BST Search <span class="search-type">(Tree Traversal)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(log n) avg</span>
+                                <span class="badge time-worst">O(n) worst</span>
+                                <span class="badge space">O(1)</span>
+                            </div>
+                            <div class="search-details">
+                                <h6>Core Principle:</h6>
+                                <p>Recursive tree traversal following BST property</p>
+                                
+                                <h6>Key Characteristics:</h6>
+                                <ul>
+                                    <li>Left subtree contains smaller values</li>
+                                    <li>Right subtree contains larger values</li>
+                                    <li>Performance depends on tree balance</li>
+                                </ul>
+                                
+                                <h6>Balancing Techniques:</h6>
+                                <ul>
+                                    <li>AVL Trees (strict balancing)</li>
+                                    <li>Red-Black Trees (looser balancing)</li>
+                                    <li>B-Trees (for disk-based storage)</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>class Node:
+            def __init__(self, value):
+                self.value = value
+                self.left = None
+                self.right = None
+        
+        def bst_search(root, target):
+            if root is None or root.value == target:
+                return root
+            
+            if root.value < target:
+                return bst_search(root.right, target)
+            
+            return bst_search(root.left, target)</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Trie Search -->
+                        <div class="search-card detailed">
+                            <h5>Trie Search <span class="search-type">(Prefix Tree)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(L) per search</span>
+                                <span class="badge space">O(N*L)</span>
+                            </div>
+                            <div class="search-details">
+                                <h6>Core Principle:</h6>
+                                <p>Tree where each node represents a character in strings</p>
+                                
+                                <h6>Key Characteristics:</h6>
+                                <ul>
+                                    <li>L = length of search string</li>
+                                    <li>Excellent for prefix searches</li>
+                                    <li>Used in autocomplete systems</li>
+                                </ul>
+                                
+                                <h6>Optimizations:</h6>
+                                <ul>
+                                    <li>Compressed Tries (reduce space)</li>
+                                    <li>Ternary Search Tries (balance BST and Trie)</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>class TrieNode:
+            def __init__(self):
+                self.children = {}
+                self.is_end = False
+        
+        class Trie:
+            def __init__(self):
+                self.root = TrieNode()
+            
+            def insert(self, word):
+                node = self.root
+                for char in word:
+                    if char not in node.children:
+                        node.children[char] = TrieNode()
+                    node = node.children[char]
+                node.is_end = True
+            
+            def search(self, word):
+                node = self.root
+                for char in word:
+                    if char not in node.children:
+                        return False
+                    node = node.children[char]
+                return node.is_end</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <style>
+            .searching-container {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                max-width: 1800px;
+                margin: 0 auto;
+                padding: 20px;
+                color: #333;
+            }
+            
+            .topic-section {
+                background: #ffffff;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                margin-bottom: 30px;
+                padding: 30px;
+            }
+            
+            .search-category {
+                margin-bottom: 40px;
+            }
+            
+            .algorithm-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+                gap: 25px;
+                margin: 25px 0;
+            }
+            
+            .search-card.detailed {
+                background: #f8f9fa;
+                border-radius: 10px;
+                padding: 25px;
+                border-left: 5px solid #5ab577;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            }
+            
+            .search-type {
+                font-size: 0.8em;
+                color: #666;
+                font-weight: normal;
+            }
+            
+            .complexity {
+                margin: 15px 0;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .badge {
+                display: inline-block;
+                padding: 4px 10px;
+                border-radius: 15px;
+                font-size: 0.8em;
+                font-weight: 600;
+            }
+            
+            .time { background: #4a6baf; color: white; }
+            .time-worst { background: #d35400; color: white; }
+            .space { background: #e9ecef; color: #333; }
+            .condition { background: #8e44ad; color: white; }
+            
+            .search-details {
+                margin-top: 20px;
+            }
+            
+            .search-details h6 {
+                margin: 15px 0 8px;
+                color: #2c3e50;
+                font-size: 1em;
+            }
+            
+            pre {
+                background: #282c34;
+                color: #abb2bf;
+                padding: 15px;
+                border-radius: 8px;
+                overflow-x: auto;
+                font-family: 'Consolas', monospace;
+                font-size: 0.9em;
+                line-height: 1.5;
+                margin: 15px 0;
+                tab-size: 4;
+            }
+            
+            @media (max-width: 768px) {
+                .algorithm-grid {
+                    grid-template-columns: 1fr;
+                }
+                
+                .search-card.detailed {
+                    padding: 20px;
+                }
+            }
+        </style>
+        <div class="advanced-dsa-container">
+    
+            <!-- Greedy Algorithms Section -->
+            <div id="greedy-algorithms" class="topic-section">
+                <h3><i class="fas fa-coins"></i> Greedy Algorithms: Optimization Strategies</h3>
+                <div class="algorithm-types">
+                    
+                    <div class="algorithm-grid">
+                        
+                        <!-- Activity Selection -->
+                        <div class="algo-card detailed">
+                            <h5>Activity Selection Problem <span class="algo-type">(Scheduling)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(n log n)</span>
+                                <span class="badge space">O(1)</span>
+                            </div>
+                            <div class="algo-details">
+                                <h6>Core Principle:</h6>
+                                <p>Select maximum number of non-overlapping activities</p>
+                                
+                                <h6>Optimal Strategy:</h6>
+                                <ul>
+                                    <li>Sort activities by finish time</li>
+                                    <li>Always pick the earliest finishing activity</li>
+                                    <li>Remove conflicting activities</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>def activity_selection(start, finish):
+            activities = list(zip(start, finish))
+            activities.sort(key=lambda x: x[1])
+            
+            selected = [activities[0]]
+            for current_start, current_finish in activities[1:]:
+                last_finish = selected[-1][1]
+                if current_start >= last_finish:
+                    selected.append((current_start, current_finish))
+            
+            return selected</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Huffman Coding -->
+                        <div class="algo-card detailed">
+                            <h5>Huffman Coding <span class="algo-type">(Compression)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(n log n)</span>
+                                <span class="badge space">O(n)</span>
+                            </div>
+                            <div class="algo-details">
+                                <h6>Core Principle:</h6>
+                                <p>Prefix coding for lossless data compression</p>
+                                
+                                <h6>Key Steps:</h6>
+                                <ol>
+                                    <li>Calculate frequency of each character</li>
+                                    <li>Build priority queue (min-heap)</li>
+                                    <li>Build Huffman tree by merging nodes</li>
+                                    <li>Assign codes based on tree paths</li>
+                                </ol>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>import heapq
+        
+        class HuffmanNode:
+            def __init__(self, char=None, freq=0, left=None, right=None):
+                self.char = char
+                self.freq = freq
+                self.left = left
+                self.right = right
+            
+            def __lt__(self, other):
+                return self.freq < other.freq
+        
+        def build_huffman_tree(freq_map):
+            heap = [HuffmanNode(char, freq) for char, freq in freq_map.items()]
+            heapq.heapify(heap)
+            
+            while len(heap) > 1:
+                left = heapq.heappop(heap)
+                right = heapq.heappop(heap)
+                merged = HuffmanNode(freq=left.freq+right.freq, left=left, right=right)
+                heapq.heappush(heap, merged)
+            
+            return heap[0]</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Backtracking Section -->
+            <div id="backtracking" class="topic-section">
+                <h3><i class="fas fa-undo"></i> Backtracking: Systematic Search</h3>
+                <div class="algorithm-types">
+                    
+                    <div class="algorithm-grid">
+                        
+                        <!-- N-Queens -->
+                        <div class="algo-card detailed">
+                            <h5>N-Queens Problem <span class="algo-type">(Constraint Satisfaction)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(n!)</span>
+                                <span class="badge space">O(n²)</span>
+                            </div>
+                            <div class="algo-details">
+                                <h6>Core Principle:</h6>
+                                <p>Place N queens on N×N chessboard without mutual threats</p>
+                                
+                                <h6>Backtracking Approach:</h6>
+                                <ul>
+                                    <li>Place queens column by column</li>
+                                    <li>Check for row and diagonal conflicts</li>
+                                    <li>Backtrack when no valid position found</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>def solve_n_queens(n):
+            def is_safe(board, row, col):
+                # Check row and diagonals
+                for i in range(col):
+                    if board[row][i] == 'Q':
+                        return False
+                    if row-col+i >= 0 and board[row-col+i][i] == 'Q':
+                        return False
+                    if row+col-i < n and board[row+col-i][i] == 'Q':
+                        return False
+                return True
+            
+            def backtrack(col):
+                if col == n:
+                    solutions.append([''.join(row) for row in board])
+                    return
+                for row in range(n):
+                    if is_safe(board, row, col):
+                        board[row][col] = 'Q'
+                        backtrack(col+1)
+                        board[row][col] = '.'
+            
+            board = [['.']*n for _ in range(n)]
+            solutions = []
+            backtrack(0)
+            return solutions</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Sudoku Solver -->
+                        <div class="algo-card detailed">
+                            <h5>Sudoku Solver <span class="algo-type">(Constraint Propagation)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(9^n)</span>
+                                <span class="badge space">O(n²)</span>
+                            </div>
+                            <div class="algo-details">
+                                <h6>Core Principle:</h6>
+                                <p>Fill 9×9 grid with digits 1-9 following Sudoku rules</p>
+                                
+                                <h6>Optimizations:</h6>
+                                <ul>
+                                    <li>Most constrained variable heuristic</li>
+                                    <li>Forward checking</li>
+                                    <li>Arc consistency</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>def solve_sudoku(board):
+            def is_valid(row, col, num):
+                # Check row, column, and subgrid
+                for i in range(9):
+                    if board[row][i] == num or board[i][col] == num:
+                        return False
+                sub_row, sub_col = 3*(row//3), 3*(col//3)
+                for i in range(3):
+                    for j in range(3):
+                        if board[sub_row+i][sub_col+j] == num:
+                            return False
+                return True
+            
+            def backtrack():
+                for row in range(9):
+                    for col in range(9):
+                        if board[row][col] == '.':
+                            for num in '123456789':
+                                if is_valid(row, col, num):
+                                    board[row][col] = num
+                                    if backtrack():
+                                        return True
+                                    board[row][col] = '.'
+                            return False
+                return True
+            
+            backtrack()</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Divide and Conquer Section -->
+            <div id="divide-and-conquer" class="topic-section">
+                <h3><i class="fas fa-code-branch"></i> Divide and Conquer: Recursive Problem Solving</h3>
+                <div class="algorithm-types">
+                    
+                    <div class="algorithm-grid">
+                        
+                        <!-- Merge Sort -->
+                        <div class="algo-card detailed">
+                            <h5>Merge Sort <span class="algo-type">(Sorting)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(n log n)</span>
+                                <span class="badge space">O(n)</span>
+                            </div>
+                            <div class="algo-details">
+                                <h6>Core Principle:</h6>
+                                <p>Divide array into halves, sort recursively, then merge</p>
+                                
+                                <h6>Key Steps:</h6>
+                                <ol>
+                                    <li>Divide: Split array into two halves</li>
+                                    <li>Conquer: Recursively sort each half</li>
+                                    <li>Combine: Merge the two sorted halves</li>
+                                </ol>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>def merge_sort(arr):
+            if len(arr) > 1:
+                mid = len(arr)//2
+                L = arr[:mid]
+                R = arr[mid:]
+                merge_sort(L)
+                merge_sort(R)
+                
+                i = j = k = 0
+                while i < len(L) and j < len(R):
+                    if L[i] < R[j]:
+                        arr[k] = L[i]
+                        i += 1
+                    else:
+                        arr[k] = R[j]
+                        j += 1
+                    k += 1
+                
+                while i < len(L):
+                    arr[k] = L[i]
+                    i += 1
+                    k += 1
+                
+                while j < len(R):
+                    arr[k] = R[j]
+                    j += 1
+                    k += 1</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Sort -->
+                        <div class="algo-card detailed">
+                            <h5>Quick Sort <span class="algo-type">(Partitioning)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(n log n) avg</span>
+                                <span class="badge time-worst">O(n²) worst</span>
+                                <span class="badge space">O(log n)</span>
+                            </div>
+                            <div class="algo-details">
+                                <h6>Core Principle:</h6>
+                                <p>Select pivot, partition array, sort subarrays recursively</p>
+                                
+                                <h6>Optimizations:</h6>
+                                <ul>
+                                    <li>Median-of-three pivot selection</li>
+                                    <li>Insertion sort for small subarrays</li>
+                                    <li>Tail recursion elimination</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>def quick_sort(arr, low, high):
+            if low < high:
+                pi = partition(arr, low, high)
+                quick_sort(arr, low, pi-1)
+                quick_sort(arr, pi+1, high)
+        
+        def partition(arr, low, high):
+            pivot = arr[high]
+            i = low-1
+            for j in range(low, high):
+                if arr[j] <= pivot:
+                    i += 1
+                    arr[i], arr[j] = arr[j], arr[i]
+            arr[i+1], arr[high] = arr[high], arr[i+1]
+            return i+1</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hashing Section -->
+            <div id="hashing" class="topic-section">
+                <h3><i class="fas fa-key"></i> Hashing: Efficient Data Retrieval</h3>
+                <div class="algorithm-types">
+                    
+                    <div class="algorithm-grid">
+                        
+                        <!-- Hash Table -->
+                        <div class="algo-card detailed">
+                            <h5>Hash Table Implementation <span class="algo-type">(Chaining)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(1) avg</span>
+                                <span class="badge time-worst">O(n) worst</span>
+                                <span class="badge space">O(n)</span>
+                            </div>
+                            <div class="algo-details">
+                                <h6>Core Components:</h6>
+                                <ul>
+                                    <li>Hash function (uniform distribution)</li>
+                                    <li>Collision resolution strategy</li>
+                                    <li>Dynamic resizing</li>
+                                </ul>
+                                
+                                <h6>Collision Handling:</h6>
+                                <ul>
+                                    <li>Separate chaining (linked lists)</li>
+                                    <li>Open addressing (linear/quadratic probing)</li>
+                                    <li>Double hashing</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>class HashTable:
+            def __init__(self, size=10):
+                self.size = size
+                self.table = [[] for _ in range(size)]
+            
+            def _hash(self, key):
+                return hash(key) % self.size
+            
+            def insert(self, key, value):
+                hash_key = self._hash(key)
+                bucket = self.table[hash_key]
+                for i, (k, v) in enumerate(bucket):
+                    if k == key:
+                        bucket[i] = (key, value)
+                        return
+                bucket.append((key, value))
+            
+            def search(self, key):
+                hash_key = self._hash(key)
+                bucket = self.table[hash_key]
+                for k, v in bucket:
+                    if k == key:
+                        return v
+                return None</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Bloom Filter -->
+                        <div class="algo-card detailed">
+                            <h5>Bloom Filter <span class="algo-type">(Probabilistic)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(k)</span>
+                                <span class="badge space">O(m)</span>
+                            </div>
+                            <div class="algo-details">
+                                <h6>Core Principle:</h6>
+                                <p>Space-efficient probabilistic data structure for membership tests</p>
+                                
+                                <h6>Characteristics:</h6>
+                                <ul>
+                                    <li>False positives possible, no false negatives</li>
+                                    <li>Extremely memory efficient</li>
+                                    <li>Used in spell checkers, network routers</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>import mmh3
+        from bitarray import bitarray
+        
+        class BloomFilter:
+            def __init__(self, size, hash_count):
+                self.size = size
+                self.hash_count = hash_count
+                self.bit_array = bitarray(size)
+                self.bit_array.setall(0)
+            
+            def add(self, item):
+                for seed in range(self.hash_count):
+                    index = mmh3.hash(item, seed) % self.size
+                    self.bit_array[index] = 1
+            
+            def contains(self, item):
+                for seed in range(self.hash_count):
+                    index = mmh3.hash(item, seed) % self.size
+                    if not self.bit_array[index]:
+                        return False
+                return True</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Advanced DSA Section -->
+            <div id="advanced-ds" class="topic-section">
+                <h3><i class="fas fa-rocket"></i> Advanced Data Structures & Algorithms</h3>
+                <div class="algorithm-types">
+                    
+                    <div class="algorithm-grid">
+                        
+                        <!-- Segment Tree -->
+                        <div class="algo-card detailed">
+                            <h5>Segment Tree <span class="algo-type">(Range Queries)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(n) build</span>
+                                <span class="badge time-query">O(log n) query</span>
+                                <span class="badge space">O(n)</span>
+                            </div>
+                            <div class="algo-details">
+                                <h6>Core Principle:</h6>
+                                <p>Tree data structure for efficient range queries</p>
+                                
+                                <h6>Operations:</h6>
+                                <ul>
+                                    <li>Range sum/min/max queries</li>
+                                    <li>Point updates</li>
+                                    <li>Range updates (with lazy propagation)</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>class SegmentTree:
+            def __init__(self, data):
+                self.n = len(data)
+                self.size = 1
+                while self.size < self.n:
+                    self.size <<= 1
+                self.tree = [0] * (2 * self.size)
+                
+                for i in range(self.n):
+                    self.tree[self.size + i] = data[i]
+                for i in range(self.size - 1, 0, -1):
+                    self.tree[i] = self.tree[2*i] + self.tree[2*i+1]
+            
+            def query(self, l, r):
+                res = 0
+                l += self.size
+                r += self.size
+                while l <= r:
+                    if l % 2 == 1:
+                        res += self.tree[l]
+                        l += 1
+                    if r % 2 == 0:
+                        res += self.tree[r]
+                        r -= 1
+                    l //= 2
+                    r //= 2
+                return res
+            
+            def update(self, pos, value):
+                pos += self.size
+                self.tree[pos] = value
+                pos //= 2
+                while pos >= 1:
+                    self.tree[pos] = self.tree[2*pos] + self.tree[2*pos+1]
+                    pos //= 2</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Disjoint Set Union -->
+                        <div class="algo-card detailed">
+                            <h5>DSU <span class="algo-type">(Union-Find)</span></h5>
+                            <div class="complexity">
+                                <span class="badge time">O(α(n))</span>
+                                <span class="badge space">O(n)</span>
+                            </div>
+                            <div class="algo-details">
+                                <h6>Core Principle:</h6>
+                                <p>Efficiently manage and query disjoint sets</p>
+                                
+                                <h6>Optimizations:</h6>
+                                <ul>
+                                    <li>Path compression</li>
+                                    <li>Union by rank/size</li>
+                                </ul>
+                                
+                                <h6>Applications:</h6>
+                                <ul>
+                                    <li>Kruskal's MST algorithm</li>
+                                    <li>Connected components</li>
+                                    <li>Dynamic connectivity</li>
+                                </ul>
+                                
+                                <h6>Implementation:</h6>
+                                <pre>class DSU:
+            def __init__(self, n):
+                self.parent = list(range(n))
+                self.rank = [0] * n
+            
+            def find(self, x):
+                if self.parent[x] != x:
+                    self.parent[x] = self.find(self.parent[x])  # Path compression
+                return self.parent[x]
+            
+            def union(self, x, y):
+                x_root = self.find(x)
+                y_root = self.find(y)
+                
+                if x_root == y_root:
+                    return
+                
+                # Union by rank
+                if self.rank[x_root] < self.rank[y_root]:
+                    self.parent[x_root] = y_root
+                elif self.rank[x_root] > self.rank[y_root]:
+                    self.parent[y_root] = x_root
+                else:
+                    self.parent[y_root] = x_root
+                    self.rank[x_root] += 1</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <style>
+            .advanced-dsa-container {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                max-width: 1800px;
+                margin: 0 auto;
+                padding: 20px;
+                color: #333;
+            }
+            
+            .topic-section {
+                background: #ffffff;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                margin-bottom: 30px;
+                padding: 30px;
+            }
+            
+            .algorithm-types {
+                margin-top: 20px;
+            }
+            
+            .algorithm-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+                gap: 25px;
+                margin: 25px 0;
+            }
+            
+            .algo-card.detailed {
+                background: #f8f9fa;
+                border-radius: 10px;
+                padding: 25px;
+                border-left: 5px solid #8e44ad;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            }
+            
+            .algo-type {
+                font-size: 0.8em;
+                color: #666;
+                font-weight: normal;
+            }
+            
+            .complexity {
+                margin: 15px 0;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .badge {
+                display: inline-block;
+                padding: 4px 10px;
+                border-radius: 15px;
+                font-size: 0.8em;
+                font-weight: 600;
+            }
+            
+            .time { background: #4a6baf; color: white; }
+            .time-worst { background: #d35400; color: white; }
+            .time-query { background: #5ab577; color: white; }
+            .space { background: #e9ecef; color: #333; }
+            
+            .algo-details {
+                margin-top: 20px;
+            }
+            
+            .algo-details h6 {
+                margin: 15px 0 8px;
+                color: #2c3e50;
+                font-size: 1em;
+            }
+            
+            pre {
+                background: #282c34;
+                color: #abb2bf;
+                padding: 15px;
+                border-radius: 8px;
+                overflow-x: auto;
+                font-family: 'Consolas', monospace;
+                font-size: 0.9em;
+                line-height: 1.5;
+                margin: 15px 0;
+                tab-size: 4;
+            }
+            
+            @media (max-width: 768px) {
+                .algorithm-grid {
+                    grid-template-columns: 1fr;
+                }
+                
+                .algo-card.detailed {
+                    padding: 20px;
+                }
+            }
+        </style>
+    </div>
+
     <script>
-        function toggleMenu() {
-            const dropdownMenu = document.getElementById("dropdown-menu");
-            dropdownMenu.classList.toggle("active");
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             sidebar.classList.toggle("active");
         }
+
+        // Highlight active topic in sidebar
+        const topicLinks = document.querySelectorAll('.topic-link');
+        const topicSections = document.querySelectorAll('.topic-section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+
+            topicSections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+
+                if (pageYOffset >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            topicLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Close sidebar when clicking on a link (mobile)
+        topicLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    toggleSidebar();
+                }
+            });
+        });
     </script>
 
 </body>
+
 </html>

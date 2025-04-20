@@ -255,17 +255,37 @@ router.get('/codesphere', function (req, res, next) {
 
 // Profile Page Route
 router.get('/profile', function (req, res, next) {
-	console.log("profile");
-	User.findOne({unique_id:req.session.userId},function(err,data){
-		console.log("data");
-		console.log(data);
-		if(!data){
-			res.redirect('/');
-		}else{
-			//console.log("found");
-			return res.render('data.ejs', {"name":data.username,"email":data.email});
-		}
-	});
+    console.log("Fetching profile for user ID:", req.session.userId);
+    
+    User.findOne({ unique_id: req.session.userId }, function(err, data) {
+        if (err) {
+            console.error("Database error:", err);
+            return res.redirect('/');
+        }
+        
+        if (!data) {
+            console.log("No user found with ID:", req.session.userId);
+            return res.redirect('/');
+        }
+
+        console.log("User data retrieved:", {
+            name: data.username,
+            email: data.email,
+            learningPath: data.learningPath // Check if this exists
+        });
+
+        res.render('data.ejs', {
+            name: data.username,
+            email: data.email,
+            learningPath: data.learningPath || "Not specified",
+            mobile: data.mobile || "Not specified",
+            college: data.college || "Not specified",
+            currentCourse: data.currentCourse || "Not specified",
+            yearOfGraduation: data.yearOfGraduation || "Not specified",
+            timePeriod: data.timePeriod || "Not specified"
+
+        });
+    });
 });
 
 
@@ -482,6 +502,89 @@ router.get("/dsa2", async (req, res) => {
     } catch (error) {
         console.error("Error fetching AI progress:", error);
         res.redirect('/login');
+    }
+});
+router.get("/dsa-questions", (req, res) => {
+    res.render("question.ejs");
+    
+});
+router.get("/youtube-content", (req, res) => {
+    res.render("youtube.ejs");
+    
+});
+router.get("/community", (req, res) => {
+    res.render("community1.ejs");
+    
+});
+router.get("/game1", (req, res) => {
+    res.render("game.ejs");
+    
+});
+
+// Edit Profile Route - GET
+router.get('/edittheprofile', async function(req, res, next) {
+    if (!req.session.userId) {
+        return res.redirect('/login');
+    }
+
+    try {
+        const user = await User.findOne({ unique_id: req.session.userId });
+        if (!user) {
+            return res.redirect('/login');
+        }
+
+        return res.render('edit-profile.ejs', {
+            user: {
+                mobile: user.mobile || '',
+                college: user.college || '',
+                currentCourse: user.currentCourse || '',
+                yearOfGraduation: user.yearOfGraduation || '',
+                timePeriod: user.timePeriod || ''
+            }
+        });
+
+    } catch (error) {
+        console.error("Edit profile error:", error);
+        return res.redirect('/login');
+    }
+});
+
+// Update Profile Route - POST
+router.post('/update-profile', async function(req, res, next) {
+    if (!req.session.userId) {
+        return res.status(401).json({ error: "Please log in first" });
+    }
+
+    try {
+        const { mobile, college, currentCourse, yearOfGraduation, timePeriod } = req.body;
+
+        const updatedUser = await User.findOneAndUpdate(
+            { unique_id: req.session.userId },
+            {
+                $set: {
+                    mobile,
+                    college,
+                    currentCourse,
+                    yearOfGraduation,
+                    timePeriod,
+                    updatedAt: new Date()
+                }
+            },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json({ 
+            Success: "Profile updated successfully!",
+            user: updatedUser
+        });
+
+    } catch (error) {
+        console.error("Update profile error:", error);
+        res.status(500).json({ error: "An error occurred while updating the profile" });
     }
 });
 

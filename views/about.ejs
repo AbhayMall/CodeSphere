@@ -4,90 +4,278 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About CodeSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #121212;
-            color: #ffffff;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
         }
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #1f1f1f;
-            padding: 1rem 5%;
-            color: white;
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            background-color: #ffffff;
+            padding: 1.2rem 5%;
+            color: #333;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         .navbar h1 {
             font-size: 1.8rem;
             color: #4c8bf5;
+            margin: 0;
+            font-weight: 700;
         }
         .navbar a {
             color: #4c8bf5;
             text-decoration: none;
-            margin: 0 1rem;
+            margin: 0 1.2rem;
             font-weight: 600;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
         }
         .navbar a:hover {
-            opacity: 0.8;
+            color: #357ae8;
+        }
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #4c8bf5;
+            transition: width 0.3s ease;
+        }
+        .navbar a:hover::after {
+            width: 100%;
         }
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 3rem auto;
-            padding: 2rem;
-            background-color: #1e1e1e;
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            background-color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+        }
+        .about-section {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        .about-content {
+            flex: 1;
+        }
+        .about-image {
+            flex: 1;
             border-radius: 12px;
-            text-align: center;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
         h1, h2 {
             color: #4c8bf5;
+            margin-bottom: 1.5rem;
+        }
+        h2 {
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            text-align: center;
+            width: 100%;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            bottom: 0;
+            left: 25%;
+            background-color: #4c8bf5;
+            border-radius: 3px;
+        }
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
         }
         .features, .advantages {
-            margin: 2rem 0;
+            margin: 2.5rem 0;
             text-align: left;
+            padding: 0 1rem;
         }
         ul {
             list-style: none;
             padding: 0;
         }
         ul li {
-            padding: 0.5rem 0;
+            padding: 0.8rem 0;
             font-size: 1.1rem;
             display: flex;
             align-items: center;
+            color: #444;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+        ul li:hover {
+            background-color: #f5f9ff;
+            transform: translateX(5px);
         }
         ul li::before {
             content: '\2713';
             color: #4c8bf5;
             font-weight: bold;
-            margin-right: 10px;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #4c8bf5;
+            margin-bottom: 1.5rem;
+        }
+        .feature-card h3 {
+            color: #4c8bf5;
+            margin-bottom: 1rem;
+        }
+        .feature-card p {
+            color: #666;
+            font-size: 1rem;
         }
         .cta {
-            margin-top: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        .cta p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 1.8rem;
         }
         .cta button {
             background-color: #4c8bf5;
             color: white;
             border: none;
-            padding: 1rem 2rem;
+            padding: 1rem 2.5rem;
             font-size: 1.2rem;
             border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(76, 139, 245, 0.2);
+            font-weight: 600;
         }
         .cta button:hover {
             background-color: #357ae8;
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(76, 139, 245, 0.3);
+        }
+        .contact-section {
+            background-color: #f5f9ff;
+            padding: 4rem 0;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .contact-icon {
+            font-size: 2rem;
+            color: #4c8bf5;
+            transition: all 0.3s ease;
+        }
+        .contact-icon:hover {
+            color: #357ae8;
+            transform: scale(1.2);
+        }
+        footer {
+            background-color: #1f1f1f;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .social-icon {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            color: #4c8bf5;
+            transform: translateY(-3px);
+        }
+        .copyright {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 2rem 1rem;
+            }
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            .navbar div {
+                margin-top: 1rem;
+            }
+            .about-section {
+                flex-direction: column;
+            }
+            .about-image {
+                margin-top: 2rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="navbar">
+        <i class="fas fa-code logo-icon"></i>
         <h1>CodeSphere</h1>
         <div>
             <a href="/index">Register</a>
@@ -95,26 +283,71 @@
         </div>
     </div>
     <div class="container">
-        <h2>About CodeSphere</h2>
-        <p>CodeSphere is an interactive learning platform designed to help you master data structures and algorithms (DSA) and enhance your coding skills. Our user-friendly interface, comprehensive exercises, and built-in coding IDE provide the perfect environment for learning.</p>
+        <div class="about-section">
+            <div class="about-content">
+                <h2>About CodeSphere</h2>
+                <p>CodeSphere is an innovative interactive learning platform designed to help you master data structures and algorithms (DSA) and enhance your coding skills through hands-on practice. Our mission is to make coding education accessible, engaging, and effective for everyone.</p>
+                <p>With our user-friendly interface, comprehensive exercises, and built-in coding IDE, we provide the perfect environment for learning at your own pace. Whether you're a beginner looking to learn programming fundamentals or an experienced developer preparing for technical interviews, CodeSphere has the tools you need to succeed.</p>
+                <p>Our platform combines the best of interactive learning with real-world coding challenges, giving you the opportunity to apply what you learn immediately. The integrated development environment allows you to write, test, and debug code without ever leaving the platform.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Coding on laptop">
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Built-in IDE</h3>
+                <p>Practice coding directly in our powerful web-based IDE with syntax highlighting, auto-completion, and real-time error checking.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h3>DSA Learning</h3>
+                <p>Master data structures and algorithms with our structured curriculum, visualizations, and interactive challenges.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <h3>Multiple Languages</h3>
+                <p>Learn in your preferred language with support for Python, Java, C++, JavaScript, and more.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Progress Tracker</h3>
+                <p>Monitor your learning journey with detailed analytics and personalized recommendations.</p>
+            </div>
+        </div>
+
         <div class="features">
             <h2>Key Features</h2>
             <ul>
-                <li>Supports multiple programming languages</li>
-                <li>Interactive problem-solving environment</li>
-                <li>Detailed progress tracking</li>
-                <li>Step-by-step DSA guidance</li>
-                <li>Built-in coding IDE for hands-on practice</li>
+                <li>Supports multiple programming languages including Python, Java, C++, and JavaScript</li>
+                <li>Interactive problem-solving environment with immediate feedback</li>
+                <li>Detailed progress tracking with visual analytics</li>
+                <li>Step-by-step DSA guidance from basic to advanced concepts</li>
+                <li>Built-in coding IDE with syntax highlighting and debugging tools</li>
+                <li>Community discussion forums for peer learning</li>
+                <li>Regular coding challenges and competitions</li>
             </ul>
         </div>
         <div class="advantages">
             <h2>Why Choose CodeSphere?</h2>
             <ul>
-                <li>Improve coding proficiency with targeted exercises</li>
-                <li>Access up-to-date learning resources</li>
-                <li>Prepare effectively for technical interviews</li>
-                <li>Track your learning progress in real-time</li>
-                <li>Join a community of passionate developers</li>
+                <li>Improve coding proficiency with targeted exercises tailored to your skill level</li>
+                <li>Access up-to-date learning resources curated by industry experts</li>
+                <li>Prepare effectively for technical interviews with mock coding tests</li>
+                <li>Track your learning progress in real-time with comprehensive dashboards</li>
+                <li>Join a community of passionate developers to collaborate and learn together</li>
+                <li>Learn at your own pace with flexible course structures</li>
+                <li>Get certificate upon completion of learning paths</li>
             </ul>
         </div>
         <div class="cta">
@@ -122,5 +355,30 @@
             <button onclick="location.href='/index'">Join CodeSphere Now</button>
         </div>
     </div>
+
+    <div class="contact-section">
+        <div class="contact-container">
+            <h2>Contact Us</h2>
+            <p>Have questions or feedback? We'd love to hear from you!</p>
+            <div class="contact-icons">
+                <a href="mailto:contact@codesphere.com" class="contact-icon"><i class="fas fa-envelope"></i></a>
+                <a href="tel:+1234567890" class="contact-icon"><i class="fas fa-phone"></i></a>
+                <a href="https://maps.google.com" class="contact-icon"><i class="fas fa-map-marker-alt"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        </div>
+        <div class="copyright">
+            &copy; 2023 CodeSphere. All rights reserved.
+        </div>
+    </footer>
 </body>
 </html>

@@ -7,83 +7,116 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Background */
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+        
         body {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: white;
+            background-color: white;
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
         }
-
-        /* User Card */
+        
         .user-container {
-            background: #1e3a8a;
-            padding: 30px;
+            background-color: white;
+            padding: 2.5rem;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
-            width: 100%;
-            max-width: 400px;
-            border: 2px solid #3b82f6;
         }
-
-        /* Profile Icon */
+        
+        .user-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
         .profile-icon {
-            font-size: 60px;
-            color: #60a5fa;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
         }
-
+        
         .user-container h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #93c5fd;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
         }
-
-        /* User Info Table */
+        
         .table {
-            color: white;
-            margin-top: 15px;
-            border-radius: 10px;
-        }
-
-        .table td {
-            padding: 12px;
-            font-size: 1.1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Logout Button */
-        .logout-btn {
-            margin-top: 20px;
-            display: inline-block;
-            padding: 12px 20px;
-            background-color: #dc3545;
-            color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: bold;
+            margin-top: 1.5rem;
+            color: var(--text-dark);
             border-radius: 8px;
-            transition: 0.3s;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        
+        .table td {
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+        
+        .table td:first-child {
+            font-weight: 600;
+            color: var(--primary-color);
+            width: 40%;
+        }
+        
+        .table td:last-child {
+            color: var(--text-dark);
+        }
+        
+        .logout-btn {
+            background-color: var(--primary-color);
             border: none;
-            cursor: pointer;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
             width: 100%;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            color: white;
+            margin-top: 1.5rem;
+            cursor: pointer;
         }
-
+        
         .logout-btn:hover {
-            background-color: #c82333;
-            transform: scale(1.05);
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
         }
-
-        /* Responsive */
-        @media (max-width: 500px) {
+        
+        .logout-btn:active {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 576px) {
             .user-container {
-                padding: 20px;
+                padding: 2rem 1.5rem;
+            }
+            
+            .table td {
+                padding: 10px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -93,8 +126,14 @@
         <i class="fas fa-user-circle profile-icon"></i>
         <h2>CodeSphere User Details</h2>
         <table class="table">
-            <tr><td><strong>Name</strong></td><td><%= name %></td></tr>
-            <tr><td><strong>Email</strong></td><td><%= email %></td></tr>
+            <tr><td>Name</td><td><%= name %></td></tr>
+            <tr><td>Email</td><td><%= email %></td></tr>
+            <tr><td>Learning Path</td><td><%= learningPath || "Not specified" %></td></tr>
+            <tr><td>Mobile Number</td><td><%= mobile || "Not specified" %></td></tr>
+            <tr><td>College Name</td><td><%= college || "Not specified" %></td></tr>
+            <tr><td>Current Course</td><td><%= currentCourse || "Not specified" %></td></tr>
+            <tr><td>Year Of Graduation</td><td><%= yearOfGraduation || "Not specified" %></td></tr>
+            <tr><td>Time Period</td><td><%= timePeriod || "Not specified" %></td></tr> 
         </table>
         <button onclick="window.location.href='/logout'" class="logout-btn">Logout</button>
     </div>

@@ -3,77 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Login - CodeSphere</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+        
         body {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: white;
+            background-color: white;
+            color: var(--text-dark);
             font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
         }
-
+        
         .login-container {
-            background: #1e3a8a;
-            padding: 30px;
+            background-color: white;
+            padding: 2.5rem;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
             text-align: center;
-            width: 100%;
-            max-width: 400px;
+            margin-bottom: 1.5rem;
         }
-
-        .login-container h2 {
-            margin-bottom: 20px;
-            color: #93c5fd;
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
         }
-
+        
+        .logo h2 {
+            font-weight: 700;
+            margin: 0;
+            color: var(--text-dark);
+        }
+        
+        .logo p {
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+        
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
         .form-control {
-            margin-bottom: 15px;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+            padding: 12px 15px 12px 40px;
             border-radius: 8px;
-            padding: 10px;
+            transition: all 0.3s ease;
         }
-
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.15);
+            background-color: white;
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-light);
+            opacity: 0.7;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
         .btn-primary {
-            background: #2563eb;
+            background-color: var(--primary-color);
             border: none;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
             font-size: 1rem;
-            font-weight: bold;
-            transition: 0.3s;
+            font-weight: 600;
             width: 100%;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
         }
-
+        
         .btn-primary:hover {
-            background: #3b82f6;
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
         }
-
-        .mssg {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 5px;
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .message {
             display: none;
-            background-color: #dc3545;
-            color: white;
+            margin-top: 1rem;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
         }
-
-        .forgot-password, .register {
-            display: block;
-            margin-top: 10px;
-            color: #bfdbfe;
+        
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+        
+        .link {
+            color: var(--text-light);
             text-decoration: none;
-            transition: 0.3s;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
         }
-
-        .forgot-password:hover, .register:hover {
-            color: #60a5fa;
+        
+        .link:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .link span {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        #loading {
+            display: none;
+            margin: 1rem auto;
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 576px) {
+            .login-container {
+                padding: 2rem 1.5rem;
+            }
+            .links {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
         }
     </style>
     <script>
@@ -87,7 +182,7 @@
                     dataType: "json",
                     success: function(response) {
                         $('#form')[0].reset();
-                        $("#check").html(response.Success).fadeIn();
+                        $("#check").removeClass("alert-danger").addClass("alert-success").text(response.Success).fadeIn();
                         setTimeout(function() {
                             $("#check").fadeOut();
                         }, 3000);
@@ -96,7 +191,7 @@
                         }
                     },
                     error: function() {
-                        $("#check").html("Error occurred!").fadeIn();
+                        $("#check").removeClass("alert-success").addClass("alert-danger").text("Error occurred!").fadeIn();
                     }
                 });
             });
@@ -105,15 +200,38 @@
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <div class="logo">
+            <i class="fas fa-code"></i>
+            <h2>CodeSphere</h2>
+            <p>Welcome back to your developer community</p>
+        </div>
+        
         <form id="form" method="post">
-            <input type="text" name="email" placeholder="E-mail" required class="form-control">
-            <input type="password" name="password" placeholder="Password" required class="form-control">
-            <button type="submit" class="btn btn-primary">Login</button>
+            <div class="form-group">
+                <i class="fas fa-envelope input-icon"></i>
+                <input type="text" name="email" placeholder="E-mail" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" name="password" placeholder="Password" required class="form-control">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt me-2"></i> Login
+            </button>
         </form>
-        <div class="mssg" id="check"></div>
-        <a href="/forgetpass" class="forgot-password">Forgot Password?</a>
-        <a href="/" class="register">Create a new account</a>
+        
+        <div id="check" class="alert mt-3 d-none"></div>
+        
+        <div class="links">
+            <a href="/forgetpass" class="link">
+                <i class="fas fa-key me-1"></i> Forgot Password?
+            </a>
+            <a href="/index" class="link">
+                <i class="fas fa-user-plus me-1"></i> Create new account
+            </a>
+        </div>
     </div>
 </body>
 </html>

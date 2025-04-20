@@ -4,7 +4,303 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeSphere - Online Compiler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --dark: #1e293b;
+            --light: #ffffff;
+            --gray: #64748b;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Code Editor Styling */
+        .code-editor {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .editor-header {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .editor-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .editor-body {
+            height: calc(100% - 50px);
+        }
+
+        textarea.code-input {
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+            background-color: white;
+            color: #1e293b;
+            border: none;
+            resize: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        textarea.code-input:focus {
+            outline: none;
+        }
+
+        /* Output Styling */
+        .output-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-header {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .output-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .output-content {
+            flex-grow: 1;
+            padding: 1rem;
+            background-color: white;
+            color: #15803d;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #e2e8f0;
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .status-connected {
+            color: #15803d;
+        }
+
+        .status-disconnected {
+            color: #dc2626;
+        }
+
+        .status-connecting {
+            color: #d97706;
+        }
+
+        /* Run Button */
+        .run-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .run-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Language Selector */
+        .language-selector {
+            background-color: white;
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            width: 100%;
+        }
+
+        .language-selector:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        /* Input Area */
+        .input-area {
+            background-color: white;
+            color: var(--dark);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            resize: none;
+            width: 100%;
+        }
+
+        .input-area:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Container */
+        .ide-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 1rem;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            height: calc(100% - 60px);
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 1024px) {
+            .editor-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .code-editor, .output-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ide-container">
+        <!-- Header -->
+        <div class="flex flex-col items-center mb-4">
+            <div class="flex items-center gap-3 mb-2">
+                <i class="fas fa-code text-3xl text-blue-500"></i>
+                <h1 class="text-3xl font-bold text-center text-blue-500">CodeSphere IDE</h1>
+            </div>
+            <p id="status" class="flex items-center gap-2 text-sm">
+                <span class="status-connecting">🟠 Connecting to compiler...</span>
+            </p>
+        </div>
+
+        <!-- Main Editor Grid -->
+        <div class="editor-grid">
+            <!-- Left Column - Code Editor -->
+            <div class="flex flex-col gap-4 h-full">
+                <!-- Language Selector -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-gray-700 font-medium">Programming Language</label>
+                    <select id="language" class="language-selector">
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="cpp">C++</option>
+                        <option value="java">Java</option>
+                    </select>
+                </div>
+
+                <!-- Code Editor -->
+                <div class="code-editor flex-grow">
+                    <div class="editor-header">
+                        <div class="editor-title">
+                            <i class="fas fa-file-code text-blue-500"></i>
+                            <span>editor.js</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-expand text-gray-400 hover:text-blue-500 cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="editor-body">
+                        <textarea id="code" rows="15" class="code-input" placeholder="// Write your code here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Input/Output -->
+            <div class="flex flex-col gap-4 h-full">
+                <!-- Input Area -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-gray-700 font-medium">Standard Input</label>
+                    <textarea id="userInput" rows="4" class="input-area" placeholder="Enter input here (optional)..."></textarea>
+                </div>
+
+                <!-- Run Button -->
+                <button onclick="runCode()" class="run-button">
+                    <i class="fas fa-play"></i>
+                    Run Code (Ctrl+Enter)
+                </button>
+
+                <!-- Output Area -->
+                <div class="output-container flex-grow">
+                    <div class="output-header">
+                        <div class="output-title">
+                            <i class="fas fa-terminal text-blue-500"></i>
+                            <span>Output</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-copy text-gray-400 hover:text-blue-500 cursor-pointer" title="Copy Output"></i>
+                            <i class="fas fa-trash-alt text-gray-400 hover:text-blue-500 cursor-pointer" title="Clear Output"></i>
+                        </div>
+                    </div>
+                    <pre id="output" class="output-content">Your program output will appear here...</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let ws;
 
@@ -13,7 +309,7 @@
 
             ws.onopen = function () {
                 console.log("Connected to WebSocket Server ✅");
-                document.getElementById("status").innerText = "🟢 Connected";
+                document.getElementById("status").innerHTML = '<span class="status-connected">🟢 Connected to compiler</span>';
             };
 
             ws.onmessage = function (event) {
@@ -22,12 +318,12 @@
 
             ws.onerror = function (error) {
                 console.error("WebSocket Error:", error);
-                document.getElementById("status").innerText = "🔴 Error";
+                document.getElementById("status").innerHTML = '<span class="status-disconnected">🔴 Connection error</span>';
             };
 
             ws.onclose = function () {
                 console.log("WebSocket Disconnected ❌");
-                document.getElementById("status").innerText = "🔴 Disconnected";
+                document.getElementById("status").innerHTML = '<span class="status-disconnected">🔴 Disconnected from compiler</span>';
             };
         }
 
@@ -47,46 +343,39 @@
             }
 
             ws.send(JSON.stringify({ language, code, userInput }));
-            document.getElementById("output").innerText = "⏳ Running...";
+            document.getElementById("output").innerText = "⏳ Running your code...";
         }
+
+        // Add keyboard shortcut (Ctrl+Enter to run code)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                runCode();
+            }
+        });
+
+        // Add copy output functionality
+        document.querySelector('.fa-copy').addEventListener('click', function() {
+            const output = document.getElementById("output").innerText;
+            navigator.clipboard.writeText(output);
+            
+            const icon = this;
+            icon.classList.remove('fa-copy');
+            icon.classList.add('fa-check');
+            icon.style.color = '#15803d';
+            
+            setTimeout(() => {
+                icon.classList.remove('fa-check');
+                icon.classList.add('fa-copy');
+                icon.style.color = '';
+            }, 2000);
+        });
+
+        // Add clear output functionality
+        document.querySelector('.fa-trash-alt').addEventListener('click', function() {
+            document.getElementById("output").innerText = '';
+        });
 
         window.onload = connectWebSocket;
     </script>
-</head>
-<body class="bg-gray-900 text-white font-sans">
-    <div class="max-w-6xl mx-auto my-10 p-6 bg-gray-800 rounded-lg shadow-md">
-        <h1 class="text-3xl font-bold text-center text-blue-400">CodeSphere - Online Compiler</h1>
-        <p id="status" class="text-center text-sm text-gray-400 mt-2">🟠 Connecting...</p>
-
-        <!-- Split Screen Layout -->
-        <div class="grid grid-cols-2 gap-6 mt-6">
-            <!-- Code Editor Section -->
-            <div class="flex flex-col">
-                <label class="block text-lg">Select Language:</label>
-                <select id="language" class="w-full p-2 mt-2 bg-gray-700 text-white rounded-md">
-                    <option value="javascript">JavaScript</option>
-                    <option value="python">Python</option>
-                    <option value="cpp">C++</option>
-                    <option value="java">Java</option>
-                </select>
-
-                <label class="block text-lg mt-4">Write Your Code:</label>
-                <textarea id="code" rows="15" class="w-full p-3 mt-2 bg-gray-700 text-white rounded-md font-mono" placeholder="Write your code here..."></textarea>
-            </div>
-
-            <!-- Input & Output Section -->
-            <div class="flex flex-col">
-                <label class="block text-lg">Enter Input:</label>
-                <textarea id="userInput" rows="4" class="w-full p-3 mt-2 bg-gray-700 text-white rounded-md font-mono" placeholder="Optional: Enter input here..."></textarea>
-
-                <button onclick="runCode()" class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-lg font-semibold transition duration-200">
-                    🚀 Run Code
-                </button>
-
-                <h2 class="text-2xl font-semibold mt-6">Output:</h2>
-                <pre id="output" class="w-full p-4 bg-black text-green-400 rounded-lg mt-2 h-40 overflow-auto">Your output will appear here...</pre>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

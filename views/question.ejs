@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Questions - CodeSphere</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .question-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+        
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-image {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .card-body {
+            padding: 1.25rem;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+        
+        .card-difficulty {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .easy {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .medium {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .hard {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            background-color: #e0e7ff;
+            color: #4338ca;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+        
+        .modal-content {
+            border-radius: 12px;
+        }
+        
+        .code-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-laptop-code"></i> DSA Practice Questions</h1>
+            <p>20 essential problems to master Data Structures & Algorithms</p>
+        </div>
+        
+        <div class="questions-grid">
+            <!-- Question 1 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal1">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty easy">Easy</div>
+                    <h5 class="card-title">Two Sum</h5>
+                    <p class="card-text">Find indices of two numbers that add up to target</p>
+                    <div class="card-tags">
+                        <span class="tag">Array</span>
+                        <span class="tag">Hash Table</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal2">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">Add Two Numbers</h5>
+                    <p class="card-text">Sum two numbers represented as linked lists</p>
+                    <div class="card-tags">
+                        <span class="tag">Linked List</span>
+                        <span class="tag">Math</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal3">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">Longest Substring Without Repeats</h5>
+                    <p class="card-text">Find length of longest unique character substring</p>
+                    <div class="card-tags">
+                        <span class="tag">String</span>
+                        <span class="tag">Sliding Window</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal4">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty hard">Hard</div>
+                    <h5 class="card-title">Median of Two Sorted Arrays</h5>
+                    <p class="card-text">Find median of two sorted arrays efficiently</p>
+                    <div class="card-tags">
+                        <span class="tag">Array</span>
+                        <span class="tag">Binary Search</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal5">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">Longest Palindromic Substring</h5>
+                    <p class="card-text">Find the longest palindrome in a string</p>
+                    <div class="card-tags">
+                        <span class="tag">String</span>
+                        <span class="tag">Dynamic Programming</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal6">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">ZigZag Conversion</h5>
+                    <p class="card-text">Convert string to zigzag pattern on given rows</p>
+                    <div class="card-tags">
+                        <span class="tag">String</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal7">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty easy">Easy</div>
+                    <h5 class="card-title">Reverse Integer</h5>
+                    <p class="card-text">Reverse digits of a 32-bit signed integer</p>
+                    <div class="card-tags">
+                        <span class="tag">Math</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal8">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">String to Integer (atoi)</h5>
+                    <p class="card-text">Implement the atoi function to convert string to integer</p>
+                    <div class="card-tags">
+                        <span class="tag">String</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal9">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty easy">Easy</div>
+                    <h5 class="card-title">Palindrome Number</h5>
+                    <p class="card-text">Determine if integer is a palindrome</p>
+                    <div class="card-tags">
+                        <span class="tag">Math</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal10">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty hard">Hard</div>
+                    <h5 class="card-title">Regular Expression Matching</h5>
+                    <p class="card-text">Implement regular expression matching</p>
+                    <div class="card-tags">
+                        <span class="tag">String</span>
+                        <span class="tag">Dynamic Programming</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 11 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal11">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">Container With Most Water</h5>
+                    <p class="card-text">Find two lines that form the largest container</p>
+                    <div class="card-tags">
+                        <span class="tag">Array</span>
+                        <span class="tag">Two Pointers</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 12 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal12">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">Integer to Roman</h5>
+                    <p class="card-text">Convert integer to Roman numeral</p>
+                    <div class="card-tags">
+                        <span class="tag">Math</span>
+                        <span class="tag">String</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 13 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal13">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty easy">Easy</div>
+                    <h5 class="card-title">Roman to Integer</h5>
+                    <p class="card-text">Convert Roman numeral to integer</p>
+                    <div class="card-tags">
+                        <span class="tag">Math</span>
+                        <span class="tag">String</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 14 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal14">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty easy">Easy</div>
+                    <h5 class="card-title">Longest Common Prefix</h5>
+                    <p class="card-text">Find longest common prefix string</p>
+                    <div class="card-tags">
+                        <span class="tag">String</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 15 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal15">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">3Sum</h5>
+                    <p class="card-text">Find all unique triplets that sum to zero</p>
+                    <div class="card-tags">
+                        <span class="tag">Array</span>
+                        <span class="tag">Two Pointers</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 16 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal16">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">3Sum Closest</h5>
+                    <p class="card-text">Find three integers with sum closest to target</p>
+                    <div class="card-tags">
+                        <span class="tag">Array</span>
+                        <span class="tag">Two Pointers</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 17 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal17">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">Letter Combinations of Phone Number</h5>
+                    <p class="card-text">All possible letter combinations from phone digits</p>
+                    <div class="card-tags">
+                        <span class="tag">String</span>
+                        <span class="tag">Backtracking</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 18 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal18">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">4Sum</h5>
+                    <p class="card-text">Find all unique quadruplets that sum to target</p>
+                    <div class="card-tags">
+                        <span class="tag">Array</span>
+                        <span class="tag">Two Pointers</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 19 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal19">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty medium">Medium</div>
+                    <h5 class="card-title">Remove Nth Node From End of List</h5>
+                    <p class="card-text">Remove the nth node from end of linked list</p>
+                    <div class="card-tags">
+                        <span class="tag">Linked List</span>
+                        <span class="tag">Two Pointers</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 20 -->
+            <div class="question-card" data-bs-toggle="modal" data-bs-target="#questionModal20">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="card-body">
+                    <div class="card-difficulty easy">Easy</div>
+                    <h5 class="card-title">Valid Parentheses</h5>
+                    <p class="card-text">Determine if string has valid parentheses pairs</p>
+                    <div class="card-tags">
+                        <span class="tag">String</span>
+                        <span class="tag">Stack</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============== MODALS =============== -->
+
+    <!-- Modal 1: Two Sum -->
+    <div class="modal fade" id="questionModal1" tabindex="-1" aria-labelledby="questionModalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionModalLabel1">Two Sum</h5>
+                    <span class="badge bg-success">Easy</span>
+                </div>
+                <div class="modal-body">
+                    <div class="problem-section">
+                        <h6 class="section-title">Problem Statement</h6>
+                        <p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+                    </div>
+                    <div class="problem-section">
+                        <h6 class="section-title">Example</h6>
+                        <pre>Input: nums = [2,7,11,15], target = 9
+Output: [0,1]</pre>
+                    </div>
+                    <div class="problem-section">
+                        <h6 class="section-title">Constraints</h6>
+                        <ul>
+                            <li>2 ≤ nums.length ≤ 10<sup>4</sup></li>
+                            <li>-10<sup>9</sup> ≤ nums[i] ≤ 10<sup>9</sup></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=two-sum'">
+                        <i class="fas fa-code me-2"></i>Solve in IDE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Add Two Numbers -->
+    <div class="modal fade" id="questionModal2" tabindex="-1" aria-labelledby="questionModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionModalLabel2">Add Two Numbers</h5>
+                    <span class="badge bg-warning text-dark">Medium</span>
+                </div>
+                <div class="modal-body">
+                    <div class="problem-section">
+                        <h6 class="section-title">Problem Statement</h6>
+                        <p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.</p>
+                    </div>
+                    <div class="problem-section">
+                        <h6 class="section-title">Example</h6>
+                        <pre>Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.</pre>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=add-two-numbers'">
+                        <i class="fas fa-code me-2"></i>Solve in IDE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Longest Substring Without Repeating Characters -->
+    <div class="modal fade" id="questionModal3" tabindex="-1" aria-labelledby="questionModalLabel3" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionModalLabel3">Longest Substring Without Repeating Characters</h5>
+                    <span class="badge bg-warning text-dark">Medium</span>
+                </div>
+                <div class="modal-body">
+                    <div class="problem-section">
+                        <h6 class="section-title">Problem Statement</h6>
+                        <p>Given a string s, find the length of the longest substring without repeating characters.</p>
+                    </div>
+                    <div class="problem-section">
+                        <h6 class="section-title">Example</h6>
+                        <pre>Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with length 3.</pre>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=longest-substring'">
+                        <i class="fas fa-code me-2"></i>Solve in IDE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 4: Median of Two Sorted Arrays -->
+    <div class="modal fade" id="questionModal4" tabindex="-1" aria-labelledby="questionModalLabel4" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionModalLabel4">Median of Two Sorted Arrays</h5>
+                    <span class="badge bg-danger">Hard</span>
+                </div>
+                <div class="modal-body">
+                    <div class="problem-section">
+                        <h6 class="section-title">Problem Statement</h6>
+                        <p>Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.</p>
+                    </div>
+                    <div class="problem-section">
+                        <h6 class="section-title">Example</h6>
+                        <pre>Input: nums1 = [1,3], nums2 = [2]
+Output: 2.0
+Explanation: merged array = [1,2,3] and median is 2.</pre>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=median-arrays'">
+                        <i class="fas fa-code me-2"></i>Solve in IDE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 5: Longest Palindromic Substring -->
+    <div class="modal fade" id="questionModal5" tabindex="-1" aria-labelledby="questionModalLabel5" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionModalLabel5">Longest Palindromic Substring</h5>
+                    <span class="badge bg-warning text-dark">Medium</span>
+                </div>
+                <div class="modal-body">
+                    <div class="problem-section">
+                        <h6 class="section-title">Problem Statement</h6>
+                        <p>Given a string s, return the longest palindromic substring in s.</p>
+                    </div>
+                    <div class="problem-section">
+                        <h6 class="section-title">Example</h6>
+                        <pre>Input: s = "babad"
+Output: "bab"
+Explanation: "aba" is also a valid answer.</pre>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=longest-palindrome'">
+                        <i class="fas fa-code me-2"></i>Solve in IDE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- Modal 6: ZigZag Conversion -->
+<div class="modal fade" id="questionModal6" tabindex="-1" aria-labelledby="questionModalLabel6" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel6">ZigZag Conversion</h5>
+                <span class="badge bg-warning text-dark">Medium</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: s = "PAYPALISHIRING", numRows = 3
+Output: "PAHNAPLSIIGYIR"
+Explanation:
+P   A   H   N
+A P L S I I G
+Y   I   R</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=zigzag-conversion'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 7: Reverse Integer -->
+<div class="modal fade" id="questionModal7" tabindex="-1" aria-labelledby="questionModalLabel7" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel7">Reverse Integer</h5>
+                <span class="badge bg-success">Easy</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given a signed 32-bit integer x, return x with its digits reversed.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: x = 123
+Output: 321
+
+Input: x = -123
+Output: -321</pre>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Constraints</h6>
+                    <p>If reversing causes the value to go outside the signed 32-bit range [-2³¹, 2³¹ - 1], return 0.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=reverse-integer'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 8: String to Integer (atoi) -->
+<div class="modal fade" id="questionModal8" tabindex="-1" aria-labelledby="questionModalLabel8" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel8">String to Integer (atoi)</h5>
+                <span class="badge bg-warning text-dark">Medium</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: s = "42"
+Output: 42
+
+Input: s = "   -42"
+Output: -42</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=string-to-integer'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 9: Palindrome Number -->
+<div class="modal fade" id="questionModal9" tabindex="-1" aria-labelledby="questionModalLabel9" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel9">Palindrome Number</h5>
+                <span class="badge bg-success">Easy</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given an integer x, return true if x is a palindrome, and false otherwise.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: x = 121
+Output: true
+
+Input: x = -121
+Output: false</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=palindrome-number'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 10: Regular Expression Matching -->
+<div class="modal fade" id="questionModal10" tabindex="-1" aria-labelledby="questionModalLabel10" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel10">Regular Expression Matching</h5>
+                <span class="badge bg-danger">Hard</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:</p>
+                    <ul>
+                        <li>'.' Matches any single character</li>
+                        <li>'*' Matches zero or more of the preceding element</li>
+                    </ul>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: s = "aa", p = "a*"
+Output: true
+Explanation: '*' means zero or more of the preceding element, 'a'.</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=regex-matching'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 11: Container With Most Water -->
+<div class="modal fade" id="questionModal11" tabindex="-1" aria-labelledby="questionModalLabel11" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel11">Container With Most Water</h5>
+                <span class="badge bg-warning text-dark">Medium</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above elevation map is represented by array [1,8,6,2,5,4,8,3,7].</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=container-water'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 12: Integer to Roman -->
+<div class="modal fade" id="questionModal12" tabindex="-1" aria-labelledby="questionModalLabel12" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel12">Integer to Roman</h5>
+                <span class="badge bg-warning text-dark">Medium</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given an integer, convert it to a roman numeral.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: num = 3
+Output: "III"
+
+Input: num = 58
+Output: "LVIII"</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=integer-to-roman'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 13: Roman to Integer -->
+<div class="modal fade" id="questionModal13" tabindex="-1" aria-labelledby="questionModalLabel13" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel13">Roman to Integer</h5>
+                <span class="badge bg-success">Easy</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given a roman numeral, convert it to an integer.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: s = "III"
+Output: 3
+
+Input: s = "LVIII"
+Output: 58</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=roman-to-integer'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 14: Longest Common Prefix -->
+<div class="modal fade" id="questionModal14" tabindex="-1" aria-labelledby="questionModalLabel14" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel14">Longest Common Prefix</h5>
+                <span class="badge bg-success">Easy</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Find the longest common prefix string amongst an array of strings.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: strs = ["flower","flow","flight"]
+Output: "fl"</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=longest-prefix'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 15: 3Sum -->
+<div class="modal fade" id="questionModal15" tabindex="-1" aria-labelledby="questionModalLabel15" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel15">3Sum</h5>
+                <span class="badge bg-warning text-dark">Medium</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=3sum'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 16: 3Sum Closest -->
+<div class="modal fade" id="questionModal16" tabindex="-1" aria-labelledby="questionModalLabel16" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel16">3Sum Closest</h5>
+                <span class="badge bg-warning text-dark">Medium</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given an integer array nums and an integer target, find three integers in nums such that the sum is closest to target.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: nums = [-1,2,1,-4], target = 1
+Output: 2
+Explanation: The sum closest to the target is 2 (-1 + 2 + 1 = 2).</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=3sum-closest'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 17: Letter Combinations of Phone Number -->
+<div class="modal fade" id="questionModal17" tabindex="-1" aria-labelledby="questionModalLabel17" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel17">Letter Combinations of Phone Number</h5>
+                <span class="badge bg-warning text-dark">Medium</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: digits = "23"
+Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=phone-letters'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 18: 4Sum -->
+<div class="modal fade" id="questionModal18" tabindex="-1" aria-labelledby="questionModalLabel18" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel18">4Sum</h5>
+                <span class="badge bg-warning text-dark">Medium</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given an array nums of n integers and an integer target, return all unique quadruplets that sum up to target.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: nums = [1,0,-1,0,-2,2], target = 0
+Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=4sum'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 19: Remove Nth Node From End of List -->
+<div class="modal fade" id="questionModal19" tabindex="-1" aria-labelledby="questionModalLabel19" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel19">Remove Nth Node From End of List</h5>
+                <span class="badge bg-warning text-dark">Medium</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given the head of a linked list, remove the nth node from the end of the list and return its head.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: head = [1,2,3,4,5], n = 2
+Output: [1,2,3,5]</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=remove-nth-node'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 20: Valid Parentheses -->
+<div class="modal fade" id="questionModal20" tabindex="-1" aria-labelledby="questionModalLabel20" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel20">Valid Parentheses</h5>
+                <span class="badge bg-success">Easy</span>
+            </div>
+            <div class="modal-body">
+                <div class="problem-section">
+                    <h6 class="section-title">Problem Statement</h6>
+                    <p>Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.</p>
+                </div>
+                <div class="problem-section">
+                    <h6 class="section-title">Example</h6>
+                    <pre>Input: s = "()[]{}"
+Output: true
+
+Input: s = "(]"
+Output: false</pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary code-btn" onclick="window.location.href='/ide?question=valid-parentheses'">
+                    <i class="fas fa-code me-2"></i>Solve in IDE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

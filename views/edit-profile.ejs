@@ -1,43 +1,255 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile</title>
+    <title>Edit Profile - CodeSphere</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+        
+        body {
+            background-color: white;
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .profile-container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .profile-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo h2 {
+            font-weight: 700;
+            margin: 0;
+            color: var(--text-dark);
+        }
+        
+        .logo p {
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+        
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+            padding: 12px 15px 12px 40px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.15);
+            background-color: white;
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-light);
+            opacity: 0.7;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .message {
+            display: none;
+            margin-top: 1rem;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .dashboard-link {
+            display: block;
+            margin-top: 1.5rem;
+            text-align: center;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .dashboard-link:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .dashboard-link span {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        #loading {
+            display: none;
+            margin: 1rem auto;
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 576px) {
+            .profile-container {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+     <script>
+        $(document).ready(function() {
+            // Pre-fill form with existing user data
+            const userData = <%- JSON.stringify(user || {}) %>;
+            if (userData) {
+                $('input[name="mobile"]').val(userData.mobile || '');
+                $('input[name="college"]').val(userData.college || '');
+                $('input[name="currentCourse"]').val(userData.currentCourse || '');
+                $('input[name="yearOfGraduation"]').val(userData.yearOfGraduation || '');
+                $('input[name="timePeriod"]').val(userData.timePeriod || '');
+            }
+
+            $("#profileForm").submit(function(event) {
+                event.preventDefault();
+                $("#loading").fadeIn();
+                $.ajax({
+                    type: 'POST',
+                    url: '/update-profile',
+                    data: $('#profileForm').serialize(),
+                    dataType: "json",
+                    success: function(response) {
+                        $("#message").removeClass("d-none alert-danger")
+                            .addClass("alert-success")
+                            .text(response.Success || "Profile updated successfully!")
+                            .fadeIn();
+                        $("#loading").fadeOut();
+                        setTimeout(function() { 
+                            $("#message").fadeOut(); 
+                        }, 3000);
+                    },
+                    error: function(xhr) {
+                        const errorMsg = xhr.responseJSON?.error || "Error occurred while updating profile!";
+                        $("#message").removeClass("d-none alert-success")
+                            .addClass("alert-danger")
+                            .text(errorMsg)
+                            .fadeIn();
+                        $("#loading").fadeOut();
+                    }
+                });
+            });
+        });
+    </script>
 </head>
-<body class="bg-dark text-white">
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Edit Profile</h2>
-        <form action="/save-profile" method="POST">
-            <div class="mb-3">
-                <label class="form-label">Name</label>
-                <input type="text" class="form-control" name="username" value="<%= username %>" required>
+<body>
+    <div class="profile-container">
+        <div class="logo">
+            <i class="fas fa-user-edit"></i>
+            <h2>Edit Profile</h2>
+            <p>Update your personal information</p>
+        </div>
+        
+        <form id="profileForm" method="post">
+            <div class="form-group">
+                <i class="fas fa-mobile-alt input-icon"></i>
+                <input type="text" name="mobile" placeholder="Mobile Number" class="form-control" value="<%= user.mobile || '' %>">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" value="<%= email %>" required readonly>
+            
+            <div class="form-group">
+                <i class="fas fa-university input-icon"></i>
+                <input type="text" name="college" placeholder="College Name" class="form-control" value="<%= user.college || '' %>">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Mobile</label>
-                <input type="text" class="form-control" name="mobile" value="<%= mobile %>">
+            
+            <div class="form-group">
+                <i class="fas fa-book input-icon"></i>
+                <input type="text" name="currentCourse" placeholder="Current Course" class="form-control" value="<%= user.currentCourse || '' %>">
             </div>
-            <div class="mb-3">
-                <label class="form-label">College</label>
-                <input type="text" class="form-control" name="college" value="<%= college %>">
+            
+            <div class="form-group">
+                <i class="fas fa-graduation-cap input-icon"></i>
+                <input type="text" name="yearOfGraduation" placeholder="Year of Graduation" class="form-control" value="<%= user.yearOfGraduation || '' %>">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Current Course</label>
-                <input type="text" class="form-control" name="currentCourse" value="<%= currentCourse %>">
+            
+            <div class="form-group">
+                <i class="fas fa-clock input-icon"></i>
+                <input type="text" name="timePeriod" placeholder="Time Period" class="form-control" value="<%= user.timePeriod || '' %>">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Year of Graduation</label>
-                <input type="text" class="form-control" name="yearOfGraduation" value="<%= yearOfGraduation %>">
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Save</button>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Update Profile
+            </button>
         </form>
+        
+        <div id="loading" class="spinner-border" style="display:none;"></div>
+        <div id="message" class="alert mt-3 d-none"></div>
+        
+        <a href="/codesphere" class="dashboard-link">
+            <span>Back to Dashboard</span>
+        </a>
     </div>
 </body>
-</html> -->
+</html>

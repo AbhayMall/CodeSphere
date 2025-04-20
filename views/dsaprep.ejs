@@ -3,171 +3,731 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI/ML Course Tracker</title>
+    <title>DSA Progress Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
-      /* General Styles */
-      body {
-        font-family: "Poppins", sans-serif;
-        margin: 0;
-        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-        color: white;
-        min-height: 100vh;
-      }
-
-      /* Navbar */
-      nav {
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 15px 20px;
-        text-align: center;
-        font-size: 24px;
-        font-weight: 600;
-        position: sticky;
-        top: 0;
-        width: 100%;
-        z-index: 100;
-        backdrop-filter: blur(10px);
-      }
-
-      /* Container */
-      .container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        padding: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      /* Content Section */
-      .content-section {
-        flex: 3;
-        min-width: 300px;
-      }
-
-      /* Progress Section */
-      .progress-section {
-        flex: 1;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        text-align: center;
-      }
-
-      /* Cards */
-      .cards {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 20px;
-      }
-
-      .card {
-        flex: 1;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 20px;
-        border-radius: 15px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .card:hover {
-        transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-      }
-
-      .card h2 {
-        font-size: 22px;
-        margin: 0;
-      }
-
-      .card p {
-        font-size: 14px;
-        color: #bfdbfe;
-      }
-
-      /* Boxes */
-      .box {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 20px;
-        border-radius: 15px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-      }
-
-      .box:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-      }
-
-      .box h2 {
-        font-size: 20px;
-        margin-bottom: 15px;
-      }
-
-      .box p {
-        font-size: 16px;
-        margin: 10px 0;
-        display: flex;
-        align-items: center;
-      }
-
-      input[type="checkbox"] {
-        transform: scale(1.2);
-        margin-right: 10px;
-        cursor: pointer;
-      }
-
-      /* Progress Bars */
-      .progress-bar-container {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 10px;
-        overflow: hidden;
-        height: 12px;
-        margin-top: 5px;
-      }
-
-      .progress-bar {
-        height: 100%;
-        width: 0%;
-        transition: width 0.5s ease-in-out;
-        background: linear-gradient(90deg, #27ae60, #2ecc71);
-      }
-
-      /* Chart Styling */
-      #progressChart {
-        max-width: 100%;
-        margin: 20px auto;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .cards {
-          flex-direction: column;
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
         }
 
+        body {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border-radius: 6px;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+
+        .profile-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-logo a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .profile-logo a:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 5% 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            margin-bottom: 2rem;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            padding-bottom: 5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .learning-path-badge {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Feature Grid */
+        .features-container {
+            max-width: 1200px;
+            margin: -3rem auto 3rem;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .feature-content {
+            padding: 1.5rem;
+        }
+
+        .feature-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .feature-content p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Content Sections */
+        .section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 5%;
+        }
+
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* YouTube Content */
+        .youtube-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .youtube-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .youtube-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .youtube-thumbnail {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .youtube-thumbnail::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .youtube-thumbnail:hover::after {
+            content: '\f144';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .youtube-content {
+            padding: 1.5rem;
+        }
+
+        .youtube-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .youtube-content p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .view-all {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* DSA Questions */
+        .dsa-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .dsa-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .dsa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .dsa-image {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .dsa-content {
+            padding: 1.5rem;
+        }
+
+        .dsa-content h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dsa-content h3 i {
+            font-size: 1.2rem;
+        }
+
+        .dsa-content p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .dsa-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dsa-difficulty {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .easy {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        .medium {
+            background-color: #fef9c3;
+            color: #ca8a04;
+        }
+
+        .hard {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+        .dsa-solutions {
+            color: var(--gray);
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* About Section */
+        .about-container {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 5%;
+            margin-top: 3rem;
+            border-radius: 12px;
+        }
+
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-content h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .course-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .course-feature {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .course-feature:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .course-feature i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        /* Custom styles for the course tracker */
         .container {
-          flex-direction: column;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 5%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
         }
 
-        .content-section,
-        .progress-section {
-          width: 100%;
+        .content-section {
+            flex: 3;
+            min-width: 300px;
         }
-      }
+
+        .progress-section {
+            flex: 1;
+            min-width: 280px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .progress-section h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .progress-section button {
+            margin-top: 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .progress-section button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+        }
+
+        .progress-section button:active {
+            transform: translateY(0);
+        }
+
+        .cards {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            flex: 1;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+            border-top: 4px solid transparent;
+        }
+
+        .card:first-child {
+            border-top-color: var(--success);
+        }
+
+        .card:last-child {
+            border-top-color: var(--info);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .box {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .box h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .box h3 {
+            color: var(--dark);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.3rem;
+            background-color: #f8fafc;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .box p {
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .box p:hover {
+            background-color: #f8fafc;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 1rem;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .progress-bar-container {
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            height: 10px;
+            margin: 0.5rem 0 1.5rem;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 8px rgba(67, 97, 238, 0.5);
+        }
+
+        /* Progress Chart Styling */
+        .chart-container {
+            position: relative;
+            margin: 0 auto 2rem;
+            height: 200px;
+            width: 200px;
+        }
+
+        .progress-stats {
+            margin-top: 1.5rem;
+        }
+
+        .progress-stat {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .progress-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .progress-label i {
+            color: var(--primary);
+        }
+
+        .progress-value {
+            font-weight: 600;
+            color: var(--dark);
+            background-color: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .progress-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-percentage-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress-percentage-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        @media (max-width: 768px) {
+            .cards {
+                flex-direction: column;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .progress-section {
+                position: static;
+                width: 100%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            nav {
+                padding: 1rem 3%;
+            }
+        }
     </style>
   </head>
   <body>
-    <nav>📚 BlockChain Course Tracker | <a href="/codesphere">Home</a></nav>
+    <nav>
+        <div class="logo">
+            <i class="fas fa-code"></i>
+            <span>DSA Progress Tracker</span>
+        </div>
+        <div class="nav-links">
+            <a href="/codesphere" class="nav-link active">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="/dsa1" class="nav-link">
+                <i class="fas fa-book"></i> Learning
+            </a>
+            <a href="/dsa-questions" class="nav-link">
+                <i class="fas fa-code"></i> Practice
+            </a>
+            <a href="dsa2" class="nav-link">
+                <i class="fas fa-chart-line"></i> Progress
+            </a>
+        </div>
+        <div class="profile-logo">
+            <a href="#" title="Profile">
+                <i class="fas fa-user"></i>
+            </a>
+        </div>
+    </nav>
 
     <div class="container">
       <div class="content-section">
@@ -175,19 +735,17 @@
         <div class="cards">
           <div class="card" onclick="toggleSection('learningSection')">
             <h2>📚 Learning</h2>
-            <p>Explore BlockChain concepts.</p>
+            <p>Explore DSA concepts and fundamentals.</p>
           </div>
           <div class="card" onclick="toggleSection('questionSection')">
             <h2>📝 Questions</h2>
-            <p>Practice BlockChain questions.</p>
+            <p>Practice DSA coding problems.</p>
           </div>
         </div>
 
         <!-- Learning Section -->
-        <!-- Learning Section -->
-       
         <div id="learningSection" class="box">
-            <h2>📚 DSA Learning Topics</h2>
+            <h2><i class="fas fa-book"></i> DSA Learning Topics</h2>
   
             <!-- Introduction to DSA -->
             <h3>Introduction to DSA</h3>
@@ -314,11 +872,62 @@
               <input type="checkbox" id="content-30" onclick="updateProgress('content', this, 'content-30')" />
               Real-World Applications of DSA
             </p>
+            <p><input type="checkbox" id="content-30" onclick="updateProgress('content', this, 'content-30')" /> Real-World Applications of DSA</p>
+
+    <!-- Core Data Structures (15 Topics) -->
+    <h3>Core Data Structures</h3>
+    <p><input type="checkbox" id="content-31" onclick="updateProgress('content', this, 'content-31')" /> Circular Linked Lists</p>
+    <p><input type="checkbox" id="content-32" onclick="updateProgress('content', this, 'content-32')" /> Skip Lists</p>
+    <p><input type="checkbox" id="content-33" onclick="updateProgress('content', this, 'content-33')" /> Self-Balancing Trees</p>
+    <p><input type="checkbox" id="content-34" onclick="updateProgress('content', this, 'content-34')" /> Splay Trees</p>
+    <p><input type="checkbox" id="content-35" onclick="updateProgress('content', this, 'content-35')" /> Treaps</p>
+    <p><input type="checkbox" id="content-36" onclick="updateProgress('content', this, 'content-36')" /> Suffix Trees</p>
+    <p><input type="checkbox" id="content-37" onclick="updateProgress('content', this, 'content-37')" /> Binary Indexed Trees</p>
+    <p><input type="checkbox" id="content-38" onclick="updateProgress('content', this, 'content-38')" /> Interval Trees</p>
+    <p><input type="checkbox" id="content-39" onclick="updateProgress('content', this, 'content-39')" /> Quad Trees and Octrees</p>
+    <p><input type="checkbox" id="content-40" onclick="updateProgress('content', this, 'content-40')" /> Persistent Data Structures</p>
+    <p><input type="checkbox" id="content-41" onclick="updateProgress('content', this, 'content-41')" /> Probabilistic Data Structures</p>
+    <p><input type="checkbox" id="content-42" onclick="updateProgress('content', this, 'content-42')" /> Cache-Oblivious Data Structures</p>
+    <p><input type="checkbox" id="content-43" onclick="updateProgress('content', this, 'content-43')" /> Space Partitioning Trees</p>
+    <p><input type="checkbox" id="content-44" onclick="updateProgress('content', this, 'content-44')" /> Disjoint-Set Data Structures</p>
+    <p><input type="checkbox" id="content-45" onclick="updateProgress('content', this, 'content-45')" /> Chained Hash Tables</p>
+
+    <!-- Algorithm Design Techniques (15 Topics) -->
+    <h3>Algorithm Design Techniques</h3>
+    <p><input type="checkbox" id="content-46" onclick="updateProgress('content', this, 'content-46')" /> Sliding Window Technique</p>
+    <p><input type="checkbox" id="content-47" onclick="updateProgress('content', this, 'content-47')" /> Two Pointers Technique</p>
+    <p><input type="checkbox" id="content-48" onclick="updateProgress('content', this, 'content-48')" /> Fast and Slow Pointers</p>
+    <p><input type="checkbox" id="content-49" onclick="updateProgress('content', this, 'content-49')" /> Merge Intervals Pattern</p>
+    <p><input type="checkbox" id="content-50" onclick="updateProgress('content', this, 'content-50')" /> Cyclic Sort Pattern</p>
+    <p><input type="checkbox" id="content-51" onclick="updateProgress('content', this, 'content-51')" /> In-place Reversal of Linked List</p>
+    <p><input type="checkbox" id="content-52" onclick="updateProgress('content', this, 'content-52')" /> Breadth-First Search Patterns</p>
+    <p><input type="checkbox" id="content-53" onclick="updateProgress('content', this, 'content-53')" /> Depth-First Search Patterns</p>
+    <p><input type="checkbox" id="content-54" onclick="updateProgress('content', this, 'content-54')" /> Top K Elements Pattern</p>
+    <p><input type="checkbox" id="content-55" onclick="updateProgress('content', this, 'content-55')" /> K-way Merge Pattern</p>
+    <p><input type="checkbox" id="content-56" onclick="updateProgress('content', this, 'content-56')" /> 0/1 Knapsack Pattern</p>
+    <p><input type="checkbox" id="content-57" onclick="updateProgress('content', this, 'content-57')" /> Unbounded Knapsack Pattern</p>
+    <p><input type="checkbox" id="content-58" onclick="updateProgress('content', this, 'content-58')" /> Fibonacci Sequence Pattern</p>
+    <p><input type="checkbox" id="content-59" onclick="updateProgress('content', this, 'content-59')" /> Palindromic Subsequence Pattern</p>
+    <p><input type="checkbox" id="content-60" onclick="updateProgress('content', this, 'content-60')" /> Longest Common Substring Pattern</p>
+
+    <!-- Advanced Concepts (10 Topics) -->
+    <h3>Advanced Concepts</h3>
+    <p><input type="checkbox" id="content-61" onclick="updateProgress('content', this, 'content-61')" /> Parallel Algorithms</p>
+    <p><input type="checkbox" id="content-62" onclick="updateProgress('content', this, 'content-62')" /> External Memory Algorithms</p>
+    <p><input type="checkbox" id="content-63" onclick="updateProgress('content', this, 'content-63')" /> Online Algorithms</p>
+    <p><input type="checkbox" id="content-64" onclick="updateProgress('content', this, 'content-64')" /> Streaming Algorithms</p>
+    <p><input type="checkbox" id="content-65" onclick="updateProgress('content', this, 'content-65')" /> Geometric Algorithms</p>
+    <p><input type="checkbox" id="content-66" onclick="updateProgress('content', this, 'content-66')" /> Numerical Algorithms</p>
+    <p><input type="checkbox" id="content-67" onclick="updateProgress('content', this, 'content-67')" /> Cryptographic Algorithms</p>
+    <p><input type="checkbox" id="content-68" onclick="updateProgress('content', this, 'content-68')" /> Quantum Algorithms</p>
+    <p><input type="checkbox" id="content-69" onclick="updateProgress('content', this, 'content-69')" /> Genetic Algorithms</p>
+    <p><input type="checkbox" id="content-70" onclick="updateProgress('content', this, 'content-70')" /> Machine Learning Algorithms</p>
+
           </div>
   
           <!-- Question Section -->
           <div id="questionSection" class="box" style="display: none">
-            <h2>📝 DSA Questions</h2>
+            <h2><i class="fas fa-code"></i> DSA Coding Questions</h2>
   
             <!-- Introduction to DSA (20 Questions) -->
             <h3>Introduction to DSA</h3>
@@ -365,26 +974,93 @@
             <p><input type="checkbox" id="question-38" onclick="updateProgress('question', this, 'question-38')" /> What is the knapsack problem?</p>
             <p><input type="checkbox" id="question-39" onclick="updateProgress('question', this, 'question-39')" /> What is the subset sum problem?</p>
             <p><input type="checkbox" id="question-40" onclick="updateProgress('question', this, 'question-40')" /> What is the longest common subsequence problem?</p>
+
+            <!-- Array Problems (20 Questions) -->
+            <h3>Array Problems</h3>
+            <p><input type="checkbox" id="question-41" onclick="updateProgress('question', this, 'question-41')" /> Reverse an array in-place</p>
+            <p><input type="checkbox" id="question-42" onclick="updateProgress('question', this, 'question-42')" /> Find max and min in array</p>
+            <p><input type="checkbox" id="question-43" onclick="updateProgress('question', this, 'question-43')" /> Move all zeros to end</p>
+            <p><input type="checkbox" id="question-44" onclick="updateProgress('question', this, 'question-44')" /> Find missing number in 1 to N</p>
+            <p><input type="checkbox" id="question-45" onclick="updateProgress('question', this, 'question-45')" /> Find duplicate number</p>
+            <p><input type="checkbox" id="question-46" onclick="updateProgress('question', this, 'question-46')" /> Merge two sorted arrays</p>
+            <p><input type="checkbox" id="question-47" onclick="updateProgress('question', this, 'question-47')" /> Find intersection of two arrays</p>
+            <p><input type="checkbox" id="question-48" onclick="updateProgress('question', this, 'question-48')" /> Maximum subarray sum (Kadane's)</p>
+            <p><input type="checkbox" id="question-49" onclick="updateProgress('question', this, 'question-49')" /> Dutch national flag problem</p>
+            <p><input type="checkbox" id="question-50" onclick="updateProgress('question', this, 'question-50')" /> Find Kth largest element</p>
+            <p><input type="checkbox" id="question-51" onclick="updateProgress('question', this, 'question-51')" /> Rotate array by K positions</p>
+            <p><input type="checkbox" id="question-52" onclick="updateProgress('question', this, 'question-52')" /> Trapping rain water problem</p>
+            <p><input type="checkbox" id="question-53" onclick="updateProgress('question', this, 'question-53')" /> Product of array except self</p>
+            <p><input type="checkbox" id="question-54" onclick="updateProgress('question', this, 'question-54')" /> Find all duplicates in array</p>
+            <p><input type="checkbox" id="question-55" onclick="updateProgress('question', this, 'question-55')" /> Container with most water</p>
+            <p><input type="checkbox" id="question-56" onclick="updateProgress('question', this, 'question-56')" /> Search in rotated sorted array</p>
+            <p><input type="checkbox" id="question-57" onclick="updateProgress('question', this, 'question-57')" /> First missing positive number</p>
+            <p><input type="checkbox" id="question-58" onclick="updateProgress('question', this, 'question-58')" /> Subarray sum equals K</p>
+            <p><input type="checkbox" id="question-59" onclick="updateProgress('question', this, 'question-59')" /> Next permutation</p>
+            <p><input type="checkbox" id="question-60" onclick="updateProgress('question', this, 'question-60')" /> Median of two sorted arrays</p>
+
+            <!-- String Problems (20 Questions) -->
+            <h3>String Problems</h3>
+            <p><input type="checkbox" id="question-61" onclick="updateProgress('question', this, 'question-61')" /> Check if string is palindrome</p>
+            <p><input type="checkbox" id="question-62" onclick="updateProgress('question', this, 'question-62')" /> First non-repeating character</p>
+            <p><input type="checkbox" id="question-63" onclick="updateProgress('question', this, 'question-63')" /> Check if two strings are anagrams</p>
+            <p><input type="checkbox" id="question-64" onclick="updateProgress('question', this, 'question-64')" /> Longest substring without repeating chars</p>
+            <p><input type="checkbox" id="question-65" onclick="updateProgress('question', this, 'question-65')" /> Longest palindromic substring</p>
+            <p><input type="checkbox" id="question-66" onclick="updateProgress('question', this, 'question-66')" /> String to integer (atoi)</p>
+            <p><input type="checkbox" id="question-67" onclick="updateProgress('question', this, 'question-67')" /> Implement strStr() (substring search)</p>
+            <p><input type="checkbox" id="question-68" onclick="updateProgress('question', this, 'question-68')" /> Minimum window substring</p>
+            <p><input type="checkbox" id="question-69" onclick="updateProgress('question', this, 'question-69')" /> Valid parentheses</p>
+            <p><input type="checkbox" id="question-70" onclick="updateProgress('question', this, 'question-70')" /> Group anagrams</p>
+            <p><input type="checkbox" id="question-71" onclick="updateProgress('question', this, 'question-71')" /> Longest common prefix</p>
+            <p><input type="checkbox" id="question-72" onclick="updateProgress('question', this, 'question-72')" /> Count and say</p>
+            <p><input type="checkbox" id="question-73" onclick="updateProgress('question', this, 'question-73')" /> Decode ways</p>
+            <p><input type="checkbox" id="question-74" onclick="updateProgress('question', this, 'question-74')" /> Word break problem</p>
+            <p><input type="checkbox" id="question-75" onclick="updateProgress('question', this, 'question-75')" /> Reverse words in string</p>
+            <p><input type="checkbox" id="question-76" onclick="updateProgress('question', this, 'question-76')" /> Valid palindrome II</p>
+            <p><input type="checkbox" id="question-77" onclick="updateProgress('question', this, 'question-77')" /> Roman to integer</p>
+            <p><input type="checkbox" id="question-78" onclick="updateProgress('question', this, 'question-78')" /> Integer to roman</p>
+            <p><input type="checkbox" id="question-79" onclick="updateProgress('question', this, 'question-79')" /> Zigzag conversion</p>
+            <p><input type="checkbox" id="question-80" onclick="updateProgress('question', this, 'question-80')" /> Regular expression matching</p>
           </div>
-        </div>
+      </div>
 
 
       <!-- Progress Tracker -->
       <div class="progress-section">
-        <h2>📌 Progress Overview</h2>
-        <canvas id="progressChart"></canvas>
-
-        <p>📚 Content Read: <span id="contentRead">0</span> / 40</p>
-        <div class="progress-bar-container">
-          <div id="contentProgressBar" class="progress-bar"></div>
+        <h2><i class="fas fa-chart-pie"></i> Progress Overview</h2>
+        
+        <div class="chart-container">
+          <canvas id="progressChart"></canvas>
+          <div class="progress-percentage">
+            <div class="progress-percentage-value" id="totalPercentage">0%</div>
+            <div class="progress-percentage-label">Complete</div>
+          </div>
         </div>
 
-        <p>📝 Questions Solved: <span id="questionsSolved">0</span> / 80</p>
-        <div class="progress-bar-container">
-          <div id="questionProgressBar" class="progress-bar"></div>
+        <div class="progress-stats">
+          <div class="progress-stat">
+            <div class="progress-label">
+              <i class="fas fa-book"></i> Content Read
+            </div>
+            <div class="progress-value"><span id="contentRead">0</span> / 40</div>
+          </div>
+          <div class="progress-bar-container">
+            <div id="contentProgressBar" class="progress-bar"></div>
+          </div>
+
+          <div class="progress-stat">
+            <div class="progress-label">
+              <i class="fas fa-code"></i> Questions Solved
+            </div>
+            <div class="progress-value"><span id="questionsSolved">0</span> / 80</div>
+          </div>
+          <div class="progress-bar-container">
+            <div id="questionProgressBar" class="progress-bar"></div>
+          </div>
         </div>
 
-        <button onclick="saveProgressToDatabase()">Save Progress</button>
+        <button onclick="saveProgressToDatabase()">
+          <i class="fas fa-save"></i> Save Progress
+        </button>
       </div>
     </div>
 
@@ -412,6 +1088,9 @@
                     document.getElementById("contentProgressBar").style.width = (contentRead / 40) * 100 + "%";
                     document.getElementById("questionProgressBar").style.width = (questionsSolved / 80) * 100 + "%";
     
+                    // Calculate and update total percentage
+                    updateTotalPercentage();
+    
                     // Restore checkbox states
                     checkedContent.forEach(id => {
                         const checkbox = document.getElementById(id);
@@ -429,6 +1108,14 @@
                 console.error("Error fetching progress:", error);
             }
         };
+    
+        // Function to update total percentage
+        function updateTotalPercentage() {
+            const total = contentRead + questionsSolved;
+            const maxTotal = 40 + 80;
+            const percentage = Math.round((total / maxTotal) * 100);
+            document.getElementById("totalPercentage").innerText = percentage + "%";
+        }
     
         // Fetch progress data when the page loads
         fetchProgress();
@@ -472,6 +1159,9 @@
             document.getElementById("contentProgressBar").style.width = (contentRead / 40) * 100 + "%";
             document.getElementById("questionProgressBar").style.width = (questionsSolved / 80) * 100 + "%";
     
+            // Update total percentage
+            updateTotalPercentage();
+    
             updateChart(contentRead, questionsSolved);
     
             // Save progress to the database
@@ -512,41 +1202,54 @@
         var myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Content Read', 'Questions Solved'],
+                labels: ['Content Read', 'Questions Solved', 'Remaining'],
                 datasets: [{
-                    data: [0, 0],
-                    backgroundColor: ['#27ae60', '#e74c3c'],
+                    data: [0, 0, 120],
+                    backgroundColor: [
+                        '#4361ee',  // Content Read - Primary color
+                        '#10b981',  // Questions Solved - Success color
+                        '#e2e8f0'   // Remaining - Light gray
+                    ],
                     borderWidth: 0,
                     hoverOffset: 10
                 }]
             },
             options: {
                 responsive: true,
+                cutout: '75%',
                 plugins: {
                     legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: '#fff',
-                            font: {
-                                size: 14
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const total = 120; // Total items (40 content + 80 questions)
+                                const percentage = Math.round((value / total) * 100);
+                                return `${label}: ${value} (${percentage}%)`;
                             }
                         }
                     }
                 }
             }
         });
-    // Function to toggle sections
-function toggleSection(sectionId) {
-    // Hide all sections
-    document.getElementById("learningSection").style.display = "none";
-    document.getElementById("questionSection").style.display = "none";
+    
+        // Function to toggle sections
+        function toggleSection(sectionId) {
+            // Hide all sections
+            document.getElementById("learningSection").style.display = "none";
+            document.getElementById("questionSection").style.display = "none";
 
-    // Show the selected section
-    document.getElementById(sectionId).style.display = "block";
-}
+            // Show the selected section
+            document.getElementById(sectionId).style.display = "block";
+        }
+        
         // Function to update the chart
         function updateChart(contentRead, questionsSolved) {
-            myChart.data.datasets[0].data = [contentRead, questionsSolved];
+            const remaining = 120 - contentRead - questionsSolved;
+            myChart.data.datasets[0].data = [contentRead, questionsSolved, remaining];
             myChart.update();
         }
     </script>

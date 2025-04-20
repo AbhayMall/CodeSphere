@@ -7,12 +7,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Background Gradient */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: white;
+            background-color: #f1f5f9;
+            color: #1e293b;
             font-family: 'Poppins', sans-serif;
-            text-align: center;
+            margin: 0;
+            padding: 0;
         }
 
         /* Navbar */
@@ -21,24 +32,51 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 5%;
-            background-color: #1e40af;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            border-bottom: 3px solid #3b82f6;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo {
             font-size: 1.8rem;
-            font-weight: bold;
+            font-weight: 700;
+            color: var(--primary);
             display: flex;
             align-items: center;
+            gap: 10px;
         }
 
         .logo img {
             width: 40px;
-            margin-right: 10px;
+            height: 40px;
         }
 
-        /* Profile Icon */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+
         .profile-logo a {
             display: flex;
             align-items: center;
@@ -46,77 +84,355 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background-color: white;
+            background-color: var(--primary);
+            color: white;
             text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .profile-logo a i {
-            color: #1e40af;
-            font-size: 22px;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
         }
 
         .profile-logo a:hover {
+            background-color: var(--primary-dark);
             transform: scale(1.1);
-            background: #3b82f6;
         }
 
-        /* Header */
-        header {
-            margin-top: 2rem;
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: #93c5fd;
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 5% 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            margin-bottom: 2rem;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            padding-bottom: 5rem;
         }
 
-        main {
-            margin: 1.5rem 0;
-            font-size: 1.2rem;
-            color: #bfdbfe;
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
 
-        /* Grid Container */
-        .container {
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .learning-path-badge {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Feature Grid */
+        .features-container {
+            max-width: 1200px;
+            margin: -3rem auto 3rem;
+            padding: 0 5%;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            padding: 2rem;
-            max-width: 1100px;
-            margin: auto;
         }
 
-        /* Feature Boxes */
-        .box {
-            background: #1e3a8a;
+        .feature-card {
+            background-color: var(--card-bg);
             border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
             text-decoration: none;
+            color: var(--dark);
         }
 
-        .box i {
-            font-size: 40px;
-            margin-bottom: 10px;
-            color: #60a5fa;
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
-        .box:hover {
+        .feature-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .feature-content {
+            padding: 1.5rem;
+        }
+
+        .feature-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .feature-content p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Content Sections */
+        .section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 5%;
+        }
+
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* YouTube Content */
+        .youtube-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .youtube-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .youtube-card:hover {
             transform: translateY(-5px);
-            background: #2563eb;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
-        /* Responsive */
+        .youtube-thumbnail {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .youtube-thumbnail::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .youtube-thumbnail:hover::after {
+            content: '\f144';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .youtube-content {
+            padding: 1.5rem;
+        }
+
+        .youtube-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .youtube-content p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .view-all {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* DSA Questions */
+        .dsa-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .dsa-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .dsa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .dsa-image {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .dsa-content {
+            padding: 1.5rem;
+        }
+
+        .dsa-content h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dsa-content h3 i {
+            font-size: 1.2rem;
+        }
+
+        .dsa-content p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .dsa-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dsa-difficulty {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .easy {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        .medium {
+            background-color: #fef9c3;
+            color: #ca8a04;
+        }
+
+        .hard {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+        .dsa-solutions {
+            color: var(--gray);
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* About Section */
+        .about-container {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 5%;
+            margin-top: 3rem;
+            border-radius: 12px;
+        }
+
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-content h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .course-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .course-feature {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .course-feature:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .course-feature i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
             }
         }
     </style>
@@ -125,9 +441,29 @@
     <!-- Navbar -->
     <nav>
         <div class="logo">
-            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828517.png" alt="logo">
-            CodeSphere
+            <i class="fas fa-code"></i>
+            <span>CodeSphere</span>
         </div>
+        
+        <div class="nav-links">
+            <a href="/home" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="/community" class="nav-link">
+                <i class="fas fa-users"></i>
+                <span>Community</span>
+            </a>
+            <a href="/game1" class="nav-link">
+                <i class="fas fa-users"></i>
+                <span>Game</span>
+            </a>
+            <a href="/edittheprofile" class="nav-link">
+                <i class="fas fa-user-edit"></i>
+                <span>Edit Profile</span>
+            </a>
+        </div>
+        
         <div class="profile-logo">
             <a href="/profile">
                 <i class="fas fa-user"></i>
@@ -135,30 +471,222 @@
         </div>
     </nav>
     
-    <!-- Header -->
-    <header>
-        <h2>Welcome, <%= name %>! 👋</h2>
-    </header>
-    
-    <main>
-        <h3>Your Selected Learning Path:</h3>
-        <p><strong><%= learning %></strong></p>
-    </main>
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Welcome back, <%= name %>! 👋</h1>
+        <p>Continue your coding journey with personalized resources and guidance</p>
+        <div class="learning-path-badge">
+            <i class="fas fa-road"></i>
+            <span>Learning Path: <%= learning %></span>
+        </div>
+    </div>
+    <br>
     
     <!-- Feature Grid -->
-    <div class="container">
-        <a href="/ide" class="box">
-            <i class="fas fa-laptop-code"></i>
-            Online IDE
+    <div class="features-container">
+        <a href="/ide" class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-laptop-code"></i>
+            </div>
+            <div class="feature-content">
+                <h3>Online IDE</h3>
+                <p>Write, compile and run code in our powerful web-based IDE with support for multiple languages</p>
+            </div>
         </a>
-        <a href="/dsa1" class="box">
-            <i class="fas fa-code"></i>
-            Data Structures and Algorithms Preparation
+        
+        <a href="/dsa1" class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-code"></i>
+            </div>
+            <div class="feature-content">
+                <h3>DSA Preparation</h3>
+                <p>Master data structures and algorithms with our comprehensive learning resources and challenges</p>
+            </div>
         </a>
-        <a href="/dsa2" class="box">
-            <i class="fas fa-brain"></i>
-            Data Structures and Algorithms Progress Tracker
+        
+        <a href="/dsa2" class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="feature-content">
+                <h3>Progress Tracker</h3>
+                <p>Monitor your learning journey with detailed analytics and personalized recommendations</p>
+            </div>
         </a>
+    </div>
+    
+    <!-- YouTube Content Section -->
+    <div class="section">
+        <h2 class="section-title">
+            <i class="fab fa-youtube"></i>
+            Recommended Videos
+        </h2>
+        <div class="youtube-container">
+            <% 
+                const youtubeVideos = [
+                    {
+                        title: "Data Structures Explained",
+                        desc: "Learn the fundamentals of data structures in this comprehensive tutorial",
+                        image: "https://i.ytimg.com/vi/RBSGKlAvoiM/maxresdefault.jpg",
+                        <!-- link: "/youtube-content/dsa" -->
+                    },
+                    {
+                        title: "Algorithms Crash Course",
+                        desc: "Master essential algorithms with practical examples",
+                        image: "https://i.ytimg.com/vi/8hly31xKli0/maxresdefault.jpg",
+                        <!-- link: "/youtube-content/dsa" -->
+                    },
+                    {
+                        title: "JavaScript Fundamentals",
+                        desc: "Learn JavaScript from scratch with hands-on exercises",
+                        image: "https://i.ytimg.com/vi/PkZNo7MFNFg/maxresdefault.jpg",
+                        <!-- link: "/youtube-content/javascript" -->
+                    },
+                    {
+                        title: "Python for Beginners",
+                        desc: "Complete Python tutorial for absolute beginners",
+                        image: "https://i.ytimg.com/vi/_uQrJ0TkZlc/maxresdefault.jpg",
+                        <!-- link: "/youtube-content/python" -->
+                    }
+                ];
+                
+                youtubeVideos.forEach(video => {
+            %>
+                <a href="<%= video.link %>" class="youtube-card">
+                    <div class="youtube-thumbnail" style="background-image: url('<%= video.image %>');"></div>
+                    <div class="youtube-content">
+                        <h3><%= video.title %></h3>
+                        <p><%= video.desc %></p>
+                    </div>
+                </a>
+            <% }); %>
+        </div>
+        <div class="view-all">
+            <a href="/youtube-content" class="view-all-btn">
+                <i class="fas fa-arrow-right"></i>
+                View All Video Content
+            </a>
+        </div>
+    </div>
+    
+    <!-- DSA Questions Section -->
+    <div class="section">
+        <h2 class="section-title">
+            <i class="fas fa-question-circle"></i>
+            Practice Questions
+        </h2>
+        <div class="dsa-container">
+            <% 
+                const dsaQuestions = [
+                    {
+                        title: "Two Sum",
+                        desc: "Given an array of integers, return indices of the two numbers that add up to a specific target.",
+                        difficulty: "easy",
+                        image: "https://miro.medium.com/v2/resize:fit:1400/1*LyRlX__08q40UJohhJG9Ow.png",
+                        solutions: 1254,
+                        <!-- link: "/dsa-questions/two-sum" -->
+                    },
+                    {
+                        title: "Reverse Linked List",
+                        desc: "Reverse a singly linked list in optimal time and space complexity.",
+                        difficulty: "easy",
+                        image: "https://media.geeksforgeeks.org/wp-content/cdn-uploads/RGIF2.gif",
+                        solutions: 876,
+                        <!-- link: "/dsa-questions/reverse-linked-list" -->
+                    },
+                    {
+                        title: "Binary Tree Traversal",
+                        desc: "Implement inorder, preorder and postorder traversal of a binary tree.",
+                        difficulty: "medium",
+                        image: "https://i.ytimg.com/vi/WLvU5EQVZqY/maxresdefault.jpg",
+                        solutions: 654,
+                        <!-- link: "/dsa-questions/binary-tree-traversal" -->
+                    },
+                    {
+                        title: "N-Queens Problem",
+                        desc: "The N-queens puzzle is the problem of placing N chess queens on an N×N chessboard.",
+                        difficulty: "hard",
+                        image: "https://media.geeksforgeeks.org/wp-content/uploads/N_Queen_Problem.jpg",
+                        solutions: 432,
+                        <!-- link: "/dsa-questions/n-queens" -->
+                    },
+                    {
+                        title: "Merge Intervals",
+                        desc: "Given a collection of intervals, merge all overlapping intervals.",
+                        difficulty: "medium",
+                        image: "https://i.ytimg.com/vi/44H3cEC2fFM/maxresdefault.jpg",
+                        solutions: 765,
+                        <!-- link: "/dsa-questions/merge-intervals" -->
+                    },
+                    {
+                        title: "Longest Substring Without Repeating Characters",
+                        desc: "Find the length of the longest substring without repeating characters.",
+                        difficulty: "medium",
+                        image: "https://i.ytimg.com/vi/wiGpQwVHdE0/maxresdefault.jpg",
+                        solutions: 987,
+                        <!-- link: "/dsa-questions/longest-substring" -->
+                    }
+                ];
+                
+                dsaQuestions.forEach(question => {
+            %>
+                <a href="<%= question.link %>" class="dsa-card">
+                    <div class="dsa-image" style="background-image: url('<%= question.image %>');"></div>
+                    <div class="dsa-content">
+                        <h3><i class="fas fa-code"></i> <%= question.title %></h3>
+                        <p><%= question.desc %></p>
+                        <div class="dsa-meta">
+                            <span class="dsa-difficulty <%= question.difficulty %>">
+                                <%= question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1) %>
+                            </span>
+                            <span class="dsa-solutions">
+                                <i class="fas fa-users"></i> <%= question.solutions %> solutions
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            <% }); %>
+        </div>
+        <div class="view-all">
+            <a href="/dsa-questions" class="view-all-btn">
+                <i class="fas fa-arrow-right"></i>
+                View All Practice Questions
+            </a>
+        </div>
+    </div>
+    
+    <!-- About Section -->
+    <div class="about-container">
+        <div class="about-content">
+            <h2>What You'll Learn in This Course</h2>
+            <p>Our comprehensive learning path is designed to take you from beginner to advanced level in your chosen specialization. You'll gain practical, job-ready skills through hands-on projects and real-world scenarios.</p>
+            
+            <div class="course-features">
+                <div class="course-feature">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Interactive Coding</h3>
+                    <p>Practice directly in the browser with our built-in IDE</p>
+                </div>
+                
+                <div class="course-feature">
+                    <i class="fas fa-project-diagram"></i>
+                    <h3>Real Projects</h3>
+                    <p>Build portfolio-worthy projects with guided tutorials</p>
+                </div>
+                
+                <div class="course-feature">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Expert Guidance</h3>
+                    <p>Learn from industry professionals with years of experience</p>
+                </div>
+                
+                <div class="course-feature">
+                    <i class="fas fa-certificate"></i>
+                    <h3>Certification</h3>
+                    <p>Earn a certificate upon completion to showcase your skills</p>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
